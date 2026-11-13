@@ -2375,6 +2375,15 @@ label{display:block;font-weight:600;margin-top:10px}
 .thumbs>div{position:relative}
 .thumbs img{width:72px;height:72px;object-fit:cover;border-radius:6px;border:1px solid var(--bd);display:block}
 .thumbs button{position:absolute;top:-8px;right:-8px;min-height:28px;width:28px;padding:0;border-radius:50%;line-height:1}
+.productName{min-height:0;padding:0;border:0;background:transparent;text-align:left;color:var(--tx);font-weight:600}
+.productName:not(:disabled):hover{color:var(--pr);text-decoration:underline;box-shadow:none;transform:none}
+.detailGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:12px 0}
+.detailGrid>div{min-width:0;padding:10px 12px;border:1px solid var(--bd);border-radius:10px}
+.detailGrid dt{color:var(--mut);font-size:.82rem}
+.detailGrid dd{margin:4px 0 0;overflow-wrap:anywhere;font-weight:600}
+.detailImages{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.detailImages button{min-height:120px;height:150px;padding:4px;overflow:hidden}
+.detailImages img{width:100%;height:100%;object-fit:contain;display:block}
 .pn{display:flex;gap:10px;align-items:flex-start}
 .th{padding:0;min-height:0;width:52px;height:52px;position:relative;flex:none;overflow:visible}
 .th img{width:100%;height:100%;object-fit:cover;border-radius:6px;display:block}
@@ -2417,7 +2426,7 @@ input[type=radio]{width:22px;height:22px}
 #pa{display:none}
 @media print{html,body{background:#fff!important}body>*:not(#pa){display:none!important}#pa{display:grid;grid-template-columns:repeat(4,1fr);gap:10mm;color:#000}
 #pa figure{margin:0;text-align:center;break-inside:avoid;font-size:10pt}#pa img{width:100%}}
-@media(max-width:520px){.g2{grid-template-columns:1fr}}
+@media(max-width:520px){.g2{grid-template-columns:1fr}.detailGrid{grid-template-columns:1fr}}
 
 /* ===== ปรับแต่งรูปลักษณ์ ===== */
 :root{--bg:#f4f7f8;--card:#fff;--tx:#172b2a;--mut:#667775;--bd:#dfe8e6;--pr:#0f766e;--prt:#fff;--dg:#b42318;--wn:#8a4b00;--wnb:#fff1d2;--shadow:0 10px 28px rgba(23,43,42,.06)}
@@ -2642,6 +2651,15 @@ footer a:hover{text-decoration-thickness:2px}
   <div class="lbt" id="gTh"></div>
 </dialog>
 
+<!-- รายละเอียดสินค้า -->
+<dialog id="dProduct" aria-labelledby="productTitle" style="max-width:760px;max-height:calc(100vh - 24px);overflow:auto">
+  <h2 id="productTitle" style="margin:0"></h2>
+  <dl id="productFields" class="detailGrid"></dl>
+  <h3 style="font-size:.95rem;margin:16px 0 8px">รูปภาพสินค้า</h3>
+  <div id="productImages" class="detailImages"></div>
+  <div class="row"><button id="productClose">ปิด</button><button id="productEdit" class="pr">แก้ไขสินค้า</button></div>
+</dialog>
+
 <dialog id="dLogin" style="max-width:380px">
   <form id="lgF"><h2 style="margin:0 0 10px;font-size:1.15rem">เข้าสู่ระบบคลังสินค้า</h2>
     <label for="lgU">ชื่อผู้ใช้</label><input id="lgU" autocomplete="username" required>
@@ -2733,7 +2751,7 @@ function render(){
   $('tb').innerHTML=rows.length?rows.map(i=>`<tr>
     <td><input type="checkbox" data-sel="${esc(i.id)}" ${sel.has(i.id)?'checked':''} aria-label="เลือก ${esc(i.name)}"></td>
     <td>${esc(i.sku)}</td>
-    <td><div class="pn">${thumb(i)}<div>${esc(i.name)}<div class="sub">${esc(i.cat)}${i.cat&&i.loc?' / ':''}${esc(i.loc)}</div></div></div></td>
+    <td><div class="pn">${thumb(i)}<div><button class="productName" data-detail="${esc(i.id)}" title="คลิกเพื่อดูรายละเอียด">${esc(i.name)}</button><div class="sub">${esc(i.cat)}${i.cat&&i.loc?' / ':''}${esc(i.loc)}</div></div></div></td>
     <td class="n">${i.qty.toLocaleString('th-TH')} ${esc(i.unit)}${i.qty===0?' <span class="low out">หมด</span>':isLow(i)?' <span class="low">ใกล้หมด</span>':''}</td>
     <td class="act"><button data-adj="${esc(i.id)}">รับ/เบิก</button><button data-qr="${esc(i.id)}">QR</button><button data-ed="${esc(i.id)}">แก้ไข</button><button class="dg" data-del="${esc(i.id)}">ลบ</button></td></tr>`).join('')
    :`<tr><td colspan="6" class="empty">${items.length?'ไม่พบรายการตามที่ค้นหาหรือกรอง ลองเปลี่ยนคำค้นหรือตัวกรอง':'ยังไม่มีข้อมูล กด “เพิ่มสินค้า” หรือ “โหลดตัวอย่าง 5 รายการ”'}</td></tr>`;
@@ -2841,6 +2859,32 @@ function showGal(id){const i=items.find(x=>x.id===id);if(!i)return;
     b.type='button';b.className='gt';b.setAttribute('aria-label','รูปที่ '+(j+1));im.src=imgCache.get(k);im.alt='';b.append(im);b.onclick=()=>gShow(j);return b}));
   const m=gIds.length<2;['gPrev','gNext','gCnt','gTh'].forEach(x=>$(x).hidden=m);
   gShow(0);$('dGal').showModal()}
+function showProduct(id){
+  const i=items.find(x=>x.id===id);if(!i)return;
+  $('dProduct').dataset.id=i.id;$('productTitle').textContent=i.name;
+  const details=[
+    ['รหัสสินค้า',i.sku],
+    ['หมวดหมู่',i.cat||'ไม่ระบุ'],
+    ['จำนวนคงเหลือ',`${Number(i.qty||0).toLocaleString('th-TH')} ${i.unit||'ชิ้น'}`],
+    ['จุดสั่งซื้อ',i.min?`${Number(i.min).toLocaleString('th-TH')} ${i.unit||'ชิ้น'}`:'ไม่ได้กำหนด'],
+    ['ที่เก็บ',i.loc||'ไม่ระบุ'],
+    ['เพิ่มเมื่อ',i.created?fdt(i.created):'ไม่ระบุ'],
+    ['สถานะ',i.qty===0?'หมด':isLow(i)?'ใกล้หมด':'ปกติ']
+  ];
+  $('productFields').replaceChildren(...details.map(([label,value])=>{
+    const wrap=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');
+    dt.textContent=label;dd.textContent=String(value);wrap.append(dt,dd);return wrap}));
+  const ids=(i.imgs||[]).filter(k=>imgCache.has(k)),images=$('productImages');
+  images.replaceChildren();
+  if(ids.length)ids.forEach((key,n)=>{
+    const b=document.createElement('button'),im=new Image();
+    b.type='button';b.setAttribute('aria-label',`ดูรูปที่ ${n+1} จาก ${ids.length}`);
+    im.src=imgCache.get(key);im.alt=`รูปสินค้า ${n+1}`;b.append(im);b.onclick=()=>showGal(i.id);images.append(b)
+  });else images.textContent='ไม่มีรูปภาพของรายการนี้';
+  $('dProduct').showModal()
+}
+$('productClose').onclick=()=>$('dProduct').close();
+$('productEdit').onclick=()=>{const id=$('dProduct').dataset.id;$('dProduct').close();openForm(id)};
 $('gPrev').onclick=()=>gShow(gI-1);$('gNext').onclick=()=>gShow(gI+1);
 $('dGal').addEventListener('keydown',e=>{if(gIds.length>1){if(e.key==='ArrowLeft')gShow(gI-1);else if(e.key==='ArrowRight')gShow(gI+1)}});
 let gX=null;
@@ -2978,6 +3022,7 @@ $('bDemo').onclick=()=>{
 /* ===== เหตุการณ์ในตาราง ===== */
 $('tb').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.gal)showGal(b.dataset.gal);
+  else if(b.dataset.detail)showProduct(b.dataset.detail);
   else if(b.dataset.qr)showQr(b.dataset.qr);
   else if(b.dataset.adj)openAdj(b.dataset.adj);
   else if(b.dataset.ed)openForm(b.dataset.ed);
