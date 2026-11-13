@@ -2871,7 +2871,8 @@ footer a:hover{text-decoration-thickness:2px}
     <div class="pw"><input id="lgP" type="password" autocomplete="current-password" required><button type="button" id="lgT" aria-pressed="false" aria-label="แสดงหรือซ่อนรหัสผ่าน">แสดง</button></div>
     <div class="err" id="lgE" role="alert"></div>
     <button class="pr lgGo" type="submit">เข้าสู่ระบบ</button>
-    <button type="button" id="googleLogin" hidden>เข้าสู่ระบบด้วย Google</button>
+    <button type="button" id="googleLogin" class="lgGo" disabled>เข้าสู่ระบบด้วย Gmail / Google</button>
+    <p class="note" id="googleLoginNote">ยังไม่ได้ตั้งค่า Google Sign-In บนเซิร์ฟเวอร์</p>
   </form>
 </dialog>
 <!-- จับคู่คอลัมน์ก่อนนำเข้า CSV -->
@@ -3466,7 +3467,8 @@ async function boot(){
   try{
     const config=await api('/config');
     PASSWORD_MIN_LENGTH=config.passwordMinLength===4?4:12;
-    $('googleLogin').hidden=!config.googleLoginEnabled;
+    $('googleLogin').disabled=!config.googleLoginEnabled;
+    $('googleLoginNote').hidden=!!config.googleLoginEnabled;
     $('umPassword').minLength=PASSWORD_MIN_LENGTH;
     $('userPass1').minLength=PASSWORD_MIN_LENGTH;$('userPass2').minLength=PASSWORD_MIN_LENGTH;
     $('umPassword').previousElementSibling.textContent=`รหัสผ่านเริ่มต้น (อย่างน้อย ${PASSWORD_MIN_LENGTH} ตัว)`;
