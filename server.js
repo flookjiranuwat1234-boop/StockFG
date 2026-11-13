@@ -35,12 +35,23 @@ const h = fn => (req, res, next) => fn(req, res).catch(next);
 const str = (v, n) => String(v ?? '').slice(0, n);
 const int = v => Math.max(0, Math.min(1e9, parseInt(v, 10) || 0));
 const ID_RE = /^[\w-]{1,64}$/;
+const USER_ROLES = new Set(['user', 'super_admin']);
 const fail = (status, error) => Object.assign(new Error(error), { status });
 
 const auth = (req, res, next) => {
-  try { req.user = jwt.verify(req.cookies.tk || '', JWT_SECRET); next(); }
-  catch (e) { res.status(401).json({ error: 'auth' }); }
+  let claims;
+  try { claims = jwt.verify(req.cookies.tk || '', JWT_SECRET); }
+  catch (e) { return res.status(401).json({ error: 'auth' }); }
+  pool.query('SELECT id,username,name,role,active,token_version FROM users WHERE id=$1 AND active=true', [claims.id])
+    .then(({ rows }) => {
+      const user = rows[0];
+      if (!user || Number(claims.tv || 0) !== user.token_version) return res.status(401).json({ error: 'auth' });
+      req.user = user;
+      next();
+    }).catch(next);
 };
+const superAdmin = (req, res, next) => req.user.role === 'super_admin'
+  ? next() : res.status(403).json({ error: 'ต้องใช้บัญชี super admin' });
 
 // จำกัดการเดารหัสผ่าน: 8 ครั้ง/5 นาที/IP
 const tries = new Map();
@@ -54,19 +65,137 @@ setInterval(() => { const now = Date.now(); tries.forEach((v, k) => now - v.t > 
 /* ---------- เข้าสู่ระบบ ---------- */
 app.post('/api/login', h(async (req, res) => {
   if (limited(req.ip)) throw fail(429, 'ลองผิดหลายครั้งเกินไป กรุณารอ 5 นาที');
-  const { rows } = await pool.query('SELECT * FROM users WHERE lower(username)=lower($1)', [str(req.body.username, 80)]);
+  const { rows } = await pool.query(
+    'SELECT id,username,name,pass_hash,role,active,token_version FROM users WHERE lower(username)=lower($1)',
+    [str(req.body.username, 80)]);
   const u = rows[0];
   // เทียบ hash เสมอ แม้ไม่พบผู้ใช้ เพื่อไม่ให้เดาชื่อผู้ใช้จากเวลาตอบกลับได้
   const ok = await bcrypt.compare(str(req.body.password, 200), u ? u.pass_hash : '$2a$12$invalidinvalidinvalidinvalidinvalidinvalidinvalidinvalidinva');
-  if (!u || !ok) throw fail(401, 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+  if (!u || !ok || !u.active) throw fail(401, 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
   tries.delete(req.ip);
-  const token = jwt.sign({ id: u.id, name: u.name }, JWT_SECRET, { expiresIn: '12h' });
+  const token = jwt.sign({ id: u.id, tv: u.token_version }, JWT_SECRET, { expiresIn: '12h' });
   res.cookie('tk', token, { httpOnly: true, sameSite: 'lax', secure: prod, maxAge: 12 * 3600 * 1000 });
-  res.json({ name: u.name });
+  res.json({ name: u.name, role: u.role });
 }));
 app.post('/api/logout', (req, res) => { res.clearCookie('tk'); res.json({ ok: true }); });
-app.get('/api/me', auth, (req, res) => res.json({ name: req.user.name }));
+app.get('/api/me', auth, (req, res) => res.json({ id: req.user.id, name: req.user.name, role: req.user.role }));
 app.get('/healthz', h(async (req, res) => { await pool.query('SELECT 1'); res.send('ok'); }));
+
+/* ---------- จัดการบัญชีผู้ใช้ ---------- */
+function userId(value) {
+  const id = Number(value);
+  if (!/^\d+$/.test(String(value)) || !Number.isSafeInteger(id) || id < 1) {
+    throw fail(400, 'รหัสผู้ใช้ไม่ถูกต้อง');
+  }
+  return id;
+}
+function userPassword(value) {
+  if (typeof value !== 'string') throw fail(400, 'รหัสผ่านไม่ถูกต้อง');
+  const password = value;
+  if (password.length < 12 || Buffer.byteLength(password, 'utf8') > 72) {
+    throw fail(400, 'รหัสผ่านต้องมีอย่างน้อย 12 ตัวอักษร และไม่เกิน 72 ไบต์');
+  }
+  return password;
+}
+async function writeUserAudit(client, actor, target, action, details) {
+  await client.query(
+    `INSERT INTO user_audit (actor_id,actor_name,target_id,target_username,action,details)
+     VALUES ($1,$2,$3,$4,$5,$6::jsonb)`,
+    [actor.id, actor.name, target.id, target.username, action, JSON.stringify(details || {})]);
+}
+app.get('/api/users', auth, superAdmin, h(async (req, res) => {
+  const [users, audit] = await Promise.all([
+    pool.query('SELECT id,username,name,role,active,created_at FROM users ORDER BY id'),
+    pool.query(`SELECT id,actor_name,target_username,action,details,created_at
+                FROM user_audit ORDER BY created_at DESC,id DESC LIMIT 100`),
+  ]);
+  res.json({ users: users.rows, audit: audit.rows });
+}));
+app.post('/api/users', auth, superAdmin, h(async (req, res) => {
+  const username = str(req.body.username, 80).trim();
+  const name = str(req.body.name, 100).trim();
+  const password = userPassword(req.body.password);
+  const role = req.body.role;
+  if (!username || /\s/.test(username) || !name || !USER_ROLES.has(role)) {
+    throw fail(400, 'กรุณาตรวจสอบชื่อผู้ใช้ ชื่อที่แสดง และบทบาท');
+  }
+  const passHash = await bcrypt.hash(password, 12);
+  const c = await pool.connect();
+  try {
+    await c.query('BEGIN');
+    const { rows } = await c.query(
+      `INSERT INTO users (username,name,pass_hash,role)
+       VALUES ($1,$2,$3,$4) ON CONFLICT (lower(username)) DO NOTHING
+       RETURNING id,username,name,role,active,created_at`,
+      [username, name, passHash, role]);
+    if (!rows.length) throw fail(409, 'ชื่อผู้ใช้นี้มีอยู่แล้ว');
+    await writeUserAudit(c, req.user, rows[0], 'created', { role });
+    await c.query('COMMIT');
+    res.status(201).json(rows[0]);
+  } catch (e) { await c.query('ROLLBACK').catch(() => {}); throw e; }
+  finally { c.release(); }
+}));
+app.patch('/api/users/:id', auth, superAdmin, h(async (req, res) => {
+  const id = userId(req.params.id);
+  const name = str(req.body.name, 100).trim();
+  const role = req.body.role;
+  const active = req.body.active;
+  if (!name || !USER_ROLES.has(role) || typeof active !== 'boolean') {
+    throw fail(400, 'ข้อมูลบัญชีผู้ใช้ไม่ถูกต้อง');
+  }
+  const c = await pool.connect();
+  try {
+    await c.query('BEGIN');
+    await c.query('LOCK TABLE users IN SHARE ROW EXCLUSIVE MODE');
+    const { rows } = await c.query(
+      'SELECT id,username,name,role,active,created_at FROM users WHERE id=$1 FOR UPDATE', [id]);
+    const target = rows[0];
+    if (!target) throw fail(404, 'ไม่พบบัญชีผู้ใช้นี้');
+    if (target.id === req.user.id && (role !== target.role || !active)) {
+      throw fail(409, 'ใช้บัญชี super admin อื่นเพื่อเปลี่ยนสิทธิ์หรือปิดบัญชีนี้');
+    }
+    if (target.role === 'super_admin' && target.active && (role !== 'super_admin' || !active)) {
+      const count = await c.query(
+        "SELECT count(*)::int AS n FROM users WHERE role='super_admin' AND active=true");
+      if (count.rows[0].n <= 1) throw fail(409, 'ต้องมี super admin ที่เปิดใช้งานอย่างน้อย 1 บัญชี');
+    }
+    const updated = await c.query(
+      `UPDATE users SET name=$2,role=$3,active=$4,
+         token_version=token_version+CASE
+           WHEN active IS DISTINCT FROM $4 OR role IS DISTINCT FROM $3 THEN 1 ELSE 0 END
+       WHERE id=$1
+       RETURNING id,username,name,role,active,created_at`,
+      [id, name, role, active]);
+    const next = updated.rows[0];
+    const details = {};
+    if (target.name !== name) details.name = { from: target.name, to: name };
+    if (target.role !== role) details.role = { from: target.role, to: role };
+    if (target.active !== active) details.active = { from: target.active, to: active };
+    if (Object.keys(details).length) await writeUserAudit(c, req.user, next, 'updated', details);
+    await c.query('COMMIT');
+    res.json(next);
+  } catch (e) { await c.query('ROLLBACK').catch(() => {}); throw e; }
+  finally { c.release(); }
+}));
+app.post('/api/users/:id/password', auth, superAdmin, h(async (req, res) => {
+  const id = userId(req.params.id);
+  if (id === req.user.id) throw fail(400, 'ใช้บัญชี super admin อื่นเพื่อรีเซ็ตรหัสผ่านนี้');
+  const password = userPassword(req.body.password);
+  const passHash = await bcrypt.hash(password, 12);
+  const c = await pool.connect();
+  try {
+    await c.query('BEGIN');
+    const { rows } = await c.query('SELECT id,username FROM users WHERE id=$1 FOR UPDATE', [id]);
+    const target = rows[0];
+    if (!target) throw fail(404, 'ไม่พบบัญชีผู้ใช้นี้');
+    await c.query(
+      'UPDATE users SET pass_hash=$2,token_version=token_version+1 WHERE id=$1', [id, passHash]);
+    await writeUserAudit(c, req.user, target, 'password_reset', {});
+    await c.query('COMMIT');
+    res.json({ ok: true });
+  } catch (e) { await c.query('ROLLBACK').catch(() => {}); throw e; }
+  finally { c.release(); }
+}));
 
 /* ---------- ข้อมูลทั้งหมด (สินค้า + หมวดหมู่ + ประวัติล่าสุด 1,000 รายการ) ---------- */
 app.get('/api/state', auth, h(async (req, res) => {
@@ -219,9 +348,18 @@ app.use((err, req, res, next) => {
   await init();
   const { rows } = await pool.query('SELECT count(*)::int AS n FROM users');
   if (!rows[0].n && process.env.ADMIN_USER && process.env.ADMIN_PASS) {
-    await pool.query('INSERT INTO users (username,name,pass_hash) VALUES ($1,$2,$3)',
-      [process.env.ADMIN_USER, process.env.ADMIN_NAME || process.env.ADMIN_USER, await bcrypt.hash(process.env.ADMIN_PASS, 12)]);
-    console.log('สร้างผู้ใช้แรก: ' + process.env.ADMIN_USER);
+    const username = str(process.env.ADMIN_USER, 80).trim();
+    const name = str(process.env.ADMIN_NAME || username, 100).trim();
+    if (!username || /\s/.test(username) || !name) throw new Error('ADMIN_USER/ADMIN_NAME ไม่ถูกต้อง');
+    const passHash = await bcrypt.hash(userPassword(process.env.ADMIN_PASS), 12);
+    const { rows: created } = await pool.query(
+      `INSERT INTO users (username,name,pass_hash,role) VALUES ($1,$2,$3,'super_admin')
+       RETURNING id,username,name,role,active`, [username, name, passHash]);
+    await pool.query(
+      `INSERT INTO user_audit (actor_id,actor_name,target_id,target_username,action,details)
+       VALUES (NULL,'environment bootstrap',$1,$2,'created',$3::jsonb)`,
+      [created[0].id, created[0].username, JSON.stringify({ role: created[0].role })]);
+    console.log('สร้าง super admin คนแรก: ' + username);
   } else if (!rows[0].n) console.warn('ยังไม่มีผู้ใช้ — ตั้ง ADMIN_USER/ADMIN_PASS หรือรัน npm run add-user');
   app.listen(PORT, () => console.log('พร้อมใช้งานที่พอร์ต ' + PORT));
 })().catch(e => { console.error(e); process.exit(1); });

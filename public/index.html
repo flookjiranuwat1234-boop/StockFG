@@ -2524,6 +2524,21 @@ footer a:hover{text-decoration-thickness:2px}
 .usr .ua{flex:none;color:var(--pr)}
 .usr #who{color:var(--tx);font-weight:600;font-size:.95rem;max-width:12em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .usr #who:empty{display:none}
+.userAdminGrid{display:grid;grid-template-columns:minmax(230px,.8fr) minmax(0,1.3fr);gap:18px}
+.umCreate,.umUser{padding:12px;border:1px solid var(--bd);border-radius:10px}
+.umCreate h3,.umSection h3{margin:0 0 8px;font-size:1rem}
+#dUsers input,#dUsers select,#dUserPass input{width:100%;min-height:42px;padding:6px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx)}
+.umCreate label,.umUser label{margin-top:8px;font-size:.88rem}
+.umCreate button{margin-top:10px}
+.umSection{min-width:0}
+.userList{display:grid;gap:8px;max-height:340px;overflow:auto}
+.umUserTop{display:flex;justify-content:space-between;align-items:baseline;gap:8px;overflow-wrap:anywhere}
+.umControls{display:grid;grid-template-columns:minmax(110px,1fr) minmax(100px,.8fr) auto auto;gap:8px;align-items:end;margin-top:8px}
+.umControls label{margin:0}
+.umControls button{min-height:40px;padding:4px 10px;white-space:nowrap}
+.umSelf{color:var(--mut);font-size:.8rem}
+.userAudit{max-height:180px;overflow:auto}
+.userAudit .sub{overflow-wrap:anywhere}
 .top .usr button.ghost{min-height:36px;padding:2px 14px;border:0;border-radius:999px;background:transparent;
   color:var(--mut);font-size:.9rem;box-shadow:none;transform:none}
 .top .usr button.ghost:hover{background:color-mix(in srgb,var(--dg) 10%,transparent);color:var(--dg);box-shadow:none;transform:none}
@@ -2533,11 +2548,14 @@ footer a:hover{text-decoration-thickness:2px}
   .top .acts>button{flex:1 1 auto}
   .usr{flex:1 1 100%;order:-1;justify-content:space-between}
   .usr #who{flex:1 1 auto;text-align:left;max-width:none}
+  .userAdminGrid{grid-template-columns:1fr}
 }
 @media(max-width:520px){
   .logo{width:44px;height:44px;border-radius:12px}
   .top .acts>button{flex:1 1 calc(50% - 8px)}
   .top .acts>button.pr{flex:1 1 100%}
+  .umControls{grid-template-columns:1fr 1fr}
+  .umControls button{width:100%}
 }
 
 /* ===== จัดหน้าใช้งานง่าย: แถบค้นหา/กรอง/ส่งออก, ตาราง, พับส่วนข้อมูล ===== */
@@ -2633,6 +2651,7 @@ footer a:hover{text-decoration-thickness:2px}
     </div>
     <div class="bar acts" style="margin:0">
       <button id="bHist">ประวัติรับ/เบิก</button>
+      <button id="bUsers" type="button" hidden>จัดการผู้ใช้</button>
       <button id="bTheme" aria-label="สลับโหมดสว่าง/มืด"></button>
       <button class="pr" id="bAdd">เพิ่มสินค้า</button>
       <div class="usr">
@@ -2746,6 +2765,47 @@ footer a:hover{text-decoration-thickness:2px}
     <input type="text" id="catName" maxlength="80" autocomplete="off">
     <div class="err" id="catError"></div>
     <div class="row"><button type="button" id="catClose">ปิด</button><button type="submit" class="pr">เพิ่มหมวดหมู่</button></div>
+  </form>
+</dialog>
+
+<!-- จัดการบัญชีผู้ใช้ (super admin เท่านั้น) -->
+<dialog id="dUsers" style="max-width:920px;max-height:calc(100vh - 24px);overflow:auto">
+  <h2 style="margin:0">จัดการผู้ใช้</h2>
+  <p class="note">ปิดใช้งานบัญชีแทนการลบ เพื่อเก็บประวัติการทำรายการไว้</p>
+  <div class="userAdminGrid">
+    <form id="userAddForm" class="umCreate" novalidate>
+      <h3>เพิ่มผู้ใช้</h3>
+      <label for="umUsername">ชื่อผู้ใช้</label>
+      <input id="umUsername" type="text" maxlength="80" autocomplete="off" required>
+      <label for="umName">ชื่อที่แสดง</label>
+      <input id="umName" type="text" maxlength="100" required>
+      <label for="umPassword">รหัสผ่านเริ่มต้น (อย่างน้อย 12 ตัว)</label>
+      <input id="umPassword" type="password" minlength="12" maxlength="72" autocomplete="new-password" required>
+      <label for="umRole">บทบาท</label>
+      <select id="umRole"><option value="user">ผู้ใช้</option><option value="super_admin">Super admin</option></select>
+      <div id="umError" class="err" role="alert"></div>
+      <button type="submit" class="pr">สร้างบัญชี</button>
+    </form>
+    <div class="umSection">
+      <h3>บัญชีในระบบ</h3>
+      <div id="umListError" class="err" role="alert"></div>
+      <div id="userList" class="userList"></div>
+      <h3 style="margin-top:16px">ประวัติการจัดการบัญชี</h3>
+      <ul id="userAudit" class="hist userAudit"></ul>
+    </div>
+  </div>
+  <div class="row"><button id="userClose">ปิด</button></div>
+</dialog>
+
+<dialog id="dUserPass" style="max-width:420px">
+  <form id="userPassForm" novalidate>
+    <h2 id="userPassTitle" style="margin:0"></h2>
+    <label for="userPass1">รหัสผ่านใหม่ (อย่างน้อย 12 ตัว)</label>
+    <input id="userPass1" type="password" minlength="12" maxlength="72" autocomplete="new-password" required>
+    <label for="userPass2">ยืนยันรหัสผ่านใหม่</label>
+    <input id="userPass2" type="password" minlength="12" maxlength="72" autocomplete="new-password" required>
+    <div id="userPassError" class="err" role="alert"></div>
+    <div class="row"><button type="button" id="userPassCancel">ยกเลิก</button><button type="submit" class="pr">บันทึกรหัสผ่าน</button></div>
   </form>
 </dialog>
 
@@ -3288,9 +3348,117 @@ $('bTheme').onclick=()=>{const n=curTheme()==='dark'?'light':'dark';document.doc
   try{localStorage.setItem('stock_theme',n)}catch(e){}paintTheme()};
 paintTheme();
 
-let ME='';
+let ME='',ME_ID=0,ME_ROLE='',managedUsers=[],userAudit=[];
+const roleLabel=role=>role==='super_admin'?'Super admin':'ผู้ใช้';
+function auditSummary(details){
+  if(!details||typeof details!=='object')return '';
+  return Object.entries(details).map(([key,value])=>{
+    const labels={name:'ชื่อ',role:'บทบาท',active:'สถานะ',source:'ช่องทาง'};
+    const format=v=>key==='role'?roleLabel(v):key==='active'?(v?'ใช้งาน':'ปิดใช้'):
+      key==='source'?({cli:'คำสั่ง CLI','environment bootstrap':'ตั้งค่าตอนติดตั้ง'}[v]||String(v)):String(v);
+    if(value&&typeof value==='object'&&Object.prototype.hasOwnProperty.call(value,'from'))
+      return `${labels[key]||key}: ${format(value.from)} → ${format(value.to)}`;
+    return `${labels[key]||key}: ${format(value)}`;
+  }).join(' · ')
+}
+function renderUserManagement(){
+  $('userList').innerHTML=managedUsers.map(u=>{
+    const self=u.id===ME_ID;
+    return `<div class="umUser" data-user-row="${u.id}">
+      <div class="umUserTop"><b>${esc(u.name)}</b><span class="sub">${esc(u.username)} · ${roleLabel(u.role)} · ${u.active?'ใช้งาน':'ปิดใช้'}</span></div>
+      <label>ชื่อที่แสดง<input type="text" maxlength="100" data-user-name value="${esc(u.name)}"></label>
+      <div class="umControls">
+        <label>บทบาท<select data-user-role ${self?'disabled':''}>
+          <option value="user"${u.role==='user'?' selected':''}>ผู้ใช้</option>
+          <option value="super_admin"${u.role==='super_admin'?' selected':''}>Super admin</option>
+        </select></label>
+        <label>สถานะ<select data-user-active ${self?'disabled':''}>
+          <option value="true"${u.active?' selected':''}>ใช้งาน</option>
+          <option value="false"${!u.active?' selected':''}>ปิดใช้</option>
+        </select></label>
+        <button type="button" class="pr" data-user-save="${u.id}">บันทึก</button>
+        <button type="button" data-user-reset="${u.id}" ${self?'disabled':''}>รีเซ็ตรหัส</button>
+      </div>${self?'<div class="umSelf">ใช้บัญชี super admin อื่นเพื่อเปลี่ยนสิทธิ์หรือปิดบัญชีนี้</div>':''}
+    </div>`
+  }).join('')||'<p class="empty">ยังไม่มีบัญชีผู้ใช้</p>';
+  const actionLabels={created:'สร้างบัญชี',updated:'แก้ไขบัญชี',password_reset:'รีเซ็ตรหัสผ่าน'};
+  $('userAudit').innerHTML=userAudit.map(a=>{
+    const summary=auditSummary(a.details);
+    return `<li><b>${actionLabels[a.action]||esc(a.action)}</b> · ${esc(a.actor_name)} → ${esc(a.target_username)}
+      ${summary?`<div class="sub">${esc(summary)}</div>`:''}<div class="sub">${esc(fdt(a.created_at))}</div></li>`
+  }).join('')||'<li class="sub">ยังไม่มีประวัติการจัดการบัญชี</li>'
+}
+async function refreshUserManagement(){
+  const data=await api('/users');
+  managedUsers=data.users;userAudit=data.audit;renderUserManagement()
+}
+async function saveManagedUser(button){
+  const id=Number(button.dataset.userSave),row=button.closest('[data-user-row]');
+  const current=managedUsers.find(u=>u.id===id);
+  if(!current||!row)return;
+  const body={
+    name:row.querySelector('[data-user-name]').value,
+    role:row.querySelector('[data-user-role]').value,
+    active:row.querySelector('[data-user-active]').value==='true'
+  };
+  const save=async()=>{
+    button.disabled=true;$('umListError').textContent='';
+    try{
+      const updated=await api('/users/'+id,{method:'PATCH',body:JSON.stringify(body)});
+      if(updated.id===ME_ID){ME=updated.name;$('who').textContent=ME}
+      await refreshUserManagement();toast('บันทึกบัญชีผู้ใช้แล้ว')
+    }catch(x){if(x.message!=='auth')$('umListError').textContent=x.message}
+    finally{button.disabled=false}
+  };
+  if(current.active&&!body.active)confirmBox(`ปิดบัญชี “${current.username}” ใช่หรือไม่?`,'ปิดบัญชี',save);
+  else await save()
+}
+$('bUsers').onclick=async()=>{
+  $('umError').textContent='';$('umListError').textContent='';
+  try{await refreshUserManagement();$('dUsers').showModal()}
+  catch(x){if(x.message!=='auth')toast(x.message,1)}
+};
+$('userClose').onclick=()=>$('dUsers').close();
+$('userAddForm').onsubmit=async e=>{
+  e.preventDefault();$('umError').textContent='';
+  const body={username:$('umUsername').value.trim(),name:$('umName').value.trim(),
+    password:$('umPassword').value,role:$('umRole').value};
+  if(!body.username||/\s/.test(body.username)||!body.name||body.password.length<12){
+    $('umError').textContent='กรุณากรอกชื่อผู้ใช้ ชื่อที่แสดง และรหัสผ่านอย่างน้อย 12 ตัว';return
+  }
+  const button=e.target.querySelector('button[type="submit"]');button.disabled=true;
+  try{
+    await api('/users',{method:'POST',body:JSON.stringify(body)});
+    e.target.reset();await refreshUserManagement();toast('สร้างบัญชีผู้ใช้แล้ว')
+  }catch(x){if(x.message!=='auth')$('umError').textContent=x.message}
+  finally{button.disabled=false}
+};
+$('userList').addEventListener('click',e=>{
+  const save=e.target.closest('[data-user-save]');
+  if(save){saveManagedUser(save);return}
+  const reset=e.target.closest('[data-user-reset]');if(!reset)return;
+  const user=managedUsers.find(u=>u.id===Number(reset.dataset.userReset));if(!user)return;
+  $('userPassForm').dataset.id=String(user.id);$('userPassTitle').textContent=`รีเซ็ตรหัสผ่าน: ${user.username}`;
+  $('userPass1').value='';$('userPass2').value='';$('userPassError').textContent='';
+  $('dUserPass').showModal();$('userPass1').focus()
+});
+$('userPassCancel').onclick=()=>$('dUserPass').close();
+$('userPassForm').onsubmit=async e=>{
+  e.preventDefault();$('userPassError').textContent='';
+  const password=$('userPass1').value;
+  if(password.length<12||password!==$('userPass2').value){
+    $('userPassError').textContent=password.length<12?'รหัสผ่านต้องมีอย่างน้อย 12 ตัว':'รหัสผ่านทั้งสองช่องไม่ตรงกัน';return
+  }
+  const button=e.target.querySelector('button[type="submit"]');button.disabled=true;
+  try{
+    await api('/users/'+e.target.dataset.id+'/password',{method:'POST',body:JSON.stringify({password})});
+    e.target.reset();$('dUserPass').close();await refreshUserManagement();toast('รีเซ็ตรหัสผ่านแล้ว ผู้ใช้ต้องเข้าสู่ระบบใหม่')
+  }catch(x){if(x.message!=='auth')$('userPassError').textContent=x.message}
+  finally{button.disabled=false}
+};
 async function boot(){
-  try{const me=await api('/me');ME=me.name;$('who').textContent=me.name;db=true;await pull(true);
+  try{const me=await api('/me');ME=me.name;ME_ID=me.id;ME_ROLE=me.role;
+    $('who').textContent=me.name;$('bUsers').hidden=ME_ROLE!=='super_admin';db=true;await pull(true);
     if(!pollOn){pollOn=true;setInterval(poll,15000)}}
   catch(e){if(e.message!=='auth')toast('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: '+e.message,1)}}
 function showLogin(){const d=$('dLogin');if(!d.open)d.showModal();$('lgU').focus()}

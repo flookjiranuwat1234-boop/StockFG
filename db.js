@@ -14,9 +14,31 @@ CREATE TABLE IF NOT EXISTS users (
   username TEXT NOT NULL,
   name TEXT NOT NULL,
   pass_hash TEXT NOT NULL,
+  role TEXT NOT NULL DEFAULT 'user' CHECK (role IN ('user','super_admin')),
+  active BOOLEAN NOT NULL DEFAULT true,
+  token_version INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+ALTER TABLE users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'user';
+ALTER TABLE users ADD COLUMN IF NOT EXISTS active BOOLEAN NOT NULL DEFAULT true;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS token_version INTEGER NOT NULL DEFAULT 0;
+DO $$ BEGIN
+  ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('user','super_admin'));
+EXCEPTION WHEN duplicate_object THEN NULL;
+END $$;
 CREATE UNIQUE INDEX IF NOT EXISTS users_username_uq ON users (lower(username));
+CREATE TABLE IF NOT EXISTS user_audit (
+  id BIGSERIAL PRIMARY KEY,
+  actor_id INTEGER REFERENCES users(id),
+  actor_name TEXT NOT NULL,
+  target_id INTEGER NOT NULL REFERENCES users(id),
+  target_username TEXT NOT NULL,
+  action TEXT NOT NULL CHECK (action IN ('created','updated','password_reset')),
+  details JSONB NOT NULL DEFAULT '{}'::jsonb,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+ALTER TABLE user_audit ALTER COLUMN actor_id DROP NOT NULL;
+CREATE INDEX IF NOT EXISTS user_audit_created_at_idx ON user_audit (created_at DESC);
 CREATE TABLE IF NOT EXISTS products (
   id TEXT PRIMARY KEY,
   sku TEXT NOT NULL,
