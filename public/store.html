@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#f4f9fc">
+  <meta name="theme-color" content="#eff8ff">
   <title>สินค้าและข่าวสาร | Food Gallery</title>
   <meta name="description" content="เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--ink:#20384b;--muted:#647b8d;--blue:#1478ad;--blue-deep:#0d557f;--blue-soft:#eaf5fb;--page:#f4f9fc;--line:#dce9f1;font-family:"Noto Sans Thai",sans-serif;color:var(--ink);background:var(--page);font-synthesis:none;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+    :root{--ink:#173b58;--muted:#5e7890;--blue:#0788d1;--blue-deep:#0767a8;--blue-soft:#e2f3ff;--page:#eff8ff;--line:#d4e8f7;font-family:"Noto Sans Thai",sans-serif;color:var(--ink);background:var(--page);font-synthesis:none;text-rendering:optimizeLegibility;scroll-behavior:smooth}
     *{box-sizing:border-box}
     body{margin:0}
     a{color:inherit;text-decoration:none}
     button,input,select{font:inherit}
     button,a{ -webkit-tap-highlight-color:transparent}
     .wrap{width:min(1160px,calc(100% - 40px));margin:auto}
-    .top{position:sticky;top:0;z-index:5;background:rgba(244,249,252,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .top{position:sticky;top:0;z-index:5;background:rgba(239,248,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
     .nav{height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
     .brand{display:flex;align-items:center;gap:11px;font-size:1.04rem;font-weight:800;letter-spacing:.01em}
     .mark{display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:var(--blue-deep);color:#fff}
@@ -27,8 +27,8 @@
     .navCta,.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:var(--blue-deep);color:#fff;font-weight:700;cursor:pointer}
     .navCta:hover,.button:hover{background:var(--blue)}
     .hero{padding:64px 0 42px}
-    .heroBox{position:relative;overflow:hidden;padding:clamp(30px,6vw,72px);border-radius:30px;background:linear-gradient(115deg,#e9f5fb,#d8ecf7);min-height:340px;display:flex;align-items:center}
-    .heroBox:after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;right:5%;top:-90px;background:radial-gradient(circle at 42% 38%,#fff8 0 5%,transparent 6%),radial-gradient(circle,#b8daed,#e2f1f8 65%,transparent 66%);opacity:.85}
+    .heroBox{position:relative;overflow:hidden;padding:clamp(30px,6vw,72px);border-radius:30px;background:linear-gradient(115deg,#dff2ff,#bfe4fb);min-height:340px;display:flex;align-items:center}
+    .heroBox:after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;right:5%;top:-90px;background:radial-gradient(circle at 42% 38%,#fff9 0 5%,transparent 6%),radial-gradient(circle,#83c8f2,#cceaff 65%,transparent 66%);opacity:.9}
     .heroText{position:relative;z-index:1;max-width:570px}
     .eyebrow{display:inline-block;color:var(--blue);font-weight:800;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
     h1{font-size:clamp(2rem,4.7vw,3.8rem);line-height:1.24;letter-spacing:-.04em;margin:12px 0 14px}
@@ -58,15 +58,15 @@
     .newCard{padding:20px;border:1px solid var(--line);border-radius:18px;background:#fff;display:flex;gap:16px;align-items:center;cursor:pointer}
     .newCard .photo{width:80px;height:80px;aspect-ratio:1;flex:none;border-radius:12px}
     .newCard h3{font-size:.94rem;margin:0 0 4px}
-    .soft{background:#edf6fb}
+    .soft{background:#e5f3fd}
     .infoGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
     .infoCard{padding:26px;border-radius:20px;background:#fff;border:1px solid var(--line)}
     .infoCard p{color:var(--muted);line-height:1.85;margin:8px 0 0}
     .empty{grid-column:1/-1;padding:30px;border:1px dashed #c9dce8;border-radius:16px;color:var(--muted);text-align:center;background:#ffffffc9}
     .about{display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}
-    .aboutArt{min-height:230px;border-radius:24px;background:radial-gradient(circle at 72% 35%,#fff8 0 8%,transparent 8.5%),linear-gradient(140deg,#d7eaf5,#edf6fb);display:grid;place-items:center;color:var(--blue-deep);font-size:3rem}
+    .aboutArt{min-height:230px;border-radius:24px;background:radial-gradient(circle at 72% 35%,#fff9 0 8%,transparent 8.5%),linear-gradient(140deg,#bfe3f8,#e3f3ff);display:grid;place-items:center;color:var(--blue-deep);font-size:3rem}
     .about p{color:var(--muted);line-height:1.95}
-    .contactBox{padding:32px;border-radius:24px;background:var(--blue-deep);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:28px}
+    .contactBox{padding:32px;border-radius:24px;background:linear-gradient(115deg,#0879bd,#075d9b);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:28px}
     .contactBox p{color:#d6e8f4;line-height:1.8;margin:8px 0 0}
     .contactWays{display:flex;flex-wrap:wrap;gap:10px}
     .contactWays a{display:inline-flex;padding:11px 16px;border:1px solid #ffffff55;border-radius:999px;font-weight:700}
