@@ -68,16 +68,28 @@ app.post('/api/logout', (req, res) => { res.clearCookie('tk'); res.json({ ok: tr
 app.get('/api/me', auth, (req, res) => res.json({ name: req.user.name }));
 app.get('/healthz', h(async (req, res) => { await pool.query('SELECT 1'); res.send('ok'); }));
 
-/* ---------- ข้อมูลทั้งหมด (สินค้า + ประวัติล่าสุด 1,000 รายการ) ---------- */
+/* ---------- ข้อมูลทั้งหมด (สินค้า + หมวดหมู่ + ประวัติล่าสุด 1,000 รายการ) ---------- */
 app.get('/api/state', auth, h(async (req, res) => {
-  const [p, l] = await Promise.all([
+  const [p, l, c] = await Promise.all([
     pool.query(`SELECT id,sku,name,cat,qty,unit,min,loc,imgs,demo,version AS v,created_at AS created
                 FROM products ORDER BY created_at`),
     pool.query(`SELECT * FROM (
                   SELECT t,product_id AS id,sku,name,type,n,qty_after AS "after",note,by_name AS "by"
                   FROM movements ORDER BY t DESC, id DESC LIMIT 1000) x ORDER BY t`),
+    pool.query('SELECT name FROM categories ORDER BY lower(name),name'),
   ]);
-  res.json({ items: p.rows, log: l.rows });
+  res.json({ items: p.rows, log: l.rows, categories: c.rows.map(row => row.name) });
+}));
+
+/* ---------- หมวดหมู่สินค้า ---------- */
+app.post('/api/categories', auth, h(async (req, res) => {
+  const name = str(req.body.name, 80).trim();
+  if (!name) throw fail(400, 'กรุณาระบุชื่อหมวดหมู่');
+  const { rows } = await pool.query(
+    `INSERT INTO categories (name) VALUES ($1)
+     ON CONFLICT (lower(name)) DO NOTHING RETURNING name`, [name]);
+  if (!rows.length) throw fail(409, 'มีหมวดหมู่นี้อยู่แล้ว');
+  res.status(201).json({ name: rows[0].name });
 }));
 
 /* ---------- บันทึกการเปลี่ยนแปลงสินค้า (ธุรกรรมเดียว + กันแก้ทับด้วยเลขเวอร์ชัน) ---------- */
@@ -85,7 +97,7 @@ function cleanProduct(p) {
   if (!p || !ID_RE.test(String(p.id)) || !str(p.sku, 80).trim() || !str(p.name, 200).trim()) throw fail(400, 'ข้อมูลสินค้าไม่ถูกต้อง');
   const created = new Date(p.created);
   return {
-    id: String(p.id), sku: str(p.sku, 80).trim(), name: str(p.name, 200).trim(), cat: str(p.cat, 80),
+    id: String(p.id), sku: str(p.sku, 80).trim(), name: str(p.name, 200).trim(), cat: str(p.cat, 80).trim(),
     qty: int(p.qty), unit: str(p.unit, 30) || 'ชิ้น', min: int(p.min), loc: str(p.loc, 80),
     imgs: (Array.isArray(p.imgs) ? p.imgs : []).filter(k => ID_RE.test(String(k))).map(String).slice(0, 6),
     demo: !!p.demo, ver: int(p.v), created: isNaN(created) ? new Date() : created,
@@ -97,6 +109,13 @@ app.post('/api/sync', auth, h(async (req, res) => {
   const c = await pool.connect(), versions = {};
   try {
     await c.query('BEGIN');
+    for (const v of ups) {
+      if (!v.cat) continue;
+      const { rows } = await c.query(
+        `INSERT INTO categories (name) VALUES ($1)
+         ON CONFLICT (lower(name)) DO UPDATE SET name=categories.name RETURNING name`, [v.cat]);
+      v.cat = rows[0].name;
+    }
     if (dels.length) await c.query('DELETE FROM products WHERE id = ANY($1)', [dels]);
     for (const v of ups) {
       const a = [v.id, v.sku, v.name, v.cat, v.qty, v.unit, v.min, v.loc, v.imgs, v.demo, req.user.name];

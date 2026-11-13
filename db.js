@@ -35,6 +35,17 @@ CREATE TABLE IF NOT EXISTS products (
 );
 ALTER TABLE products DROP COLUMN IF EXISTS price;
 CREATE UNIQUE INDEX IF NOT EXISTS products_sku_uq ON products (lower(sku));
+CREATE TABLE IF NOT EXISTS categories (
+  name TEXT PRIMARY KEY,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE UNIQUE INDEX IF NOT EXISTS categories_name_uq ON categories (lower(name));
+INSERT INTO categories (name)
+SELECT min(btrim(cat))
+FROM products
+WHERE btrim(cat) <> ''
+GROUP BY lower(btrim(cat))
+ON CONFLICT DO NOTHING;
 CREATE TABLE IF NOT EXISTS images (
   id TEXT PRIMARY KEY,
   data TEXT NOT NULL

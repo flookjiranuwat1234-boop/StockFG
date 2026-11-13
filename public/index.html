@@ -2437,6 +2437,7 @@ input[type=radio]{width:22px;height:22px}
   <div class="bar">
     <input type="search" id="q" class="grow" placeholder="ค้นหารหัส ชื่อ หมวดหมู่ หรือที่เก็บ" aria-label="ค้นหา">
     <select id="catF" style="width:auto;flex:0 1 220px" aria-label="กรองตามหมวดหมู่"></select>
+    <button id="bCats" type="button">จัดการหมวดหมู่</button>
   </div>
   <div class="bar chips" id="chips">
     <button data-flt="all">ทั้งหมด</button><button data-flt="low">ใกล้หมด</button><button data-flt="out">หมดแล้ว</button>
@@ -2497,7 +2498,7 @@ input[type=radio]{width:22px;height:22px}
   <label for="sku">รหัสสินค้า *</label><input type="text" id="sku" maxlength="30" autocomplete="off"><div class="err" id="e_sku"></div>
   <label for="name">ชื่อสินค้า *</label><input type="text" id="name" maxlength="100" autocomplete="off"><div class="err" id="e_name"></div>
   <div class="g2">
-    <div><label for="cat">หมวดหมู่</label><input type="text" id="cat" maxlength="40"></div>
+    <div><label for="cat">หมวดหมู่ (ไม่บังคับ)</label><select id="cat"></select></div>
     <div><label for="loc">ที่เก็บ</label><input type="text" id="loc" maxlength="40" placeholder="เช่น ชั้น A2"></div>
     <div><label for="qty">จำนวนคงเหลือ *</label><input type="number" id="qty" inputmode="numeric" min="0" step="1"><div class="err" id="e_qty"></div></div>
     <div><label for="unit">หน่วย</label><input type="text" id="unit" maxlength="20" placeholder="ชิ้น"></div>
@@ -2508,6 +2509,19 @@ input[type=radio]{width:22px;height:22px}
   <div class="thumbs" id="thumbs"></div><div class="note" id="e_img"></div>
   <div class="row"><button type="button" id="fCancel">ยกเลิก</button><button type="submit" class="pr" id="fSave">บันทึก</button></div>
 </form></dialog>
+
+<!-- จัดการหมวดหมู่สินค้า -->
+<dialog id="dCats" style="max-width:420px">
+  <h2 style="margin:0">จัดการหมวดหมู่สินค้า</h2>
+  <p class="note">สร้างหมวดหมู่ไว้เลือกตอนเพิ่มหรือแก้ไขสินค้าได้ โดยไม่ต้องสร้างสินค้าก่อน</p>
+  <ul id="catList" class="hist"></ul>
+  <form id="catAddForm" novalidate>
+    <label for="catName">ชื่อหมวดหมู่</label>
+    <input type="text" id="catName" maxlength="80" autocomplete="off">
+    <div class="err" id="catError"></div>
+    <div class="row"><button type="button" id="catClose">ปิด</button><button type="submit" class="pr">เพิ่มหมวดหมู่</button></div>
+  </form>
+</dialog>
 
 <!-- ยืนยันการลบ/แทนที่ -->
 <dialog id="dConf"><p id="cMsg" style="margin-top:0"></p>
@@ -2573,7 +2587,7 @@ input[type=radio]{width:22px;height:22px}
 const KEY='stock_items_v1';
 // [คีย์, หัวคอลัมน์ไทย] ใช้ทั้งส่งออกและนำเข้า CSV
 const F=[['sku','รหัสสินค้า'],['name','ชื่อสินค้า'],['cat','หมวดหมู่'],['qty','จำนวน'],['unit','หน่วย'],['min','จุดสั่งซื้อ'],['loc','ที่เก็บ']];
-let items=[],sel=new Set(),sk='created',sd=-1,pg=1,q='',editId=null,busy=false,qrCur=null,db=null,fImgs=[],fAdded=new Set(),flt='all',catF='',log=[],adjId=null;
+let items=[],categories=[],sel=new Set(),sk='created',sd=-1,pg=1,q='',editId=null,busy=false,qrCur=null,db=null,fImgs=[],fAdded=new Set(),flt='all',catF='',log=[],adjId=null;
 const $=i=>document.getElementById(i);
 // ป้องกัน XSS: escape ทุกข้อมูลก่อนใส่ HTML
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -2583,6 +2597,14 @@ function toast(m,bad){const t=$('toast');t.textContent=m;t.className='show'+(bad
 
 /* ===== เก็บข้อมูล (localStorage ห่อ try/catch ทุกครั้ง) ===== */
 const cleanItem=i=>i&&i.sku&&i.name?{id:String(i.id||newId()),created:i.created||new Date().toISOString(),sku:String(i.sku),name:String(i.name),cat:String(i.cat||''),qty:Math.max(0,parseInt(i.qty)||0),unit:String(i.unit||'ชิ้น'),min:Math.max(0,parseInt(i.min)||0),loc:String(i.loc||''),demo:!!i.demo,v:parseInt(i.v)||0,imgs:Array.isArray(i.imgs)?i.imgs.map(String):[]}:null;
+function categoryNames(){
+  const names=new Set([...categories,...items.map(i=>i.cat)].map(value=>String(value||'').trim()).filter(Boolean));
+  return [...names].sort((a,b)=>a.localeCompare(b,'th'))}
+function fillCategorySelect(){
+  $('cat').innerHTML='<option value="">ไม่ระบุหมวดหมู่</option>'+categoryNames().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('')}
+function renderCategoryList(){
+  const names=categoryNames();
+  $('catList').innerHTML=names.length?names.map(c=>`<li>${esc(c)}</li>`).join(''):'<li class="sub">ยังไม่มีหมวดหมู่</li>'}
 /* ซิงก์กับเซิร์ฟเวอร์: เก็บ snapshot ล่าสุดที่ตรงกับฐานข้อมูล แล้วส่งเฉพาะส่วนที่ต่าง (ผ่านคิว ทีละงาน) */
 async function api(p,o={}){const r=await fetch('/api'+p,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...o});
   if(r.status===401&&p!=='/login'){showLogin();throw new Error('auth')}
@@ -2601,9 +2623,9 @@ async function pushNow(){
     toast(e.message==='conflict'?'ข้อมูลถูกแก้ไขโดยผู้ใช้อื่นพร้อมกัน กำลังโหลดข้อมูลล่าสุด (การแก้ไขล่าสุดของคุณไม่ถูกบันทึก)':'บันทึกไม่สำเร็จ: '+e.message,1);
     await pull(true).catch(()=>{})}}
 function save(){chain=chain.then(pushNow).catch(()=>{});return true}
-async function pull(force){const s=await api('/state'),str=JSON.stringify([s.items,s.log]);
+async function pull(force){const s=await api('/state'),str=JSON.stringify([s.items,s.log,s.categories]);
   if(!force&&str===lastState)return;lastState=str;
-  items=s.items.map(cleanItem).filter(Boolean);log=s.log.map(e=>({...e,sent:true}));load();
+  items=s.items.map(cleanItem).filter(Boolean);categories=Array.isArray(s.categories)?s.categories:[];log=s.log.map(e=>({...e,sent:true}));load();
   const need=[...new Set(items.flatMap(i=>i.imgs))].filter(k=>!imgCache.has(k));
   if(need.length){const m=await api('/images/get',{method:'POST',body:JSON.stringify({ids:need})});Object.entries(m).forEach(([k,v])=>imgCache.set(k,v))}
   render()}
@@ -2613,7 +2635,7 @@ async function poll(){if(document.hidden||document.querySelector('dialog[open]')
 /* ===== ค้นหา + เรียงลำดับ ===== */
 function view(){
   let r=items;
-  if(catF)r=r.filter(i=>i.cat===catF);
+  if(catF)r=r.filter(i=>String(i.cat||'').trim()===catF);
   if(flt==='low')r=r.filter(i=>isLow(i)&&i.qty>0);else if(flt==='out')r=r.filter(i=>i.qty===0);
   if(q){const s=(q.startsWith('PRD|')?q.split('|')[1]||'':q).toLowerCase();r=r.filter(i=>[i.sku,i.name,i.cat,i.loc,i.id].join(' ').toLowerCase().includes(s))}
   return r.slice().sort((a,b)=>{const x=a[sk],y=b[sk];
@@ -2648,7 +2670,9 @@ function render(){
 function openForm(id){
   editId=id||null;const i=items.find(x=>x.id===id)||{};
   $('fTitle').textContent=id?'แก้ไขสินค้า':'เพิ่มสินค้า';
+  fillCategorySelect();
   F.forEach(([k])=>$(k).value=i[k]??(k==='unit'?'ชิ้น':''));
+  $('cat').value=String(i.cat||'').trim();
   document.querySelectorAll('.err').forEach(e=>e.textContent='');
   fImgs=(i.imgs||[]).slice();fAdded=new Set();$('imgs').disabled=!db;drawThumbs();
   $('fSave').disabled=false;$('dForm').showModal();$('sku').focus();
@@ -2947,7 +2971,7 @@ function renderExtras(){
   $('cards').innerHTML=card('สินค้าทั้งหมด',nf(items.length)+' รายการ','')+`<button data-today="1" class="cd"><small>เคลื่อนไหววันนี้</small><b>${nf(mv)} ครั้ง</b></button>`
     +card('ใกล้หมด',low,low?'w':'','low')+card('หมดแล้ว',out,out?'r':'','out');
   document.querySelectorAll('#chips button').forEach(b=>b.classList.toggle('on',b.dataset.flt===flt));
-  const cats=[...new Set(items.map(i=>i.cat).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'th'));
+  const cats=categoryNames();
   if(catF&&!cats.includes(catF))catF='';
   $('catF').innerHTML='<option value="">ทุกหมวดหมู่</option>'+cats.map(c=>`<option value="${esc(c)}"${c===catF?' selected':''}>${esc(c)}</option>`).join('');
   const need=items.filter(i=>i.qty===0||isLow(i)).sort((a,b)=>a.qty-b.qty);
@@ -2960,6 +2984,16 @@ function renderExtras(){
 document.addEventListener('click',e=>{const b=e.target.closest('[data-flt]');if(!b)return;
   const f=b.dataset.flt;flt=(f===flt&&f!=='all')?'all':f;pg=1;render()});
 $('catF').onchange=e=>{catF=e.target.value;pg=1;render()};
+$('bCats').onclick=()=>{$('catError').textContent='';$('catName').value='';renderCategoryList();$('dCats').showModal();$('catName').focus()};
+$('catClose').onclick=()=>$('dCats').close();
+$('catAddForm').onsubmit=async e=>{
+  e.preventDefault();$('catError').textContent='';
+  const name=$('catName').value.trim();
+  if(!name){$('catError').textContent='กรุณาระบุชื่อหมวดหมู่';return}
+  try{
+    const r=await api('/categories',{method:'POST',body:JSON.stringify({name})});
+    categories.push(r.name);$('catName').value='';renderCategoryList();renderExtras();toast('เพิ่มหมวดหมู่แล้ว')
+  }catch(x){if(x.message!=='auth')$('catError').textContent=x.message}};
 $('side').addEventListener('click',e=>{const b=e.target.closest('[data-adj]');if(b)openAdj(b.dataset.adj)});
 
 /* ===== สลับโหมดสว่าง/มืด ===== */
