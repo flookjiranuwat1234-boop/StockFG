@@ -2904,7 +2904,7 @@ function logAdd(i,type,n,note){log.push({t:new Date().toISOString(),id:i.id,sku:
 const fdt=t=>new Date(t).toLocaleString('th-TH',{dateStyle:'short',timeStyle:'short'});
 const sgn=e=>e.type==='in'?'+'+e.n:e.type==='out'?'\u2212'+e.n:(e.n>=0?'+':'\u2212')+Math.abs(e.n);
 function histList(a,showName){if(!a.length)return '';
-  return '<ul class="hist">'+a.map(e=>`<li><span class="sub">${fdt(e.t)}</span><b class="ty ${esc(e.type)}">${esc(TY[e.type]||'')}</b>${showName?`<span>${esc(e.sku)} ${esc(e.name)}</span>`:''}<span>${esc(sgn(e))}</span><span class="sub">คงเหลือ ${esc(e.after)}${e.note?' / '+esc(e.note):''}</span></li>`).join('')+'</ul>'}
+  return '<ul class="hist">'+a.map(e=>`<li><span class="sub">${fdt(e.t)}</span><b class="ty ${esc(e.type)}">${esc(TY[e.type]||'')}</b>${showName?`<span>${esc(e.sku)} ${esc(e.name)}</span>`:''}<span>${esc(sgn(e))}</span><span class="sub">คงเหลือ ${esc(e.after)}${e.note?' / '+esc(e.note):''}</span>${e.by?`<span class="sub">ผู้ทำรายการ: ${esc(e.by)}</span>`:''}</li>`).join('')+'</ul>'}
 
 /* ===== หน้าต่างรับเข้า/เบิกออก ===== */
 function openAdj(id){const i=items.find(x=>x.id===id);if(!i)return;adjId=id;
