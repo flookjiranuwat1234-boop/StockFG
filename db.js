@@ -57,12 +57,14 @@ CREATE TABLE IF NOT EXISTS products (
   loc TEXT NOT NULL DEFAULT '',
   imgs TEXT[] NOT NULL DEFAULT '{}',
   demo BOOLEAN NOT NULL DEFAULT false,
+  published BOOLEAN NOT NULL DEFAULT false,
   version INTEGER NOT NULL DEFAULT 1,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_by TEXT
 );
 ALTER TABLE products DROP COLUMN IF EXISTS price;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS published BOOLEAN NOT NULL DEFAULT false;
 CREATE UNIQUE INDEX IF NOT EXISTS products_sku_uq ON products (lower(sku));
 CREATE TABLE IF NOT EXISTS categories (
   name TEXT PRIMARY KEY,

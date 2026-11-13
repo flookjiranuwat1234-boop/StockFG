@@ -306,10 +306,44 @@ app.post('/api/users/:id/password', auth, superAdmin, h(async (req, res) => {
   finally { c.release(); }
 }));
 
+/* ---------- หน้าร้านสาธารณะ: แสดงเฉพาะสินค้าที่เผยแพร่ ---------- */
+app.get('/api/storefront', h(async (req, res) => {
+  const { rows } = await pool.query(
+    `SELECT id,sku,name,cat,imgs,created_at AS created
+     FROM products WHERE published=true AND demo=false
+     ORDER BY created_at DESC,name`);
+  const products = rows.map(({ imgs, ...product }) => ({
+    ...product,
+    image: Array.isArray(imgs) ? imgs[0] || null : null,
+  }));
+  const categories = [...new Set(products.map(product => product.cat).filter(Boolean))]
+    .sort((a, b) => a.localeCompare(b, 'th'));
+  res.json({
+    products,
+    categories,
+    contact: {
+      email: process.env.STORE_CONTACT_EMAIL || '',
+      phone: process.env.STORE_CONTACT_PHONE || '',
+    },
+  });
+}));
+app.get('/api/storefront/images/:id', h(async (req, res) => {
+  const id = String(req.params.id || '');
+  if (!ID_RE.test(id)) throw fail(404, 'ไม่พบรูปภาพ');
+  const { rows } = await pool.query(
+    `SELECT i.data FROM images i
+     WHERE i.id=$1 AND EXISTS (
+       SELECT 1 FROM products p
+       WHERE p.published=true AND p.demo=false AND p.imgs @> ARRAY[$1]::text[]
+     )`, [id]);
+  if (!rows.length) throw fail(404, 'ไม่พบรูปภาพ');
+  res.json({ data: rows[0].data });
+}));
+
 /* ---------- ข้อมูลทั้งหมด (สินค้า + หมวดหมู่ + ประวัติล่าสุด 1,000 รายการ) ---------- */
 app.get('/api/state', auth, h(async (req, res) => {
   const [p, l, c] = await Promise.all([
-    pool.query(`SELECT id,sku,name,cat,qty,unit,min,loc,imgs,demo,version AS v,created_at AS created
+    pool.query(`SELECT id,sku,name,cat,qty,unit,min,loc,imgs,demo,published,version AS v,created_at AS created
                 FROM products ORDER BY created_at`),
     pool.query(`SELECT * FROM (
                   SELECT t,product_id AS id,sku,name,type,n,qty_after AS "after",note,by_name AS "by"
@@ -358,7 +392,7 @@ function cleanProduct(p) {
     id: String(p.id), sku: str(p.sku, 80).trim(), name: str(p.name, 200).trim(), cat: str(p.cat, 80).trim(),
     qty: int(p.qty), unit: str(p.unit, 30) || 'ชิ้น', min: int(p.min), loc: str(p.loc, 80),
     imgs: (Array.isArray(p.imgs) ? p.imgs : []).filter(k => ID_RE.test(String(k))).map(String).slice(0, 6),
-    demo: !!p.demo, ver: int(p.v), created: isNaN(created) ? new Date() : created,
+    demo: !!p.demo, published: p.published === true, ver: int(p.v), created: isNaN(created) ? new Date() : created,
   };
 }
 app.post('/api/sync', auth, h(async (req, res) => {
@@ -367,6 +401,14 @@ app.post('/api/sync', auth, h(async (req, res) => {
   const c = await pool.connect(), versions = {};
   try {
     await c.query('BEGIN');
+    if (req.user.role !== 'super_admin' && ups.length) {
+      const { rows } = await c.query(
+        'SELECT id,published FROM products WHERE id=ANY($1) FOR UPDATE', [ups.map(v => v.id)]);
+      const publishedById = new Map(rows.map(row => [row.id, row.published]));
+      if (ups.some(v => v.published !== (publishedById.get(v.id) || false))) {
+        throw fail(403, 'ต้องใช้บัญชี super admin เพื่อเผยแพร่หรือซ่อนสินค้าบนหน้าร้าน');
+      }
+    }
     for (const v of ups) {
       if (!v.cat) continue;
       const { rows } = await c.query(
@@ -376,21 +418,21 @@ app.post('/api/sync', auth, h(async (req, res) => {
     }
     if (dels.length) await c.query('DELETE FROM products WHERE id = ANY($1)', [dels]);
     for (const v of ups) {
-      const a = [v.id, v.sku, v.name, v.cat, v.qty, v.unit, v.min, v.loc, v.imgs, v.demo, req.user.name];
+      const a = [v.id, v.sku, v.name, v.cat, v.qty, v.unit, v.min, v.loc, v.imgs, v.demo, v.published, req.user.name];
       let r;
       if (v.ver > 0) {
         r = await c.query(
           `UPDATE products SET sku=$2,name=$3,cat=$4,qty=$5,unit=$6,min=$7,loc=$8,imgs=$9,demo=$10,
-             updated_by=$11,updated_at=now(),version=version+1
-           WHERE id=$1 AND version=$12 RETURNING version`, [...a, v.ver]);
+             published=$11,updated_by=$12,updated_at=now(),version=version+1
+           WHERE id=$1 AND version=$13 RETURNING version`, [...a, v.ver]);
         if (!r.rowCount) throw fail(409, 'conflict');
       } else {
         r = await c.query(
-          `INSERT INTO products (id,sku,name,cat,qty,unit,min,loc,imgs,demo,updated_by,created_at)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+          `INSERT INTO products (id,sku,name,cat,qty,unit,min,loc,imgs,demo,published,updated_by,created_at)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
            ON CONFLICT (id) DO UPDATE SET sku=EXCLUDED.sku,name=EXCLUDED.name,cat=EXCLUDED.cat,qty=EXCLUDED.qty,
              unit=EXCLUDED.unit,min=EXCLUDED.min,loc=EXCLUDED.loc,imgs=EXCLUDED.imgs,
-             demo=EXCLUDED.demo,updated_by=EXCLUDED.updated_by,updated_at=now(),version=products.version+1
+             demo=EXCLUDED.demo,published=EXCLUDED.published,updated_by=EXCLUDED.updated_by,updated_at=now(),version=products.version+1
            RETURNING version`, [...a, v.created]);
       }
       versions[v.id] = r.rows[0].version;

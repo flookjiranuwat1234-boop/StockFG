@@ -2363,6 +2363,8 @@ input[type=checkbox]{width:22px;height:22px}
 dialog{border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);max-width:520px;width:calc(100% - 24px);padding:16px}
 dialog::backdrop{background:rgba(0,0,0,.5)}
 label{display:block;font-weight:600;margin-top:10px}
+.checkLine{display:flex;align-items:center;gap:9px;margin:12px 0}
+.checkLine input{width:18px;height:18px;accent-color:var(--pr)}
 .err{color:var(--dg);font-size:.85rem;min-height:1.2em}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
 .row{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
@@ -2517,6 +2519,8 @@ footer a:hover{text-decoration-thickness:2px}
 .brand h1{line-height:1.25}
 .brand .stat{font-size:.9rem;line-height:1.4}
 .acts{align-items:center;justify-content:flex-end;gap:10px}
+.top .acts>a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:6px 18px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);font-weight:500}
+.top .acts>a:hover{background:var(--bg)}
 .top .acts>button{min-height:44px;padding:6px 18px}
 .top .acts>button.pr{padding:6px 22px}
 .usr{display:flex;align-items:center;gap:8px;min-height:44px;padding:4px 4px 4px 14px;border:1px solid var(--bd);
@@ -2545,14 +2549,14 @@ footer a:hover{text-decoration-thickness:2px}
 @media(max-width:760px){
   .top{flex-direction:column;align-items:stretch;padding:15px}
   .top>.acts{width:100%;justify-content:stretch}
-  .top .acts>button{flex:1 1 auto}
+  .top .acts>button,.top .acts>a{flex:1 1 auto}
   .usr{flex:1 1 100%;order:-1;justify-content:space-between}
   .usr #who{flex:1 1 auto;text-align:left;max-width:none}
   .userAdminGrid{grid-template-columns:1fr}
 }
 @media(max-width:520px){
   .logo{width:44px;height:44px;border-radius:12px}
-  .top .acts>button{flex:1 1 calc(50% - 8px)}
+  .top .acts>button,.top .acts>a{flex:1 1 calc(50% - 8px)}
   .top .acts>button.pr{flex:1 1 100%}
   .umControls{grid-template-columns:1fr 1fr}
   .umControls button{width:100%}
@@ -2650,6 +2654,7 @@ footer a:hover{text-decoration-thickness:2px}
       <div><h1>คลังสินค้า</h1><div class="stat" id="stat"></div></div>
     </div>
     <div class="bar acts" style="margin:0">
+      <a class="button" href="store.html" target="_blank" rel="noopener">เปิดหน้าร้าน</a>
       <button id="bHist">ประวัติรับ/เบิก</button>
       <button id="bUsers" type="button" hidden>จัดการผู้ใช้</button>
       <button id="bTheme" aria-label="สลับโหมดสว่าง/มืด"></button>
@@ -2742,6 +2747,7 @@ footer a:hover{text-decoration-thickness:2px}
   <h2 id="fTitle" style="margin:0"></h2>
   <label for="sku">รหัสสินค้า *</label><input type="text" id="sku" maxlength="30" autocomplete="off"><div class="err" id="e_sku"></div>
   <label for="name">ชื่อสินค้า *</label><input type="text" id="name" maxlength="100" autocomplete="off"><div class="err" id="e_name"></div>
+  <label class="checkLine" id="publishOption" hidden><input type="checkbox" id="published"> เผยแพร่สินค้านี้บนหน้าร้านสาธารณะ</label>
   <div class="g2">
     <div><label for="cat">หมวดหมู่ (ไม่บังคับ)</label><select id="cat"></select></div>
     <div><label for="loc">ที่เก็บ</label><input type="text" id="loc" maxlength="40" placeholder="เช่น ชั้น A2"></div>
@@ -2903,7 +2909,7 @@ const newId=()=>'P'+Date.now().toString(36).toUpperCase()+Math.random().toString
 function toast(m,bad){const t=$('toast');t.textContent=m;t.className='show'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(()=>t.className='',3500)}
 
 /* ===== เก็บข้อมูล (localStorage ห่อ try/catch ทุกครั้ง) ===== */
-const cleanItem=i=>i&&i.sku&&i.name?{id:String(i.id||newId()),created:i.created||new Date().toISOString(),sku:String(i.sku),name:String(i.name),cat:String(i.cat||''),qty:Math.max(0,parseInt(i.qty)||0),unit:String(i.unit||'ชิ้น'),min:Math.max(0,parseInt(i.min)||0),loc:String(i.loc||''),demo:!!i.demo,v:parseInt(i.v)||0,imgs:Array.isArray(i.imgs)?i.imgs.map(String):[]}:null;
+const cleanItem=i=>i&&i.sku&&i.name?{id:String(i.id||newId()),created:i.created||new Date().toISOString(),sku:String(i.sku),name:String(i.name),cat:String(i.cat||''),qty:Math.max(0,parseInt(i.qty)||0),unit:String(i.unit||'ชิ้น'),min:Math.max(0,parseInt(i.min)||0),loc:String(i.loc||''),demo:!!i.demo,published:!!i.published,v:parseInt(i.v)||0,imgs:Array.isArray(i.imgs)?i.imgs.map(String):[]}:null;
 function categoryNames(){
   const names=new Set([...categories,...items.map(i=>i.cat)].map(value=>String(value||'').trim()).filter(Boolean));
   return [...names].sort((a,b)=>a.localeCompare(b,'th'))}
@@ -2918,7 +2924,7 @@ async function api(p,o={}){const r=await fetch('/api'+p,{credentials:'same-origi
   if(!r.ok){const j=await r.json().catch(()=>({}));throw Object.assign(new Error(j.error||('HTTP '+r.status)),{status:r.status})}
   return r.json()}
 let snap=new Map(),chain=Promise.resolve(),lastState='',pollOn=false;
-const ser=i=>JSON.stringify([i.sku,i.name,i.cat,i.qty,i.unit,i.min,i.loc,i.imgs,i.demo]);
+const ser=i=>JSON.stringify([i.sku,i.name,i.cat,i.qty,i.unit,i.min,i.loc,i.imgs,i.demo,i.published]);
 function load(){snap=new Map(items.map(i=>[i.id,ser(i)]))}
 const pending=()=>items.some(i=>snap.get(i.id)!==ser(i))||[...snap.keys()].some(id=>!items.some(i=>i.id===id));
 async function pushNow(){
@@ -2980,6 +2986,7 @@ function openForm(id){
   $('fTitle').textContent=id?'แก้ไขสินค้า':'เพิ่มสินค้า';
   fillCategorySelect();
   F.forEach(([k])=>$(k).value=i[k]??(k==='unit'?'ชิ้น':''));
+  $('published').checked=!!i.published;
   $('cat').value=String(i.cat||'').trim();
   document.querySelectorAll('.err').forEach(e=>e.textContent='');
   fImgs=(i.imgs||[]).slice();fAdded=new Set();$('imgs').disabled=!db;drawThumbs();
@@ -3000,7 +3007,9 @@ $('f').addEventListener('submit',async ev=>{
   if(busy||!validate())return;
   busy=true;$('fSave').disabled=true; // กันกดบันทึกซ้ำ
   const v=k=>$(k).value.trim();
-  const d={sku:v('sku'),name:v('name'),cat:v('cat'),qty:parseInt(v('qty')),unit:v('unit')||'ชิ้น',min:parseInt(v('min'))||0,loc:v('loc')};
+  const existing=editId?items.find(x=>x.id===editId):null;
+  const d={sku:v('sku'),name:v('name'),cat:v('cat'),qty:parseInt(v('qty')),unit:v('unit')||'ชิ้น',min:parseInt(v('min'))||0,loc:v('loc'),
+    published:ME_ROLE==='super_admin'?$('published').checked:!!(existing&&existing.published)};
   try{
     const cur=editId?items.find(x=>x.id===editId):null;
     if(editId&&!cur){$('dForm').close();toast('ไม่พบสินค้านี้แล้ว (อาจถูกลบจากอีกแท็บ)',1);busy=false;$('fSave').disabled=false;return}
@@ -3227,7 +3236,7 @@ $('fRes').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
     const d=JSON.parse(String(r.result));const a=Array.isArray(d)?d:d.items;const imgs0=(!Array.isArray(d)&&d.images)||{};
     const log0=(!Array.isArray(d)&&Array.isArray(d.log))?d.log.filter(e=>e&&e.t&&TY[e.type]).slice(-LOGMAX):[];
     if(!Array.isArray(a)||a.some(i=>!i||!i.sku||!i.name))throw 0;
-    const seen=new Set(),clean=a.map(i=>({id:String(i.id||newId()),created:i.created||new Date().toISOString(),sku:String(i.sku),name:String(i.name),cat:String(i.cat||''),qty:Math.max(0,parseInt(i.qty)||0),unit:String(i.unit||'ชิ้น'),min:Math.max(0,parseInt(i.min)||0),loc:String(i.loc||''),demo:!!i.demo,imgs:Array.isArray(i.imgs)?i.imgs.map(String).filter(k=>/^data:image\//.test(imgs0[k]||'')).slice(0,MAX_IMG):[]})).filter(i=>{const k=i.sku.toLowerCase();return seen.has(k)?false:(seen.add(k),true)});
+    const seen=new Set(),clean=a.map(i=>({id:String(i.id||newId()),created:i.created||new Date().toISOString(),sku:String(i.sku),name:String(i.name),cat:String(i.cat||''),qty:Math.max(0,parseInt(i.qty)||0),unit:String(i.unit||'ชิ้น'),min:Math.max(0,parseInt(i.min)||0),loc:String(i.loc||''),demo:!!i.demo,published:!!i.published,imgs:Array.isArray(i.imgs)?i.imgs.map(String).filter(k=>/^data:image\//.test(imgs0[k]||'')).slice(0,MAX_IMG):[]})).filter(i=>{const k=i.sku.toLowerCase();return seen.has(k)?false:(seen.add(k),true)});
     confirmBox(`กู้คืน ${clean.length} รายการ? ข้อมูลปัจจุบัน ${items.length} รายการจะถูกแทนที่`,'กู้คืน',async()=>{
       try{if(db){await api('/log/clear',{method:'POST'});await imgClear();const all=[];clean.forEach(i=>i.imgs.forEach(k=>all.push([k,imgs0[k]])));await imgPut(all);imgCache.clear();all.forEach(([k,v])=>imgCache.set(k,v))}}
       catch(e){toast('กู้คืนรูปภาพไม่สำเร็จ',1)}
@@ -3496,7 +3505,8 @@ async function boot(){
       history.replaceState(null,'',location.pathname+(search?'?'+search:'')+location.hash)
     }
     const me=await api('/me');ME=me.name;ME_ID=me.id;ME_ROLE=me.role;
-    $('who').textContent=me.name;$('bUsers').hidden=ME_ROLE!=='super_admin';db=true;await pull(true);openLinkedProduct();
+    $('who').textContent=me.name;$('bUsers').hidden=ME_ROLE!=='super_admin';
+    $('publishOption').hidden=ME_ROLE!=='super_admin';db=true;await pull(true);openLinkedProduct();
     if(!pollOn){pollOn=true;setInterval(poll,15000)}}
   catch(e){if(e.message!=='auth')toast('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: '+e.message,1)}}
 function showLogin(){const d=$('dLogin');if(!d.open)d.showModal();$('lgU').focus()}

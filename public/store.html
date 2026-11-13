@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f4ef">
+  <title>สินค้าและข่าวสาร | Food Gallery</title>
+  <meta name="description" content="เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{font-family:"Noto Sans Thai",sans-serif;color:#202b24;background:#f5f4ef;font-synthesis:none;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+    *{box-sizing:border-box}
+    body{margin:0}
+    a{color:inherit;text-decoration:none}
+    button,input,select{font:inherit}
+    button,a{ -webkit-tap-highlight-color:transparent}
+    .wrap{width:min(1160px,calc(100% - 40px));margin:auto}
+    .top{position:sticky;top:0;z-index:5;background:rgba(245,244,239,.94);backdrop-filter:blur(14px);border-bottom:1px solid #e6e5dc}
+    .nav{height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:11px;font-size:1.04rem;font-weight:800;letter-spacing:.01em}
+    .mark{display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:#1f4937;color:#fff}
+    .mark svg{width:24px}
+    .links{display:flex;align-items:center;gap:24px;color:#58665d;font-size:.9rem;font-weight:600}
+    .links a:hover,.links a:focus-visible{color:#1f4937}
+    .navCta,.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:#1f4937;color:#fff;font-weight:700;cursor:pointer}
+    .navCta:hover,.button:hover{background:#173928}
+    .hero{padding:64px 0 42px}
+    .heroBox{position:relative;overflow:hidden;padding:clamp(30px,6vw,72px);border-radius:30px;background:#e4e9dc;min-height:340px;display:flex;align-items:center}
+    .heroBox:after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;right:5%;top:-90px;background:radial-gradient(circle at 42% 38%,#fff8 0 5%,transparent 6%),radial-gradient(circle,#bfd0b9,#d4ddce 65%,transparent 66%);opacity:.85}
+    .heroText{position:relative;z-index:1;max-width:570px}
+    .eyebrow{display:inline-block;color:#477257;font-weight:800;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
+    h1{font-size:clamp(2rem,4.7vw,3.8rem);line-height:1.24;letter-spacing:-.04em;margin:12px 0 14px}
+    .heroText p{max-width:490px;color:#56665b;line-height:1.9;margin:0 0 24px}
+    .heroActions{display:flex;flex-wrap:wrap;gap:10px}
+    .button.secondary{background:#fff;color:#284936}
+    .button.secondary:hover{background:#f7faf4}
+    .section{padding:48px 0}
+    .sectionHead{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}
+    h2{font-size:clamp(1.45rem,2.4vw,2rem);line-height:1.3;margin:0;letter-spacing:-.025em}
+    .sectionHead p,.muted{color:#718078;margin:6px 0 0;line-height:1.75}
+    .tools{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 22px}
+    .tools input,.tools select{min-height:44px;border:1px solid #dfdfd5;background:#fff;border-radius:12px;padding:0 13px;color:#27372c}
+    .tools input{flex:1;min-width:200px}
+    .tools select{min-width:180px}
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .product{overflow:hidden;background:#fff;border:1px solid #e9e9e1;border-radius:18px;transition:transform .18s,box-shadow .18s;cursor:pointer}
+    .product:hover{transform:translateY(-3px);box-shadow:0 12px 28px #28372c12}
+    .photo{aspect-ratio:1.16;background:#eef0e9;display:grid;place-items:center;overflow:hidden}
+    .photo img{width:100%;height:100%;object-fit:cover}
+    .photo .placeholder{font-size:2rem;color:#97a896}
+    .productText{padding:15px}
+    .tag{font-size:.75rem;color:#4f795a;font-weight:700}
+    .product h3{font-size:1rem;margin:5px 0 7px;line-height:1.55}
+    .product .sku{font-size:.78rem;color:#7b867d}
+    .newGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .newCard{padding:20px;border:1px solid #e4e7de;border-radius:18px;background:#fff;display:flex;gap:16px;align-items:center;cursor:pointer}
+    .newCard .photo{width:80px;height:80px;aspect-ratio:1;flex:none;border-radius:12px}
+    .newCard h3{font-size:.94rem;margin:0 0 4px}
+    .soft{background:#ecefe8}
+    .infoGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .infoCard{padding:26px;border-radius:20px;background:#fff;border:1px solid #e7e8df}
+    .infoCard p{color:#69766d;line-height:1.85;margin:8px 0 0}
+    .empty{grid-column:1/-1;padding:30px;border:1px dashed #cfd5c9;border-radius:16px;color:#6b786e;text-align:center;background:#ffffff80}
+    .about{display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}
+    .aboutArt{min-height:230px;border-radius:24px;background:radial-gradient(circle at 72% 35%,#fff8 0 8%,transparent 8.5%),linear-gradient(140deg,#dce5d8,#edf0e7);display:grid;place-items:center;color:#315b42;font-size:3rem}
+    .about p{color:#68756c;line-height:1.95}
+    .contactBox{padding:32px;border-radius:24px;background:#1f4937;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:28px}
+    .contactBox p{color:#d2dfd5;line-height:1.8;margin:8px 0 0}
+    .contactWays{display:flex;flex-wrap:wrap;gap:10px}
+    .contactWays a{display:inline-flex;padding:11px 16px;border:1px solid #ffffff55;border-radius:999px;font-weight:700}
+    .contactWays a:hover{background:#ffffff18}
+    footer{margin-top:42px;padding:28px 0;border-top:1px solid #e1e2d9;color:#748078;font-size:.82rem}
+    .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    dialog{width:min(580px,calc(100% - 28px));border:0;border-radius:22px;padding:24px;color:#243128;box-shadow:0 22px 80px #101a1440}
+    dialog::backdrop{background:#14231bd0;backdrop-filter:blur(3px)}
+    .modalPhoto{width:100%;max-height:320px;object-fit:cover;border-radius:14px;background:#eef0e9}
+    .modalClose{float:right;border:0;background:#f0f1eb;border-radius:50%;width:38px;height:38px;font-size:1.2rem;cursor:pointer}
+    .status{min-height:24px;color:#6c786f;margin:18px 0}
+    [hidden]{display:none!important}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.links{gap:14px}.about{gap:24px}}
+    @media(max-width:680px){.wrap{width:min(100% - 28px,560px)}.nav{height:64px}.links{display:none}.navCta{min-height:40px;padding:0 13px;font-size:.85rem}.hero{padding:26px 0 18px}.heroBox{min-height:360px;align-items:end;padding:28px 22px}.heroBox:after{width:230px;height:230px;right:-20px;top:-35px}.heroText{max-width:100%}.heroText p{font-size:.92rem}.section{padding:34px 0}.sectionHead{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productText{padding:11px}.product h3{font-size:.9rem}.newGrid,.infoGrid{grid-template-columns:1fr}.about{grid-template-columns:1fr;gap:16px}.aboutArt{min-height:150px}.contactBox{align-items:start;flex-direction:column;padding:24px}.photo{aspect-ratio:1}.tools select{flex:1}.foot{flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="Food Gallery หน้าแรก">
+        <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg></span>
+        <span>FOOD GALLERY</span>
+      </a>
+      <nav class="links" aria-label="เมนูหลัก">
+        <a href="#products">สินค้า</a><a href="#activities">กิจกรรม</a><a href="#new">สินค้าใหม่</a>
+        <a href="#promotions">โปรโมชั่น</a><a href="#about">เกี่ยวกับเรา</a><a href="#contact">ติดต่อเรา</a>
+      </nav>
+      <a class="navCta" href="#products">เลือกชมสินค้า <span aria-hidden="true">→</span></a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="wrap">
+        <div class="heroBox">
+          <div class="heroText">
+            <span class="eyebrow">Food Gallery · Product Collection</span>
+            <h1>เลือกชมสินค้า<br>ที่ใช่สำหรับคุณ</h1>
+            <p>ค้นพบรายการสินค้าใหม่และข่าวสารจากเรา เลือกดูตามหมวดหมู่ แล้วติดต่อทีมงานเพื่อสอบถามรายละเอียดเพิ่มเติม</p>
+            <div class="heroActions"><a class="button" href="#products">ดูสินค้าทั้งหมด</a><a class="button secondary" href="#about">รู้จักเรา</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="products">
+      <div class="wrap">
+        <div class="sectionHead"><div><span class="eyebrow">Our products</span><h2>เลือกชมสินค้า</h2><p>แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้</p></div></div>
+        <div class="tools">
+          <input id="search" type="search" placeholder="ค้นหาชื่อหรือรหัสสินค้า" aria-label="ค้นหาสินค้า">
+          <select id="category" aria-label="กรองตามหมวดหมู่"><option value="">ทุกหมวดหมู่</option></select>
+        </div>
+        <div id="productsGrid" class="grid" aria-live="polite"></div>
+        <p id="loadStatus" class="status" role="status">กำลังโหลดสินค้า…</p>
+      </div>
+    </section>
+
+    <section class="section soft" id="activities">
+      <div class="wrap">
+        <div class="sectionHead"><div><span class="eyebrow">What's happening</span><h2>กิจกรรม</h2><p>ข่าวสารและกิจกรรมจาก Food Gallery</p></div></div>
+        <div class="infoGrid">
+          <article class="infoCard"><span class="eyebrow">News & events</span><h3>ติดตามกิจกรรมของเรา</h3><p>ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้</p></article>
+          <article class="infoCard"><span class="eyebrow">Community</span><h3>พบกันในโอกาสต่อไป</h3><p>รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="new">
+      <div class="wrap">
+        <div class="sectionHead"><div><span class="eyebrow">Just arrived</span><h2>สินค้าใหม่</h2><p>รายการล่าสุดที่เผยแพร่บนหน้าร้าน</p></div></div>
+        <div id="newGrid" class="newGrid"></div>
+      </div>
+    </section>
+
+    <section class="section soft" id="promotions">
+      <div class="wrap">
+        <div class="sectionHead"><div><span class="eyebrow">Special offers</span><h2>โปรโมชั่น</h2><p>ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา</p></div></div>
+        <div class="infoCard"><h3>ยังไม่มีโปรโมชั่นที่ประกาศ</h3><p>เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้</p></div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap about">
+        <div><span class="eyebrow">About Food Gallery</span><h2>เกี่ยวกับเรา</h2><p>Food Gallery ตั้งใจนำเสนอรายการสินค้าและข่าวสารที่เป็นประโยชน์ ให้คุณเลือกชมสินค้าได้สะดวกในที่เดียว</p><p>ข้อมูลที่แสดงในหน้าร้านเป็นรายการที่ทีมงานเลือกเผยแพร่ โดยไม่แสดงจำนวนคงเหลือหรือตำแหน่งจัดเก็บจากระบบคลัง</p></div>
+        <div class="aboutArt" aria-hidden="true">FG</div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="wrap">
+        <div class="contactBox">
+          <div><span class="eyebrow" style="color:#c4ddc9">Get in touch</span><h2>ติดต่อเรา</h2><p id="contactMessage">สอบถามข้อมูลสินค้าเพิ่มเติมได้ทางช่องทางติดต่อของเรา</p></div>
+          <div id="contactWays" class="contactWays"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap foot"><span>© 2026 Food Gallery Limited. All rights reserved.</span><a href="THIRD_PARTY_NOTICES.txt">ประกาศลิขสิทธิ์ซอฟต์แวร์</a></div></footer>
+
+  <dialog id="productDialog" aria-labelledby="modalTitle">
+    <button class="modalClose" id="modalClose" aria-label="ปิด">×</button>
+    <img id="modalImage" class="modalPhoto" alt="" hidden>
+    <p id="modalCategory" class="tag"></p><h2 id="modalTitle"></h2><p id="modalSku" class="muted"></p>
+    <p class="muted">สอบถามรายละเอียดเพิ่มเติมได้ทาง <a href="#contact" id="modalContact">ติดต่อเรา</a></p>
+  </dialog>
+
+  <script>
+    const $=id=>document.getElementById(id);
+    const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    const imageCache=new Map();
+    let allProducts=[];
+    async function productImage(id){
+      if(!id)return '';
+      if(imageCache.has(id))return imageCache.get(id);
+      const response=await fetch('/api/storefront/images/'+encodeURIComponent(id));
+      if(!response.ok)throw new Error('image');
+      const data=(await response.json()).data;
+      imageCache.set(id,data);
+      return data;
+    }
+    async function fillImage(img,id){
+      try{const src=await productImage(id);if(src){img.src=src;img.hidden=false;img.parentElement.querySelector('.placeholder')?.remove()}}
+      catch(e){const placeholder=img.parentElement?.querySelector('.placeholder');if(placeholder)placeholder.textContent='รูปภาพไม่พร้อมใช้งาน'}
+    }
+    function productCard(product,compact){
+      const node=document.createElement(compact?'article':'article');
+      node.className=compact?'newCard':'product';
+      node.tabIndex=0;
+      node.setAttribute('role','button');
+      node.setAttribute('aria-label','ดูรายละเอียด '+product.name);
+      const photo=document.createElement('div');photo.className='photo';
+      const placeholder=document.createElement('span');placeholder.className='placeholder';placeholder.textContent='✦';photo.append(placeholder);
+      const image=document.createElement('img');image.alt=product.name;image.hidden=true;
+      if(product.image)fillImage(image,product.image);
+      photo.append(image);
+      const text=document.createElement('div');text.className=compact?'':'productText';
+      const category=document.createElement('span');category.className='tag';category.textContent=product.cat||'สินค้า';
+      const name=document.createElement('h3');name.textContent=product.name;
+      const sku=document.createElement('span');sku.className='sku';sku.textContent='รหัส '+product.sku;
+      text.append(category,name,sku);
+      if(compact)node.append(photo,text);else node.append(photo,text);
+      const open=()=>showProduct(product);
+      node.addEventListener('click',open);
+      node.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();open()}});
+      return node;
+    }
+    async function showProduct(product){
+      $('modalTitle').textContent=product.name;
+      $('modalCategory').textContent=product.cat||'สินค้า';
+      $('modalSku').textContent='รหัสสินค้า '+product.sku;
+      const image=$('modalImage');image.hidden=true;image.removeAttribute('src');
+      if(product.image)try{image.src=await productImage(product.image);image.hidden=false}catch(e){}
+      $('productDialog').showModal();
+    }
+    function filteredProducts(){
+      const query=$('search').value.trim().toLocaleLowerCase('th');
+      const category=$('category').value;
+      return allProducts.filter(product=>(!category||product.cat===category)&&
+        (!query||`${product.name} ${product.sku} ${product.cat}`.toLocaleLowerCase('th').includes(query)));
+    }
+    function renderProducts(){
+      const products=filteredProducts(),grid=$('productsGrid');grid.replaceChildren();
+      if(products.length)products.forEach(product=>grid.append(productCard(product,false)));
+      else grid.innerHTML='<div class="empty">ยังไม่มีสินค้าที่ตรงกับการค้นหา</div>';
+      $('loadStatus').textContent=`แสดง ${products.length} รายการ`;
+      const recent=allProducts.slice(0,3),newGrid=$('newGrid');newGrid.replaceChildren();
+      if(recent.length)recent.forEach(product=>newGrid.append(productCard(product,true)));
+      else newGrid.innerHTML='<div class="empty">ยังไม่มีสินค้าใหม่ที่เผยแพร่</div>';
+    }
+    function renderContact(contact){
+      const ways=$('contactWays');ways.replaceChildren();
+      if(typeof contact.email==='string'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)){
+        const email=document.createElement('a');email.href='mailto:'+contact.email;email.textContent='อีเมล '+contact.email;ways.append(email)}
+      if(typeof contact.phone==='string'&&/^[\d\s()+-]{7,24}$/.test(contact.phone)){
+        const phone=document.createElement('a');phone.href='tel:'+contact.phone.replace(/[^\d+]/g,'');phone.textContent='โทร '+contact.phone;ways.append(phone)}
+      if(!ways.children.length)$('contactMessage').textContent='ยังไม่มีการตั้งค่าช่องทางติดต่อ กรุณาติดต่อผู้ดูแลเว็บไซต์';
+    }
+    $('search').addEventListener('input',renderProducts);
+    $('category').addEventListener('change',renderProducts);
+    $('modalClose').onclick=()=>$('productDialog').close();
+    $('modalContact').onclick=()=>$('productDialog').close();
+    (async()=>{
+      try{
+        const response=await fetch('/api/storefront');
+        if(!response.ok)throw new Error('โหลดสินค้าไม่สำเร็จ');
+        const data=await response.json();
+        allProducts=Array.isArray(data.products)?data.products:[];
+        for(const category of data.categories||[]){const option=document.createElement('option');option.value=category;option.textContent=category;$('category').append(option)}
+        renderProducts();renderContact(data.contact||{});
+      }catch(error){$('loadStatus').textContent='โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง';$('productsGrid').innerHTML='<div class="empty">ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้</div>'}
+    })();
+  </script>
+</body>
+</html>
