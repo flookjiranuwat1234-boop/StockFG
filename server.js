@@ -102,7 +102,8 @@ app.get('/healthz', h(async (req, res) => { await pool.query('SELECT 1'); res.se
 
 /* ---------- เข้าสู่ระบบด้วย Google ---------- */
 const oauthCookieOptions = { httpOnly: true, sameSite: 'lax', secure: prod, path: '/' };
-const googleLoginFailure = res => res.redirect('/?google_error=1');
+const googleLoginFailure = (res, productId) => res.redirect('/?google_error=1' +
+  (typeof productId === 'string' && ID_RE.test(productId) ? `&product=${encodeURIComponent(productId)}` : ''));
 const secureEqual = (left, right) => {
   if (typeof left !== 'string' || typeof right !== 'string') return false;
   const a = Buffer.from(left), b = Buffer.from(right);
@@ -110,6 +111,9 @@ const secureEqual = (left, right) => {
 };
 app.get('/auth/google', (req, res) => {
   if (!googleOAuth) return res.status(503).send('ยังไม่ได้ตั้งค่า Google Sign-In');
+  const productId = typeof req.query.product === 'string' && ID_RE.test(req.query.product) ? req.query.product : '';
+  if (productId) res.cookie('google_oauth_product', productId, { ...oauthCookieOptions, maxAge: 10 * 60 * 1000 });
+  else res.clearCookie('google_oauth_product', oauthCookieOptions);
   const state = crypto.randomBytes(32).toString('hex');
   const nonce = crypto.randomBytes(32).toString('hex');
   res.cookie('google_oauth_state', state, { ...oauthCookieOptions, maxAge: 10 * 60 * 1000 });
@@ -124,23 +128,25 @@ app.get('/auth/google', (req, res) => {
 app.get('/auth/google/callback', h(async (req, res) => {
   const state = req.cookies.google_oauth_state;
   const nonce = req.cookies.google_oauth_nonce;
+  const returnProduct = req.cookies.google_oauth_product;
   res.clearCookie('google_oauth_state', oauthCookieOptions);
   res.clearCookie('google_oauth_nonce', oauthCookieOptions);
+  res.clearCookie('google_oauth_product', oauthCookieOptions);
   if (!googleOAuth || req.query.error || !req.query.code ||
-      !secureEqual(state, req.query.state) || !nonce) return googleLoginFailure(res);
+      !secureEqual(state, req.query.state) || !nonce) return googleLoginFailure(res, returnProduct);
 
   let payload;
   try {
     const { tokens } = await googleOAuth.getToken(String(req.query.code));
-    if (!tokens.id_token) return googleLoginFailure(res);
+    if (!tokens.id_token) return googleLoginFailure(res, returnProduct);
     const ticket = await googleOAuth.verifyIdToken({ idToken: tokens.id_token, audience: GOOGLE_CLIENT_ID });
     payload = ticket.getPayload();
   } catch (e) {
     console.error('Google Sign-In token verification failed');
-    return googleLoginFailure(res);
+    return googleLoginFailure(res, returnProduct);
   }
   if (!payload || payload.email_verified !== true || !payload.email || !payload.sub ||
-      !secureEqual(payload.nonce, nonce)) return googleLoginFailure(res);
+      !secureEqual(payload.nonce, nonce)) return googleLoginFailure(res, returnProduct);
 
   const email = String(payload.email).trim().toLowerCase();
   const c = await pool.connect();
@@ -153,7 +159,7 @@ app.get('/auth/google/callback', h(async (req, res) => {
     user = found.rows[0];
     if (!user || (user.google_sub && user.google_sub !== payload.sub)) {
       await c.query('ROLLBACK');
-      return googleLoginFailure(res);
+      return googleLoginFailure(res, returnProduct);
     }
     if (!user.google_sub) {
       await c.query('UPDATE users SET google_sub=$2 WHERE id=$1', [user.id, payload.sub]);
@@ -166,7 +172,7 @@ app.get('/auth/google/callback', h(async (req, res) => {
   } finally { c.release(); }
   const token = jwt.sign({ id: user.id, tv: user.token_version }, JWT_SECRET, { expiresIn: '12h' });
   res.cookie('tk', token, { httpOnly: true, sameSite: 'lax', secure: prod, maxAge: 12 * 3600 * 1000 });
-  res.redirect('/');
+  res.redirect(ID_RE.test(returnProduct || '') ? `/?product=${encodeURIComponent(returnProduct)}` : '/');
 }));
 
 /* ---------- จัดการบัญชีผู้ใช้ ---------- */
@@ -439,7 +445,7 @@ app.use('/api', (req, res) => res.status(404).json({ error: 'ไม่พบ API
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 0 }));
 app.use((err, req, res, next) => {
   if (err.type === 'entity.too.large') return res.status(413).json({ error: 'ข้อมูลใหญ่เกินไป' });
-  if (req.path === '/auth/google/callback' && err.code === '23505' && err.constraint === 'users_google_sub_uq') return googleLoginFailure(res);
+  if (req.path === '/auth/google/callback' && err.code === '23505' && err.constraint === 'users_google_sub_uq') return googleLoginFailure(res, req.cookies.google_oauth_product);
   if (err.code === '23505' && err.constraint === 'users_google_email_uq') return res.status(409).json({ error: 'อีเมล Google นี้ถูกผูกกับบัญชีอื่นแล้ว' });
   if (err.code === '23505') return res.status(409).json({ error: 'รหัสสินค้าซ้ำกับที่มีอยู่แล้ว' });
   if (err.code === '23514') return res.status(400).json({ error: 'ค่าไม่ถูกต้อง (เช่น จำนวนติดลบ)' });

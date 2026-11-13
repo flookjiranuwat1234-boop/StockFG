@@ -3092,6 +3092,15 @@ function showProduct(id){
   });else images.textContent='ไม่มีรูปภาพของรายการนี้';
   $('dProduct').showModal()
 }
+function openLinkedProduct(){
+  const params=new URLSearchParams(location.search),id=params.get('product');
+  if(!id)return;
+  params.delete('product');
+  const search=params.toString();
+  history.replaceState(null,'',location.pathname+(search?'?'+search:'')+location.hash);
+  if(items.some(i=>i.id===id))showProduct(id);
+  else toast('ไม่พบสินค้าที่เชื่อมกับ QR นี้',1)
+}
 $('productClose').onclick=()=>$('dProduct').close();
 $('productEdit').onclick=()=>{const id=$('dProduct').dataset.id;$('dProduct').close();openForm(id)};
 $('gPrev').onclick=()=>gShow(gI-1);$('gNext').onclick=()=>gShow(gI+1);
@@ -3117,13 +3126,15 @@ $('bXlsx').onclick=()=>{const a=scoped();if(!a.length)return;
   try{const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rowsOut(a)),'สินค้า');
     XLSX.writeFile(wb,`stock_${today()}.xlsx`);toast(`ส่งออก Excel ${a.length} รายการ`)}catch(e){toast('สร้างไฟล์ Excel ไม่สำเร็จ',1)}};
 
-/* ===== QR: แก้ไขข้อผิดพลาดระดับ M, ขอบขาว 4 โมดูล, จำกัดความยาวข้อมูล ===== */
+/* ===== QR: ลิงก์ไปหน้ารายละเอียดสินค้า, แก้ไขข้อผิดพลาดระดับ M ===== */
 const QR_MAX=400; // ไบต์ UTF-8 สูงสุด เพื่อให้ QR ไม่แน่นเกินจนสแกนยาก
 function qrText(i){
-  const len=s=>new TextEncoder().encode(s).length;
-  let t=`PRD|${i.id}|${i.sku}|${i.name}`,cut=false;
-  if(len(t)>QR_MAX){t=`PRD|${i.id}|${i.sku}`;cut=true}
-  return {t,cut};
+  if(location.protocol!=='http:'&&location.protocol!=='https:')throw new Error('protocol');
+  const url=new URL(location.pathname,location.origin);
+  url.searchParams.set('product',i.id);
+  const text=url.toString();
+  if(new TextEncoder().encode(text).length>QR_MAX)throw new Error('length');
+  return text;
 }
 function qrCanvas(text,px){
   if(!window.qrcode)throw new Error('lib');
@@ -3137,19 +3148,23 @@ function qrCanvas(text,px){
 }
 function showQr(id){
   const i=items.find(x=>x.id===id);if(!i)return;
-  try{const {t,cut}=qrText(i);const c=qrCanvas(t,320);qrCur={c,i};
+  try{const c=qrCanvas(qrText(i),320);qrCur={c,i};
     $('qrbox').replaceChildren(c);
-    $('qrCap').textContent=`${i.sku}: ${i.name}`+(cut?' (ชื่อยาวเกินไป QR นี้เก็บเฉพาะรหัส)':'');
+    const localOnly=['localhost','127.0.0.1'].includes(location.hostname);
+    $('qrCap').textContent=`${i.sku}: ${i.name} · สแกนเพื่อเปิดรายละเอียด`+
+      (localOnly?' · หากสแกนด้วยมือถือ ต้องเปิดระบบผ่าน IP หรือโดเมนที่มือถือเข้าถึงได้':'');
     $('dQr').showModal();
-  }catch(e){toast('สร้าง QR ไม่สำเร็จ (โหลดไลบรารีไม่ได้หรือข้อมูลยาวเกิน)',1)}
+  }catch(e){toast(e.message==='protocol'?'เปิดระบบผ่าน URL http:// หรือ https:// ก่อนสร้าง QR ลิงก์':
+    e.message==='length'?'URL ยาวเกินไปสำหรับ QR':'สร้าง QR ไม่สำเร็จ (โหลดไลบรารีไม่ได้)',1)}
 }
 $('qDl').onclick=()=>{if(!qrCur)return;qrCur.c.toBlob(b=>dl(b,`qr_${qrCur.i.sku.replace(/[^\w\-]/g,'_')}.png`),'image/png')};
 $('qClose').onclick=()=>$('dQr').close();
 $('bPrint').onclick=()=>{const a=scoped();if(!a.length)return;
   const pa=$('pa');pa.replaceChildren();let bad=0;
-  a.forEach(i=>{try{const img=new Image();img.src=qrCanvas(qrText(i).t,240).toDataURL('image/png');
-    const f=document.createElement('figure');const cap=document.createElement('figcaption');cap.textContent=`${i.sku} ${i.name}`;f.append(img,cap);pa.append(f)}catch(e){bad++}});
+  a.forEach(i=>{try{const img=new Image();img.src=qrCanvas(qrText(i),240).toDataURL('image/png');
+    const f=document.createElement('figure');const cap=document.createElement('figcaption');cap.textContent=`${i.sku} ${i.name} · สแกนเพื่อดูรายละเอียด`;f.append(img,cap);pa.append(f)}catch(e){bad++}});
   if(bad)toast(`สร้าง QR ไม่ได้ ${bad} รายการ`,1);
+  if(['localhost','127.0.0.1'].includes(location.hostname))toast('QR จาก localhost ใช้กับเครื่องนี้เท่านั้น: เปิดระบบผ่าน IP หรือโดเมนที่เครื่องสแกนเข้าถึงได้ก่อนพิมพ์',1);
   if(pa.children.length)setTimeout(()=>window.print(),200)};
 
 /* ===== นำเข้า CSV ===== */
@@ -3473,18 +3488,24 @@ async function boot(){
     $('userPass1').minLength=PASSWORD_MIN_LENGTH;$('userPass2').minLength=PASSWORD_MIN_LENGTH;
     $('umPassword').previousElementSibling.textContent=`รหัสผ่านเริ่มต้น (อย่างน้อย ${PASSWORD_MIN_LENGTH} ตัว)`;
     $('userPass1').previousElementSibling.textContent=`รหัสผ่านใหม่ (อย่างน้อย ${PASSWORD_MIN_LENGTH} ตัว)`;
-    if(new URLSearchParams(location.search).has('google_error')){
+    const params=new URLSearchParams(location.search);
+    if(params.has('google_error')){
       $('lgE').textContent='เข้าสู่ระบบด้วย Google ไม่สำเร็จ หรือบัญชียังไม่ได้รับอนุมัติ กรุณาติดต่อผู้ดูแลระบบ';
-      history.replaceState(null,'',location.pathname)
+      params.delete('google_error');
+      const search=params.toString();
+      history.replaceState(null,'',location.pathname+(search?'?'+search:'')+location.hash)
     }
     const me=await api('/me');ME=me.name;ME_ID=me.id;ME_ROLE=me.role;
-    $('who').textContent=me.name;$('bUsers').hidden=ME_ROLE!=='super_admin';db=true;await pull(true);
+    $('who').textContent=me.name;$('bUsers').hidden=ME_ROLE!=='super_admin';db=true;await pull(true);openLinkedProduct();
     if(!pollOn){pollOn=true;setInterval(poll,15000)}}
   catch(e){if(e.message!=='auth')toast('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: '+e.message,1)}}
 function showLogin(){const d=$('dLogin');if(!d.open)d.showModal();$('lgU').focus()}
 $('dLogin').addEventListener('cancel',e=>e.preventDefault());
 $('lgT').onclick=()=>{const p=$('lgP'),h=p.type==='password';p.type=h?'text':'password';$('lgT').textContent=h?'ซ่อน':'แสดง';$('lgT').setAttribute('aria-pressed',String(h));p.focus()};
-$('googleLogin').onclick=()=>{location.assign('/auth/google')};
+$('googleLogin').onclick=()=>{
+  const id=new URLSearchParams(location.search).get('product');
+  location.assign('/auth/google'+(id&&/^[\w-]{1,64}$/.test(id)?'?product='+encodeURIComponent(id):''))
+};
 $('lgF').onsubmit=async e=>{e.preventDefault();$('lgE').textContent='';
   try{await api('/login',{method:'POST',body:JSON.stringify({username:$('lgU').value,password:$('lgP').value})});
     $('lgP').value='';$('lgP').type='password';$('lgT').textContent='แสดง';$('dLogin').close();await boot()}catch(x){$('lgE').textContent=x.message}};
