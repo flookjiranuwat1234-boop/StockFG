@@ -2417,6 +2417,83 @@ input[type=radio]{width:22px;height:22px}
 @media print{html,body{background:#fff!important}body>*:not(#pa){display:none!important}#pa{display:grid;grid-template-columns:repeat(4,1fr);gap:10mm;color:#000}
 #pa figure{margin:0;text-align:center;break-inside:avoid;font-size:10pt}#pa img{width:100%}}
 @media(max-width:520px){.g2{grid-template-columns:1fr}}
+
+/* ===== ปรับแต่งรูปลักษณ์ ===== */
+:root{--bg:#f4f7f8;--card:#fff;--tx:#172b2a;--mut:#667775;--bd:#dfe8e6;--pr:#0f766e;--prt:#fff;--dg:#b42318;--wn:#8a4b00;--wnb:#fff1d2;--shadow:0 10px 28px rgba(23,43,42,.06)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101918;--card:#192422;--tx:#e8f0ee;--mut:#9aaba8;--bd:#30403d;--pr:#49b6a8;--prt:#08231f;--dg:#ff8b82;--wn:#ffd083;--wnb:#3b2c13;--shadow:0 10px 28px rgba(0,0,0,.2)}}
+:root[data-theme="dark"]{--bg:#101918;--card:#192422;--tx:#e8f0ee;--mut:#9aaba8;--bd:#30403d;--pr:#49b6a8;--prt:#08231f;--dg:#ff8b82;--wn:#ffd083;--wnb:#3b2c13;--shadow:0 10px 28px rgba(0,0,0,.2)}
+body{background:radial-gradient(ellipse at 8% 0,rgba(15,118,110,.07),transparent 30rem),var(--bg)}
+main{max-width:1240px;padding:24px}
+.top{align-items:center;border:1px solid var(--bd);border-left:5px solid var(--pr);border-radius:14px;background:var(--card);padding:16px 20px;box-shadow:var(--shadow)}
+h1{font-size:1.65rem;letter-spacing:-.02em}
+.stat{margin-top:3px}
+.bar{gap:10px}
+input[type=text],input[type=search],input[type=number],select{border-radius:10px;transition:border-color .15s,box-shadow .15s}
+input[type=text]:focus,input[type=search]:focus,input[type=number]:focus,select:focus{border-color:var(--pr);box-shadow:0 0 0 3px color-mix(in srgb,var(--pr) 18%,transparent);outline:0}
+button{border-radius:10px;font-weight:500;transition:transform .15s,box-shadow .15s,border-color .15s,background-color .15s}
+button:not(:disabled):hover{border-color:var(--pr);box-shadow:0 4px 12px rgba(15,118,110,.12);transform:translateY(-1px)}
+button.pr{box-shadow:0 4px 10px rgba(15,118,110,.18)}
+button.pr:not(:disabled):hover{filter:brightness(.94)}
+button.dg:not(:disabled):hover{border-color:var(--dg);background:color-mix(in srgb,var(--dg) 8%,var(--card))}
+.cards{gap:12px;margin-bottom:16px}
+.cd{min-height:92px;padding:14px 16px;border-radius:14px;box-shadow:var(--shadow);transition:transform .15s,border-color .15s,box-shadow .15s}
+.cd small{font-size:.82rem;font-weight:500}
+.cd b{font-size:1.55rem}
+button.cd:hover{border-color:var(--pr);box-shadow:var(--shadow);transform:translateY(-2px)}
+.cd.on{outline:2px solid var(--pr);outline-offset:1px}
+.card,.tw{border-radius:14px;box-shadow:var(--shadow)}
+.card{padding:16px;margin-bottom:16px}
+.card h2{font-size:1.05rem;margin-bottom:12px}
+.tw{overflow:auto}
+table{min-width:620px}
+th,td{padding:12px 14px}
+th{color:var(--mut);font-size:.9rem;background:var(--card)}
+tbody tr{transition:background-color .12s}
+tbody tr:hover{background:color-mix(in srgb,var(--pr) 4%,var(--card))}
+.act button{margin:0 0 0 6px}
+.chips{gap:8px}
+.chips button{padding:4px 16px}
+.chips button.on{box-shadow:0 3px 8px rgba(15,118,110,.16)}
+.nr{border:1px solid var(--bd);border-radius:10px;padding:8px 10px}
+.nr:hover{background:color-mix(in srgb,var(--pr) 5%,var(--card))}
+dialog{border:1px solid var(--bd);border-radius:16px;padding:22px;box-shadow:0 24px 70px rgba(0,0,0,.22)}
+dialog::backdrop{background:rgba(9,20,19,.48);backdrop-filter:blur(3px)}
+dialog h2{line-height:1.35}
+dialog .row{margin-top:18px}
+.err{margin-top:3px}
+.hist li{padding:9px 0;border-color:var(--bd)}
+#dCats #catList{max-height:220px;overflow:auto;margin:12px 0 18px}
+#dCats #catList li{padding:8px 10px;border:1px solid var(--bd);border-radius:8px;margin-bottom:6px}
+.pager{margin:14px 0}
+footer{padding-bottom:22px!important}
+footer a{color:var(--pr);text-underline-offset:3px}
+footer a:hover{text-decoration-thickness:2px}
+@media(max-width:760px){
+  main{padding:14px}
+  .top{align-items:flex-start;padding:15px}
+  .top>.bar{justify-content:flex-start}
+  .top>.bar button{flex:1 1 auto}
+  #who{align-self:center}
+  .bar:not(.chips){gap:8px}
+  #q{flex:1 1 100%}
+  #catF{flex:1 1 170px!important}
+  #bCats{flex:1 1 auto}
+  .card{padding:13px}
+}
+@media(max-width:520px){
+  h1{font-size:1.45rem}
+  .top>.bar{width:100%}
+  .top>.bar button{flex:1 1 calc(50% - 8px)}
+  #who{flex-basis:100%;text-align:center}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .cd{min-height:80px;padding:11px}
+  .cd b{font-size:1.3rem}
+  #scope{flex-basis:100%!important}
+  #selBar button{flex:1 1 auto}
+  .act{white-space:normal;min-width:170px}
+  .act button{margin:2px}
+  .row button{flex:1 1 auto}
+}
 </style>
 </head>
 <body>
