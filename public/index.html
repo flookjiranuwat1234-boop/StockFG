@@ -2539,6 +2539,89 @@ footer a:hover{text-decoration-thickness:2px}
   .top .acts>button{flex:1 1 calc(50% - 8px)}
   .top .acts>button.pr{flex:1 1 100%}
 }
+
+/* ===== จัดหน้าใช้งานง่าย: แถบค้นหา/กรอง/ส่งออก, ตาราง, พับส่วนข้อมูล ===== */
+.toolbar{padding:14px;display:grid;gap:12px;margin-bottom:16px}
+.tb1,.tb2{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tb2{justify-content:space-between}
+.toolbar #q{flex:1 1 280px;min-width:0;padding-left:44px;
+  background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%237a8b88' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") no-repeat 14px center}
+.toolbar #catF{width:auto;flex:0 1 210px}
+.toolbar #sortSel{width:auto;flex:0 1 190px}
+.onlym{display:none}
+.toolbar .chips{margin:0}
+.chips button{min-height:40px;font-variant-numeric:tabular-nums}
+.exp{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:4px 4px 4px 14px;border:1px solid var(--bd);border-radius:12px;background:color-mix(in srgb,var(--pr) 4%,var(--card))}
+.expl{color:var(--mut);font-size:.9rem;font-weight:600}
+.toolbar #scope{width:auto;flex:0 1 150px;min-height:40px}
+.exp button{min-height:40px;padding:4px 14px}
+.tw td{vertical-align:middle}
+.tw td:nth-child(2){color:var(--mut);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tw .pn{align-items:center}
+.tw .productName{font-size:1.02rem;line-height:1.35}
+.qn{font-size:1.08rem;font-variant-numeric:tabular-nums}
+.act{text-align:right}
+.act button.dg{border-color:transparent;background:transparent;box-shadow:none}
+.act button.dg:hover{background:color-mix(in srgb,var(--dg) 10%,transparent);border-color:var(--dg);transform:none}
+.pager{margin:14px 2px}
+.pager button{min-height:40px;padding:4px 18px}
+@media(min-width:900px){#side{position:sticky;top:16px}}
+@media(min-width:641px){.exp{flex-wrap:nowrap;margin-left:auto}.exp button,.exp .expl{flex:none;white-space:nowrap}.toolbar #scope{flex:0 0 150px}}
+.dataCard{padding:0}
+.dataCard>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:10px 18px;
+  cursor:pointer;font-weight:600;list-style:none;border-radius:14px}
+.dataCard>summary::-webkit-details-marker{display:none}
+.dataCard>summary::after{content:"";width:9px;height:9px;border:solid var(--mut);border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-2px);transition:transform .15s}
+.dataCard[open]>summary::after{transform:rotate(-135deg)}
+.dataCard>summary:hover{background:color-mix(in srgb,var(--pr) 4%,var(--card))}
+.dataCard[open]>summary{border-bottom:1px solid var(--bd);border-bottom-left-radius:0;border-bottom-right-radius:0}
+.dataCard>.dgrid,.dataCard>.note{margin-left:18px;margin-right:18px}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:16px}
+.dsec h3{margin:0 0 8px;font-size:.9rem;color:var(--mut);font-weight:600}
+.dataCard>.note{padding-bottom:16px}
+@media(max-width:640px){
+  .tb1 #catF,.tb1 #sortSel{flex:1 1 calc(50% - 6px)}
+  .onlym{display:block}
+  .tb2{align-items:stretch}
+  .exp{width:100%;padding:8px 10px}
+  .exp .expl{flex:1 1 100%}
+  .toolbar #scope{flex:1 1 100%}
+  .exp button{flex:1 1 auto}
+  .tw{overflow:visible;background:transparent;border:0;box-shadow:none;border-radius:0}
+  .tw table,.tw tbody{display:block;min-width:0;width:100%}
+  .tw thead{display:none}
+  .tw tbody tr{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"chk sku qty" "chk prod prod" "chk act act";
+    gap:8px 12px;align-items:center;padding:14px;margin-bottom:10px;background:var(--card);border:1px solid var(--bd);border-radius:14px;box-shadow:var(--shadow)}
+  .tw tbody tr:hover{background:var(--card)}
+  .tw td{display:block;padding:0;border:0}
+  .tw td:not(.empty):nth-child(1){grid-area:chk;align-self:start;padding-top:2px}
+  .tw td:not(.empty):nth-child(2){grid-area:sku;font-size:.85rem}
+  .tw td:not(.empty):nth-child(3){grid-area:prod}
+  .tw td:not(.empty):nth-child(4){grid-area:qty;text-align:right}
+  .tw td.act{grid-area:act;display:flex;gap:6px;min-width:0;white-space:normal}
+  .tw td.act button{flex:1 1 auto;margin:0;min-height:42px}
+  .tw td.act button.dg{flex:0 0 auto}
+  .tw td.empty{grid-column:1/-1;grid-row:1;padding:28px 8px;background:var(--card);border-radius:14px}
+  .tw tbody tr:has(td.empty){display:block;padding:0;border:0;box-shadow:none;background:transparent}
+}
+
+/* ===== หน้าเข้าสู่ระบบ ===== */
+#dLogin{max-width:400px;padding:30px 26px 26px}
+#dLogin::backdrop{background:rgba(9,20,19,.6);backdrop-filter:blur(10px)}
+.lgHead{text-align:center;margin-bottom:6px}
+.lgHead .logo{margin:0 auto 14px}
+.lgHead h2{margin:0;font-size:1.3rem;line-height:1.35}
+.lgHead .note{margin:4px 0 0}
+#dLogin label{margin-top:16px;font-size:.95rem}
+#dLogin input{display:block;width:100%;min-height:46px;margin-top:5px;padding:6px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);transition:border-color .15s,box-shadow .15s}
+#dLogin input:focus{border-color:var(--pr);box-shadow:0 0 0 3px color-mix(in srgb,var(--pr) 18%,transparent);outline:0}
+.pw{position:relative}
+#dLogin .pw input{padding-right:80px}
+.pw button{position:absolute;right:4px;top:9px;min-height:38px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:var(--pr);font-weight:600;box-shadow:none}
+.pw button:not(:disabled):hover{background:color-mix(in srgb,var(--pr) 10%,transparent);box-shadow:none;transform:none}
+#dLogin .err{min-height:0;margin-top:10px}
+#dLogin .err:not(:empty){padding:9px 12px;border-radius:8px;background:color-mix(in srgb,var(--dg) 10%,transparent);font-size:.9rem}
+.lgGo{width:100%;min-height:48px;margin-top:14px;font-size:1rem}
 </style>
 </head>
 <body>
@@ -2562,28 +2645,36 @@ footer a:hover{text-decoration-thickness:2px}
 
   <div class="cards" id="cards"></div>
 
-  <div class="bar">
-    <input type="search" id="q" class="grow" placeholder="ค้นหารหัส ชื่อ หมวดหมู่ หรือที่เก็บ" aria-label="ค้นหา">
-    <select id="catF" style="width:auto;flex:0 1 220px" aria-label="กรองตามหมวดหมู่"></select>
-    <button id="bCats" type="button">จัดการหมวดหมู่</button>
-  </div>
-  <div class="bar chips" id="chips">
-    <button data-flt="all">ทั้งหมด</button><button data-flt="low">ใกล้หมด</button><button data-flt="out">หมดแล้ว</button>
-  </div>
-
-  <div class="card">
-    <h2>ส่งออก</h2>
-    <div class="bar" style="margin:0">
-      <select id="scope" style="width:auto;flex:1 1 200px" aria-label="ขอบเขตการส่งออก">
-        <option value="all">ทั้งหมด</option>
-        <option value="found">เฉพาะที่ค้นหา</option>
-        <option value="sel">เฉพาะที่เลือก</option>
+  <section class="card toolbar" aria-label="ค้นหา กรอง และส่งออก">
+    <div class="tb1">
+      <input type="search" id="q" class="grow srch" placeholder="ค้นหารหัส ชื่อ หมวดหมู่ หรือที่เก็บ" aria-label="ค้นหา">
+      <select id="catF" aria-label="กรองตามหมวดหมู่"></select>
+      <select id="sortSel" class="onlym" aria-label="เรียงลำดับ">
+        <option value="created:-1">ใหม่สุดก่อน</option>
+        <option value="name:1">ชื่อสินค้า ก-ฮ</option>
+        <option value="sku:1">รหัสสินค้า</option>
+        <option value="qty:1">คงเหลือน้อยสุดก่อน</option>
+        <option value="qty:-1">คงเหลือมากสุดก่อน</option>
       </select>
-      <button id="bCsv">CSV</button>
-      <button id="bXlsx">Excel</button>
-      <button id="bPrint">พิมพ์ QR</button>
+      <button id="bCats" type="button">จัดการหมวดหมู่</button>
     </div>
-  </div>
+    <div class="tb2">
+      <div class="bar chips" id="chips" role="group" aria-label="กรองตามสถานะสต็อก">
+        <button data-flt="all">ทั้งหมด</button><button data-flt="low">ใกล้หมด</button><button data-flt="out">หมดแล้ว</button>
+      </div>
+      <div class="exp" role="group" aria-label="ส่งออกข้อมูล">
+        <span class="expl">ส่งออก</span>
+        <select id="scope" aria-label="ขอบเขตการส่งออก">
+          <option value="all">ทั้งหมด</option>
+          <option value="found">เฉพาะที่ค้นหา</option>
+          <option value="sel">เฉพาะที่เลือก</option>
+        </select>
+        <button id="bCsv">CSV</button>
+        <button id="bXlsx">Excel</button>
+        <button id="bPrint">พิมพ์ QR</button>
+      </div>
+    </div>
+  </section>
 
   <div class="lay"><div class="col">
   <div class="bar" id="selBar" hidden style="align-items:center"><span class="note" id="selN"></span><button id="bAllSel">เลือกทั้งหมดที่ค้นหา</button><button id="bClrSel">ยกเลิกการเลือก</button><button id="bDelSel" class="dg">ลบที่เลือก</button></div>
@@ -2601,20 +2692,26 @@ footer a:hover{text-decoration-thickness:2px}
   </div>
   <aside class="card" id="side" aria-label="สินค้าที่ต้องสั่งเพิ่ม"></aside></div>
 
-  <div class="card">
-    <h2>นำเข้าและสำรองข้อมูล</h2>
-    <div class="bar" style="margin:0">
-      <button id="bTpl">ดาวน์โหลดแม่แบบ CSV</button>
-      <button id="bImp">นำเข้า CSV</button>
-      <button id="bBak">สำรองเป็น JSON</button>
-      <button id="bRes">กู้คืนจาก JSON</button>
-      <button id="bDemo">โหลดตัวอย่าง 5 รายการ</button>
-      <button id="bDelDemo" class="dg" hidden>ลบข้อมูลตัวอย่างทั้งหมด</button>
+  <details class="card dataCard" id="dData">
+    <summary>นำเข้า สำรอง และข้อมูลตัวอย่าง</summary>
+    <div class="dgrid">
+      <div class="dsec"><h3>นำเข้า</h3><div class="bar" style="margin:0">
+        <button id="bTpl">ดาวน์โหลดแม่แบบ CSV</button>
+        <button id="bImp">นำเข้า CSV</button>
+      </div></div>
+      <div class="dsec"><h3>สำรองข้อมูล</h3><div class="bar" style="margin:0">
+        <button id="bBak">สำรองเป็น JSON</button>
+        <button id="bRes">กู้คืนจาก JSON</button>
+      </div></div>
+      <div class="dsec"><h3>ข้อมูลตัวอย่าง</h3><div class="bar" style="margin:0">
+        <button id="bDemo">โหลดตัวอย่าง 5 รายการ</button>
+        <button id="bDelDemo" class="dg" hidden>ลบข้อมูลตัวอย่างทั้งหมด</button>
+      </div></div>
     </div>
     <input type="file" id="fImp" accept=".csv,text/csv" hidden>
     <input type="file" id="fRes" accept=".json,application/json" hidden>
-    <p class="note" style="margin-bottom:0">ข้อมูลเก็บในฐานข้อมูลบนเซิร์ฟเวอร์ ใช้ร่วมกันได้หลายคน แนะนำให้สำรองเป็น JSON เป็นระยะเพิ่มเติม</p>
-  </div>
+    <p class="note" style="margin:14px 0 0">ข้อมูลเก็บในฐานข้อมูลบนเซิร์ฟเวอร์ ใช้ร่วมกันได้หลายคน แนะนำให้สำรองเป็น JSON เป็นระยะเพิ่มเติม</p>
+  </details>
 </main>
 <footer class="note" style="text-align:center;padding:0 16px 16px">
   <p>© 2026 Food Gallery Limited. All rights reserved. แอปพลิเคชันนี้ไม่ได้เผยแพร่ภายใต้ใบอนุญาตโอเพนซอร์ส</p>
@@ -2699,12 +2796,20 @@ footer a:hover{text-decoration-thickness:2px}
   <div class="row"><button id="productClose">ปิด</button><button id="productEdit" class="pr">แก้ไขสินค้า</button></div>
 </dialog>
 
-<dialog id="dLogin" style="max-width:380px">
-  <form id="lgF"><h2 style="margin:0 0 10px;font-size:1.15rem">เข้าสู่ระบบคลังสินค้า</h2>
-    <label for="lgU">ชื่อผู้ใช้</label><input id="lgU" autocomplete="username" required>
-    <label for="lgP" style="margin-top:8px">รหัสผ่าน</label><input id="lgP" type="password" autocomplete="current-password" required>
-    <div class="err" id="lgE"></div>
-    <div class="row"><button class="pr" type="submit">เข้าสู่ระบบ</button></div></form>
+<dialog id="dLogin" aria-labelledby="lgH">
+  <form id="lgF">
+    <div class="lgHead">
+      <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg></span>
+      <h2 id="lgH">เข้าสู่ระบบคลังสินค้า</h2>
+      <p class="note">กรอกชื่อผู้ใช้และรหัสผ่านเพื่อจัดการสต็อก</p>
+    </div>
+    <label for="lgU">ชื่อผู้ใช้</label>
+    <input id="lgU" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+    <label for="lgP">รหัสผ่าน</label>
+    <div class="pw"><input id="lgP" type="password" autocomplete="current-password" required><button type="button" id="lgT" aria-pressed="false" aria-label="แสดงหรือซ่อนรหัสผ่าน">แสดง</button></div>
+    <div class="err" id="lgE" role="alert"></div>
+    <button class="pr lgGo" type="submit">เข้าสู่ระบบ</button>
+  </form>
 </dialog>
 <!-- จับคู่คอลัมน์ก่อนนำเข้า CSV -->
 <dialog id="dMap" style="max-width:640px">
@@ -2791,11 +2896,12 @@ function render(){
     <td><input type="checkbox" data-sel="${esc(i.id)}" ${sel.has(i.id)?'checked':''} aria-label="เลือก ${esc(i.name)}"></td>
     <td>${esc(i.sku)}</td>
     <td><div class="pn">${thumb(i)}<div><button class="productName" data-detail="${esc(i.id)}" title="คลิกเพื่อดูรายละเอียด">${esc(i.name)}</button><div class="sub">${esc(i.cat)}${i.cat&&i.loc?' / ':''}${esc(i.loc)}</div></div></div></td>
-    <td class="n">${i.qty.toLocaleString('th-TH')} ${esc(i.unit)}${i.qty===0?' <span class="low out">หมด</span>':isLow(i)?' <span class="low">ใกล้หมด</span>':''}</td>
-    <td class="act"><button data-adj="${esc(i.id)}">รับ/เบิก</button><button data-qr="${esc(i.id)}">QR</button><button data-ed="${esc(i.id)}">แก้ไข</button><button class="dg" data-del="${esc(i.id)}">ลบ</button></td></tr>`).join('')
-   :`<tr><td colspan="6" class="empty">${items.length?'ไม่พบรายการตามที่ค้นหาหรือกรอง ลองเปลี่ยนคำค้นหรือตัวกรอง':'ยังไม่มีข้อมูล กด “เพิ่มสินค้า” หรือ “โหลดตัวอย่าง 5 รายการ”'}</td></tr>`;
+    <td class="n"><b class="qn">${i.qty.toLocaleString('th-TH')}</b> <span class="sub">${esc(i.unit)}</span>${i.qty===0?' <span class="low out">หมด</span>':isLow(i)?' <span class="low">ใกล้หมด</span>':''}</td>
+    <td class="act"><button class="pr" data-adj="${esc(i.id)}">รับ/เบิก</button><button data-qr="${esc(i.id)}">QR</button><button data-ed="${esc(i.id)}">แก้ไข</button><button class="dg" data-del="${esc(i.id)}">ลบ</button></td></tr>`).join('')
+   :`<tr><td colspan="6" class="empty">${items.length?'ไม่พบรายการตามที่ค้นหาหรือกรอง ลองเปลี่ยนคำค้นหรือตัวกรอง':'ยังไม่มีข้อมูล กด “เพิ่มสินค้า” หรือเปิดส่วน “นำเข้า สำรอง และข้อมูลตัวอย่าง” ด้านล่างเพื่อนำเข้า CSV / โหลดตัวอย่าง'}</td></tr>`;
   const emptyCell=$('tb').querySelector('td.empty');if(emptyCell)emptyCell.colSpan=5;
   $('pinfo').textContent=`หน้า ${pg}/${pages} (${r.length} รายการ)`;
+  {const so=$('sortSel');if(so)so.value=sk+':'+sd}
   $('pp').disabled=pg<=1;$('pn').disabled=pg>=pages;
   $('all').checked=rows.length>0&&rows.every(i=>sel.has(i.id));
   $('stat').textContent='ข้อมูลเก็บในฐานข้อมูลกลาง ใช้ร่วมกันได้หลายคน';
@@ -3135,7 +3241,9 @@ function renderExtras(){
     return `<${t}${f?` data-flt="${f}"`:''} class="cd ${cls}${f&&flt===f?' on':''}"><small>${l}</small><b>${v}</b></${t}>`};
   $('cards').innerHTML=card('สินค้าทั้งหมด',nf(items.length)+' รายการ','')+`<button data-today="1" class="cd"><small>เคลื่อนไหววันนี้</small><b>${nf(mv)} ครั้ง</b></button>`
     +card('ใกล้หมด',low,low?'w':'','low')+card('หมดแล้ว',out,out?'r':'','out');
-  document.querySelectorAll('#chips button').forEach(b=>b.classList.toggle('on',b.dataset.flt===flt));
+  document.querySelectorAll('#chips button').forEach(b=>{b.classList.toggle('on',b.dataset.flt===flt);
+    const n={all:items.length,low:low,out:out}[b.dataset.flt],l={all:'ทั้งหมด',low:'ใกล้หมด',out:'หมดแล้ว'}[b.dataset.flt];
+    b.textContent=`${l} ${n.toLocaleString('th-TH')}`});
   const cats=categoryNames();
   if(catF&&!cats.includes(catF))catF='';
   $('catF').innerHTML='<option value="">ทุกหมวดหมู่</option>'+cats.map(c=>`<option value="${esc(c)}"${c===catF?' selected':''}>${esc(c)}</option>`).join('');
@@ -3149,6 +3257,7 @@ function renderExtras(){
 document.addEventListener('click',e=>{const b=e.target.closest('[data-flt]');if(!b)return;
   const f=b.dataset.flt;flt=(f===flt&&f!=='all')?'all':f;pg=1;render()});
 $('catF').onchange=e=>{catF=e.target.value;pg=1;render()};
+$('sortSel').onchange=e=>{const [k,d]=e.target.value.split(':');sk=k;sd=+d;pg=1;render()};
 $('bCats').onclick=()=>{$('catError').textContent='';$('catName').value='';renderCategoryList();$('dCats').showModal();$('catName').focus()};
 $('catClose').onclick=()=>$('dCats').close();
 $('catList').addEventListener('click',e=>{
@@ -3186,9 +3295,10 @@ async function boot(){
   catch(e){if(e.message!=='auth')toast('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: '+e.message,1)}}
 function showLogin(){const d=$('dLogin');if(!d.open)d.showModal();$('lgU').focus()}
 $('dLogin').addEventListener('cancel',e=>e.preventDefault());
+$('lgT').onclick=()=>{const p=$('lgP'),h=p.type==='password';p.type=h?'text':'password';$('lgT').textContent=h?'ซ่อน':'แสดง';$('lgT').setAttribute('aria-pressed',String(h));p.focus()};
 $('lgF').onsubmit=async e=>{e.preventDefault();$('lgE').textContent='';
   try{await api('/login',{method:'POST',body:JSON.stringify({username:$('lgU').value,password:$('lgP').value})});
-    $('lgP').value='';$('dLogin').close();await boot()}catch(x){$('lgE').textContent=x.message}};
+    $('lgP').value='';$('lgP').type='password';$('lgT').textContent='แสดง';$('dLogin').close();await boot()}catch(x){$('lgE').textContent=x.message}};
 $('bOut').onclick=async()=>{try{await chain;await api('/logout',{method:'POST'})}catch(e){}location.reload()};
 render();boot();
 </script>
