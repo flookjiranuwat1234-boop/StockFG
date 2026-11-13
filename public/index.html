@@ -2463,7 +2463,7 @@ input[type=radio]{width:22px;height:22px}
       <thead><tr>
         <th class="ns"><input type="checkbox" id="all" aria-label="เลือกทั้งหน้า"></th>
         <th data-k="sku">รหัส</th><th data-k="name">สินค้า</th>
-        <th data-k="qty" class="n">คงเหลือ</th><th data-k="price" class="n">ราคา (บาท)</th><th class="ns"></th>
+        <th data-k="qty" class="n">คงเหลือ</th><th class="ns"></th>
       </tr></thead>
       <tbody id="tb"></tbody>
     </table>
@@ -2501,7 +2501,6 @@ input[type=radio]{width:22px;height:22px}
     <div><label for="loc">ที่เก็บ</label><input type="text" id="loc" maxlength="40" placeholder="เช่น ชั้น A2"></div>
     <div><label for="qty">จำนวนคงเหลือ *</label><input type="number" id="qty" inputmode="numeric" min="0" step="1"><div class="err" id="e_qty"></div></div>
     <div><label for="unit">หน่วย</label><input type="text" id="unit" maxlength="20" placeholder="ชิ้น"></div>
-    <div><label for="price">ราคา (บาท)</label><input type="number" id="price" inputmode="decimal" min="0" step="0.01"><div class="err" id="e_price"></div></div>
     <div><label for="min">จุดสั่งซื้อ (แจ้งเมื่อเหลือไม่เกิน)</label><input type="number" id="min" inputmode="numeric" min="0" step="1"><div class="err" id="e_min"></div></div>
   </div>
   <label for="imgs">รูปภาพ (สูงสุด 6 รูปต่อรายการ)</label>
@@ -2573,7 +2572,7 @@ input[type=radio]{width:22px;height:22px}
 /* ===== ตัวแปรหลัก ===== */
 const KEY='stock_items_v1';
 // [คีย์, หัวคอลัมน์ไทย] ใช้ทั้งส่งออกและนำเข้า CSV
-const F=[['sku','รหัสสินค้า'],['name','ชื่อสินค้า'],['cat','หมวดหมู่'],['qty','จำนวน'],['unit','หน่วย'],['price','ราคา (บาท)'],['min','จุดสั่งซื้อ'],['loc','ที่เก็บ']];
+const F=[['sku','รหัสสินค้า'],['name','ชื่อสินค้า'],['cat','หมวดหมู่'],['qty','จำนวน'],['unit','หน่วย'],['min','จุดสั่งซื้อ'],['loc','ที่เก็บ']];
 let items=[],sel=new Set(),sk='created',sd=-1,pg=1,q='',editId=null,busy=false,qrCur=null,db=null,fImgs=[],fAdded=new Set(),flt='all',catF='',log=[],adjId=null;
 const $=i=>document.getElementById(i);
 // ป้องกัน XSS: escape ทุกข้อมูลก่อนใส่ HTML
@@ -2583,14 +2582,14 @@ const newId=()=>'P'+Date.now().toString(36).toUpperCase()+Math.random().toString
 function toast(m,bad){const t=$('toast');t.textContent=m;t.className='show'+(bad?' bad':'');clearTimeout(toast.t);toast.t=setTimeout(()=>t.className='',3500)}
 
 /* ===== เก็บข้อมูล (localStorage ห่อ try/catch ทุกครั้ง) ===== */
-const cleanItem=i=>i&&i.sku&&i.name?{id:String(i.id||newId()),created:i.created||new Date().toISOString(),sku:String(i.sku),name:String(i.name),cat:String(i.cat||''),qty:Math.max(0,parseInt(i.qty)||0),unit:String(i.unit||'ชิ้น'),price:Math.max(0,parseFloat(i.price)||0),min:Math.max(0,parseInt(i.min)||0),loc:String(i.loc||''),demo:!!i.demo,v:parseInt(i.v)||0,imgs:Array.isArray(i.imgs)?i.imgs.map(String):[]}:null;
+const cleanItem=i=>i&&i.sku&&i.name?{id:String(i.id||newId()),created:i.created||new Date().toISOString(),sku:String(i.sku),name:String(i.name),cat:String(i.cat||''),qty:Math.max(0,parseInt(i.qty)||0),unit:String(i.unit||'ชิ้น'),min:Math.max(0,parseInt(i.min)||0),loc:String(i.loc||''),demo:!!i.demo,v:parseInt(i.v)||0,imgs:Array.isArray(i.imgs)?i.imgs.map(String):[]}:null;
 /* ซิงก์กับเซิร์ฟเวอร์: เก็บ snapshot ล่าสุดที่ตรงกับฐานข้อมูล แล้วส่งเฉพาะส่วนที่ต่าง (ผ่านคิว ทีละงาน) */
 async function api(p,o={}){const r=await fetch('/api'+p,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...o});
   if(r.status===401&&p!=='/login'){showLogin();throw new Error('auth')}
   if(!r.ok){const j=await r.json().catch(()=>({}));throw Object.assign(new Error(j.error||('HTTP '+r.status)),{status:r.status})}
   return r.json()}
 let snap=new Map(),chain=Promise.resolve(),lastState='',pollOn=false;
-const ser=i=>JSON.stringify([i.sku,i.name,i.cat,i.qty,i.unit,i.price,i.min,i.loc,i.imgs,i.demo]);
+const ser=i=>JSON.stringify([i.sku,i.name,i.cat,i.qty,i.unit,i.min,i.loc,i.imgs,i.demo]);
 function load(){snap=new Map(items.map(i=>[i.id,ser(i)]))}
 const pending=()=>items.some(i=>snap.get(i.id)!==ser(i))||[...snap.keys()].some(id=>!items.some(i=>i.id===id));
 async function pushNow(){
@@ -2633,9 +2632,9 @@ function render(){
     <td>${esc(i.sku)}</td>
     <td><div class="pn">${thumb(i)}<div>${esc(i.name)}<div class="sub">${esc(i.cat)}${i.cat&&i.loc?' / ':''}${esc(i.loc)}</div></div></div></td>
     <td class="n">${i.qty.toLocaleString('th-TH')} ${esc(i.unit)}${i.qty===0?' <span class="low out">หมด</span>':isLow(i)?' <span class="low">ใกล้หมด</span>':''}</td>
-    <td class="n">${i.price.toLocaleString('th-TH')}</td>
     <td class="act"><button data-adj="${esc(i.id)}">รับ/เบิก</button><button data-qr="${esc(i.id)}">QR</button><button data-ed="${esc(i.id)}">แก้ไข</button><button class="dg" data-del="${esc(i.id)}">ลบ</button></td></tr>`).join('')
    :`<tr><td colspan="6" class="empty">${items.length?'ไม่พบรายการตามที่ค้นหาหรือกรอง ลองเปลี่ยนคำค้นหรือตัวกรอง':'ยังไม่มีข้อมูล กด “เพิ่มสินค้า” หรือ “โหลดตัวอย่าง 5 รายการ”'}</td></tr>`;
+  const emptyCell=$('tb').querySelector('td.empty');if(emptyCell)emptyCell.colSpan=5;
   $('pinfo').textContent=`หน้า ${pg}/${pages} (${r.length} รายการ)`;
   $('pp').disabled=pg<=1;$('pn').disabled=pg>=pages;
   $('all').checked=rows.length>0&&rows.every(i=>sel.has(i.id));
@@ -2660,9 +2659,8 @@ function validate(){
   else if(items.some(i=>i.id!==editId&&i.sku.toLowerCase()===v('sku').toLowerCase()))e.sku='รหัสสินค้านี้มีอยู่แล้ว กรุณาใช้รหัสอื่น';
   if(!v('name'))e.name='กรุณากรอกชื่อสินค้า';
   if(v('qty')===''||!/^\d+$/.test(v('qty')))e.qty='กรอกจำนวนเป็นเลขจำนวนเต็ม ตั้งแต่ 0 ขึ้นไป';
-  if(v('price')!==''&&!(parseFloat(v('price'))>=0))e.price='ราคาต้องเป็นตัวเลข ตั้งแต่ 0 ขึ้นไป';
   if(v('min')!==''&&!/^\d+$/.test(v('min')))e.min='กรอกเป็นเลขจำนวนเต็ม ตั้งแต่ 0 ขึ้นไป';
-  ['sku','name','qty','price','min'].forEach(k=>$('e_'+k).textContent=e[k]||'');
+  ['sku','name','qty','min'].forEach(k=>$('e_'+k).textContent=e[k]||'');
   return !Object.keys(e).length;
 }
 $('f').addEventListener('submit',async ev=>{
@@ -2670,7 +2668,7 @@ $('f').addEventListener('submit',async ev=>{
   if(busy||!validate())return;
   busy=true;$('fSave').disabled=true; // กันกดบันทึกซ้ำ
   const v=k=>$(k).value.trim();
-  const d={sku:v('sku'),name:v('name'),cat:v('cat'),qty:parseInt(v('qty')),unit:v('unit')||'ชิ้น',price:parseFloat(v('price'))||0,min:parseInt(v('min'))||0,loc:v('loc')};
+  const d={sku:v('sku'),name:v('name'),cat:v('cat'),qty:parseInt(v('qty')),unit:v('unit')||'ชิ้น',min:parseInt(v('min'))||0,loc:v('loc')};
   try{
     const cur=editId?items.find(x=>x.id===editId):null;
     if(editId&&!cur){$('dForm').close();toast('ไม่พบสินค้านี้แล้ว (อาจถูกลบจากอีกแท็บ)',1);busy=false;$('fSave').disabled=false;return}
@@ -2807,7 +2805,7 @@ function parseCSV(t,d=','){t=t.replace(/^\ufeff/,'');const o=[];let r=[],c='',in
   if(c!==''||r.length){r.push(c);o.push(r)}
   return o.filter(r=>r.some(x=>x.trim()))}
 // ชื่อหัวคอลัมน์ที่ยอมรับ (เทียบแบบไม่สนช่องว่าง/วงเล็บ/ตัวพิมพ์)
-const AL={sku:['รหัสสินค้า','รหัส','sku','code','itemcode','productcode'],name:['ชื่อสินค้า','ชื่อ','สินค้า','name','product','productname','item'],cat:['หมวดหมู่','หมวด','ประเภท','category','cat'],qty:['จำนวน','จำนวนคงเหลือ','คงเหลือ','สต็อก','stock','qty','quantity'],unit:['หน่วย','unit'],price:['ราคา','ราคาบาท','ราคาต่อหน่วย','ราคาขาย','price'],min:['จุดสั่งซื้อ','จุดสั่งซื้อซ้ำ','ขั้นต่ำ','min','reorder','reorderpoint'],loc:['ที่เก็บ','ที่จัดเก็บ','ตำแหน่ง','location','loc']};
+const AL={sku:['รหัสสินค้า','รหัส','sku','code','itemcode','productcode'],name:['ชื่อสินค้า','ชื่อ','สินค้า','name','product','productname','item'],cat:['หมวดหมู่','หมวด','ประเภท','category','cat'],qty:['จำนวน','จำนวนคงเหลือ','คงเหลือ','สต็อก','stock','qty','quantity'],unit:['หน่วย','unit'],min:['จุดสั่งซื้อ','จุดสั่งซื้อซ้ำ','ขั้นต่ำ','min','reorder','reorderpoint'],loc:['ที่เก็บ','ที่จัดเก็บ','ตำแหน่ง','location','loc']};
 const norm=h=>String(h).toLowerCase().replace(/[\s_\-().]/g,'');
 let impRows=[];
 const mapIdx=()=>{const o={};F.forEach(([k])=>o[k]=+$('m_'+k).value);return o};
@@ -2831,17 +2829,17 @@ $('mYes').onclick=()=>{const o=mapIdx();
   $('dMap').close();
   const skus=new Set(items.map(i=>i.sku.toLowerCase()));let add=0,dup=0,miss=0,fix=0;
   const g=(r,k)=>o[k]>=0?(r[o[k]]||'').trim().replace(/^'(?=[=+\-@])/,''):'';
-  const nn=(r,k,int)=>{const raw=g(r,k);if(raw==='')return 0;let n=parseFloat(raw.replace(/[฿,\s]|บาท/g,''));
+  const nn=(r,k,int)=>{const raw=g(r,k);if(raw==='')return 0;let n=parseFloat(raw.replace(/[,\s]/g,''));
     if(isNaN(n)||n<0){fix++;return 0}if(int&&!Number.isInteger(n)){fix++;n=Math.round(n)}return n};
   impRows.slice(1).forEach(r=>{const sku=g(r,'sku'),name=g(r,'name');
     if(!sku||!name){miss++;return}if(skus.has(sku.toLowerCase())){dup++;return}skus.add(sku.toLowerCase());
-    const it={id:newId(),created:new Date().toISOString(),sku,name,cat:g(r,'cat'),qty:nn(r,'qty',1),unit:g(r,'unit')||'ชิ้น',price:nn(r,'price'),min:nn(r,'min',1),loc:g(r,'loc')};
+    const it={id:newId(),created:new Date().toISOString(),sku,name,cat:g(r,'cat'),qty:nn(r,'qty',1),unit:g(r,'unit')||'ชิ้น',min:nn(r,'min',1),loc:g(r,'loc')};
     items.push(it);if(it.qty>0)log.push({t:it.created,id:it.id,sku,name,type:'in',n:it.qty,after:it.qty,note:'นำเข้า CSV'});add++});
   if(add){log=log.slice(-LOGMAX);saveLog()}
   save();render();impRows=[];const skip=dup+miss;
   toast(`นำเข้า ${add} รายการ`+(skip?` ข้าม ${skip} (รหัสซ้ำ ${dup}, ข้อมูลไม่ครบ ${miss})`:'')+(fix?` ปรับค่าตัวเลข ${fix} ช่อง`:''),skip&&!add)};
 // ไฟล์แม่แบบ: หัวคอลัมน์ถูกต้อง + ตัวอย่าง 1 แถว
-$('bTpl').onclick=()=>{const ex={sku:'A-001',name:'ตัวอย่างสินค้า',cat:'หมวดหมู่ตัวอย่าง',qty:10,unit:'ชิ้น',price:99,min:5,loc:'A1'},o={};
+$('bTpl').onclick=()=>{const ex={sku:'A-001',name:'ตัวอย่างสินค้า',cat:'หมวดหมู่ตัวอย่าง',qty:10,unit:'ชิ้น',min:5,loc:'A1'},o={};
   F.forEach(([k,h])=>o[h]=ex[k]);dl(new Blob(['\ufeff'+toCsv([o])],{type:'text/csv;charset=utf-8'}),'stock_template.csv')};
 $('bImp').onclick=()=>$('fImp').click();
 $('fImp').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
@@ -2856,7 +2854,7 @@ $('fRes').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
     const d=JSON.parse(String(r.result));const a=Array.isArray(d)?d:d.items;const imgs0=(!Array.isArray(d)&&d.images)||{};
     const log0=(!Array.isArray(d)&&Array.isArray(d.log))?d.log.filter(e=>e&&e.t&&TY[e.type]).slice(-LOGMAX):[];
     if(!Array.isArray(a)||a.some(i=>!i||!i.sku||!i.name))throw 0;
-    const seen=new Set(),clean=a.map(i=>({id:String(i.id||newId()),created:i.created||new Date().toISOString(),sku:String(i.sku),name:String(i.name),cat:String(i.cat||''),qty:Math.max(0,parseInt(i.qty)||0),unit:String(i.unit||'ชิ้น'),price:Math.max(0,parseFloat(i.price)||0),min:Math.max(0,parseInt(i.min)||0),loc:String(i.loc||''),demo:!!i.demo,imgs:Array.isArray(i.imgs)?i.imgs.map(String).filter(k=>/^data:image\//.test(imgs0[k]||'')).slice(0,MAX_IMG):[]})).filter(i=>{const k=i.sku.toLowerCase();return seen.has(k)?false:(seen.add(k),true)});
+    const seen=new Set(),clean=a.map(i=>({id:String(i.id||newId()),created:i.created||new Date().toISOString(),sku:String(i.sku),name:String(i.name),cat:String(i.cat||''),qty:Math.max(0,parseInt(i.qty)||0),unit:String(i.unit||'ชิ้น'),min:Math.max(0,parseInt(i.min)||0),loc:String(i.loc||''),demo:!!i.demo,imgs:Array.isArray(i.imgs)?i.imgs.map(String).filter(k=>/^data:image\//.test(imgs0[k]||'')).slice(0,MAX_IMG):[]})).filter(i=>{const k=i.sku.toLowerCase();return seen.has(k)?false:(seen.add(k),true)});
     confirmBox(`กู้คืน ${clean.length} รายการ? ข้อมูลปัจจุบัน ${items.length} รายการจะถูกแทนที่`,'กู้คืน',async()=>{
       try{if(db){await api('/log/clear',{method:'POST'});await imgClear();const all=[];clean.forEach(i=>i.imgs.forEach(k=>all.push([k,imgs0[k]])));await imgPut(all);imgCache.clear();all.forEach(([k,v])=>imgCache.set(k,v))}}
       catch(e){toast('กู้คืนรูปภาพไม่สำเร็จ',1)}
@@ -2867,9 +2865,9 @@ $('fRes').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
 
 /* ===== ข้อมูลตัวอย่าง 5 รายการ ===== */
 $('bDemo').onclick=()=>{
-  const d=[['W-001','น้ำดื่ม 600 มล. (แพ็ก 12 ขวด)','เครื่องดื่ม',48,'แพ็ก',69,20,'A1'],['R-010','ข้าวหอมมะลิ 5 กก.','อาหารแห้ง',15,'ถุง',189,10,'B2'],['S-205','น้ำปลา 700 มล.','เครื่องปรุง',6,'ขวด',42,8,'B3'],['H-033','ผงซักฟอก 2.2 กก.','ของใช้ในบ้าน',22,'ถุง',135,5,'C1'],['O-400','กระดาษ A4 80 แกรม (รีม)','เครื่องเขียน',3,'รีม',125,5,'D4']];
+  const d=[['W-001','น้ำดื่ม 600 มล. (แพ็ก 12 ขวด)','เครื่องดื่ม',48,'แพ็ก',20,'A1'],['R-010','ข้าวหอมมะลิ 5 กก.','อาหารแห้ง',15,'ถุง',10,'B2'],['S-205','น้ำปลา 700 มล.','เครื่องปรุง',6,'ขวด',8,'B3'],['H-033','ผงซักฟอก 2.2 กก.','ของใช้ในบ้าน',22,'ถุง',5,'C1'],['O-400','กระดาษ A4 80 แกรม (รีม)','เครื่องเขียน',3,'รีม',5,'D4']];
   const skus=new Set(items.map(i=>i.sku));let n=0;
-  d.forEach(([sku,name,cat,qty,unit,price,min,loc])=>{if(skus.has(sku))return;const it={id:newId(),created:new Date().toISOString(),sku,name,cat,qty,unit,price,min,loc,demo:true};items.push(it);log.push({t:it.created,id:it.id,sku,name,type:'in',n:qty,after:qty,note:'ยอดตั้งต้น (ตัวอย่าง)'});n++});if(n){log=log.slice(-LOGMAX);saveLog()}
+  d.forEach(([sku,name,cat,qty,unit,min,loc])=>{if(skus.has(sku))return;const it={id:newId(),created:new Date().toISOString(),sku,name,cat,qty,unit,min,loc,demo:true};items.push(it);log.push({t:it.created,id:it.id,sku,name,type:'in',n:qty,after:qty,note:'ยอดตั้งต้น (ตัวอย่าง)'});n++});if(n){log=log.slice(-LOGMAX);saveLog()}
   save();render();toast(n?`เพิ่มตัวอย่าง ${n} รายการ`:'มีตัวอย่างอยู่แล้ว')};
 
 /* ===== เหตุการณ์ในตาราง ===== */
@@ -2942,12 +2940,12 @@ $('hClose').onclick=()=>$('dHist').close();
 /* ===== แถบสรุป + แผง "ต้องสั่งเพิ่ม" + ตัวกรองหมวดหมู่ ===== */
 function renderExtras(){
   const nf=v=>v.toLocaleString('th-TH');
-  const mv=log.filter(isMove).length,val=items.reduce((s,i)=>s+i.qty*i.price,0);
+  const mv=log.filter(isMove).length;
   const low=items.filter(i=>isLow(i)&&i.qty>0).length,out=items.filter(i=>i.qty===0).length;
   const card=(l,v,cls,f)=>{const t=f?'button':'div';
     return `<${t}${f?` data-flt="${f}"`:''} class="cd ${cls}${f&&flt===f?' on':''}"><small>${l}</small><b>${v}</b></${t}>`};
   $('cards').innerHTML=card('สินค้าทั้งหมด',nf(items.length)+' รายการ','')+`<button data-today="1" class="cd"><small>เคลื่อนไหววันนี้</small><b>${nf(mv)} ครั้ง</b></button>`
-    +card('มูลค่าสต็อก','฿'+nf(Math.round(val)),'')+card('ใกล้หมด',low,low?'w':'','low')+card('หมดแล้ว',out,out?'r':'','out');
+    +card('ใกล้หมด',low,low?'w':'','low')+card('หมดแล้ว',out,out?'r':'','out');
   document.querySelectorAll('#chips button').forEach(b=>b.classList.toggle('on',b.dataset.flt===flt));
   const cats=[...new Set(items.map(i=>i.cat).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'th'));
   if(catF&&!cats.includes(catF))catF='';

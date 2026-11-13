@@ -71,7 +71,7 @@ app.get('/healthz', h(async (req, res) => { await pool.query('SELECT 1'); res.se
 /* ---------- ข้อมูลทั้งหมด (สินค้า + ประวัติล่าสุด 1,000 รายการ) ---------- */
 app.get('/api/state', auth, h(async (req, res) => {
   const [p, l] = await Promise.all([
-    pool.query(`SELECT id,sku,name,cat,qty,unit,price::float AS price,min,loc,imgs,demo,version AS v,created_at AS created
+    pool.query(`SELECT id,sku,name,cat,qty,unit,min,loc,imgs,demo,version AS v,created_at AS created
                 FROM products ORDER BY created_at`),
     pool.query(`SELECT * FROM (
                   SELECT t,product_id AS id,sku,name,type,n,qty_after AS "after",note,by_name AS "by"
@@ -86,8 +86,7 @@ function cleanProduct(p) {
   const created = new Date(p.created);
   return {
     id: String(p.id), sku: str(p.sku, 80).trim(), name: str(p.name, 200).trim(), cat: str(p.cat, 80),
-    qty: int(p.qty), unit: str(p.unit, 30) || 'ชิ้น', price: Math.min(1e9, Math.max(0, parseFloat(p.price) || 0)),
-    min: int(p.min), loc: str(p.loc, 80),
+    qty: int(p.qty), unit: str(p.unit, 30) || 'ชิ้น', min: int(p.min), loc: str(p.loc, 80),
     imgs: (Array.isArray(p.imgs) ? p.imgs : []).filter(k => ID_RE.test(String(k))).map(String).slice(0, 6),
     demo: !!p.demo, ver: int(p.v), created: isNaN(created) ? new Date() : created,
   };
@@ -100,20 +99,20 @@ app.post('/api/sync', auth, h(async (req, res) => {
     await c.query('BEGIN');
     if (dels.length) await c.query('DELETE FROM products WHERE id = ANY($1)', [dels]);
     for (const v of ups) {
-      const a = [v.id, v.sku, v.name, v.cat, v.qty, v.unit, v.price, v.min, v.loc, v.imgs, v.demo, req.user.name];
+      const a = [v.id, v.sku, v.name, v.cat, v.qty, v.unit, v.min, v.loc, v.imgs, v.demo, req.user.name];
       let r;
       if (v.ver > 0) {
         r = await c.query(
-          `UPDATE products SET sku=$2,name=$3,cat=$4,qty=$5,unit=$6,price=$7,min=$8,loc=$9,imgs=$10,demo=$11,
-             updated_by=$12,updated_at=now(),version=version+1
-           WHERE id=$1 AND version=$13 RETURNING version`, [...a, v.ver]);
+          `UPDATE products SET sku=$2,name=$3,cat=$4,qty=$5,unit=$6,min=$7,loc=$8,imgs=$9,demo=$10,
+             updated_by=$11,updated_at=now(),version=version+1
+           WHERE id=$1 AND version=$12 RETURNING version`, [...a, v.ver]);
         if (!r.rowCount) throw fail(409, 'conflict');
       } else {
         r = await c.query(
-          `INSERT INTO products (id,sku,name,cat,qty,unit,price,min,loc,imgs,demo,updated_by,created_at)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+          `INSERT INTO products (id,sku,name,cat,qty,unit,min,loc,imgs,demo,updated_by,created_at)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
            ON CONFLICT (id) DO UPDATE SET sku=EXCLUDED.sku,name=EXCLUDED.name,cat=EXCLUDED.cat,qty=EXCLUDED.qty,
-             unit=EXCLUDED.unit,price=EXCLUDED.price,min=EXCLUDED.min,loc=EXCLUDED.loc,imgs=EXCLUDED.imgs,
+             unit=EXCLUDED.unit,min=EXCLUDED.min,loc=EXCLUDED.loc,imgs=EXCLUDED.imgs,
              demo=EXCLUDED.demo,updated_by=EXCLUDED.updated_by,updated_at=now(),version=products.version+1
            RETURNING version`, [...a, v.created]);
       }

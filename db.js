@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS products (
   cat TEXT NOT NULL DEFAULT '',
   qty INTEGER NOT NULL DEFAULT 0 CHECK (qty >= 0),
   unit TEXT NOT NULL DEFAULT 'ชิ้น',
-  price NUMERIC(12,2) NOT NULL DEFAULT 0 CHECK (price >= 0),
   min INTEGER NOT NULL DEFAULT 0 CHECK (min >= 0),
   loc TEXT NOT NULL DEFAULT '',
   imgs TEXT[] NOT NULL DEFAULT '{}',
@@ -34,6 +33,7 @@ CREATE TABLE IF NOT EXISTS products (
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_by TEXT
 );
+ALTER TABLE products DROP COLUMN IF EXISTS price;
 CREATE UNIQUE INDEX IF NOT EXISTS products_sku_uq ON products (lower(sku));
 CREATE TABLE IF NOT EXISTS images (
   id TEXT PRIMARY KEY,
