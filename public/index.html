@@ -3348,7 +3348,7 @@ $('bTheme').onclick=()=>{const n=curTheme()==='dark'?'light':'dark';document.doc
   try{localStorage.setItem('stock_theme',n)}catch(e){}paintTheme()};
 paintTheme();
 
-let ME='',ME_ID=0,ME_ROLE='',managedUsers=[],userAudit=[];
+let ME='',ME_ID=0,ME_ROLE='',managedUsers=[],userAudit=[],PASSWORD_MIN_LENGTH=12;
 const roleLabel=role=>role==='super_admin'?'Super admin':'ผู้ใช้';
 function auditSummary(details){
   if(!details||typeof details!=='object')return '';
@@ -3423,8 +3423,8 @@ $('userAddForm').onsubmit=async e=>{
   e.preventDefault();$('umError').textContent='';
   const body={username:$('umUsername').value.trim(),name:$('umName').value.trim(),
     password:$('umPassword').value,role:$('umRole').value};
-  if(!body.username||/\s/.test(body.username)||!body.name||body.password.length<12){
-    $('umError').textContent='กรุณากรอกชื่อผู้ใช้ ชื่อที่แสดง และรหัสผ่านอย่างน้อย 12 ตัว';return
+  if(!body.username||/\s/.test(body.username)||!body.name||body.password.length<PASSWORD_MIN_LENGTH){
+    $('umError').textContent=`กรุณากรอกชื่อผู้ใช้ ชื่อที่แสดง และรหัสผ่านอย่างน้อย ${PASSWORD_MIN_LENGTH} ตัว`;return
   }
   const button=e.target.querySelector('button[type="submit"]');button.disabled=true;
   try{
@@ -3446,8 +3446,8 @@ $('userPassCancel').onclick=()=>$('dUserPass').close();
 $('userPassForm').onsubmit=async e=>{
   e.preventDefault();$('userPassError').textContent='';
   const password=$('userPass1').value;
-  if(password.length<12||password!==$('userPass2').value){
-    $('userPassError').textContent=password.length<12?'รหัสผ่านต้องมีอย่างน้อย 12 ตัว':'รหัสผ่านทั้งสองช่องไม่ตรงกัน';return
+  if(password.length<PASSWORD_MIN_LENGTH||password!==$('userPass2').value){
+    $('userPassError').textContent=password.length<PASSWORD_MIN_LENGTH?`รหัสผ่านต้องมีอย่างน้อย ${PASSWORD_MIN_LENGTH} ตัว`:'รหัสผ่านทั้งสองช่องไม่ตรงกัน';return
   }
   const button=e.target.querySelector('button[type="submit"]');button.disabled=true;
   try{
@@ -3457,7 +3457,14 @@ $('userPassForm').onsubmit=async e=>{
   finally{button.disabled=false}
 };
 async function boot(){
-  try{const me=await api('/me');ME=me.name;ME_ID=me.id;ME_ROLE=me.role;
+  try{
+    const config=await api('/config');
+    PASSWORD_MIN_LENGTH=config.passwordMinLength===4?4:12;
+    $('umPassword').minLength=PASSWORD_MIN_LENGTH;
+    $('userPass1').minLength=PASSWORD_MIN_LENGTH;$('userPass2').minLength=PASSWORD_MIN_LENGTH;
+    $('umPassword').previousElementSibling.textContent=`รหัสผ่านเริ่มต้น (อย่างน้อย ${PASSWORD_MIN_LENGTH} ตัว)`;
+    $('userPass1').previousElementSibling.textContent=`รหัสผ่านใหม่ (อย่างน้อย ${PASSWORD_MIN_LENGTH} ตัว)`;
+    const me=await api('/me');ME=me.name;ME_ID=me.id;ME_ROLE=me.role;
     $('who').textContent=me.name;$('bUsers').hidden=ME_ROLE!=='super_admin';db=true;await pull(true);
     if(!pollOn){pollOn=true;setInterval(poll,15000)}}
   catch(e){if(e.message!=='auth')toast('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้: '+e.message,1)}}

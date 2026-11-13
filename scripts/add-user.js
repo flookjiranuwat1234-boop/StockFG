@@ -12,12 +12,14 @@ try {
 const bcrypt = require('bcryptjs');
 const { pool, init } = require('../db');
 (async () => {
+  const passwordMinLength = process.env.NODE_ENV !== 'production' &&
+    process.env.ALLOW_SHORT_TEST_PASSWORDS === 'true' ? 4 : 12;
   const args = process.argv.slice(2);
   const promote = args[0] === '--promote';
   const [u, p, n] = promote ? [] : args;
-  if ((promote && !args[1]) || (!promote && (!u || !p || p.length < 12 || Buffer.byteLength(p, 'utf8') > 72))) {
+  if ((promote && !args[1]) || (!promote && (!u || !p || p.length < passwordMinLength || Buffer.byteLength(p, 'utf8') > 72))) {
     if (promote) console.error('ใช้: npm run add-user -- --promote USERNAME');
-    else console.error('ใช้: npm run add-user -- USERNAME PASSWORD "DISPLAY NAME" (รหัสผ่านอย่างน้อย 12 ตัว)');
+    else console.error(`ใช้: npm run add-user -- USERNAME PASSWORD "DISPLAY NAME" (รหัสผ่านอย่างน้อย ${passwordMinLength} ตัว)`);
     process.exit(1);
   }
   await init();

@@ -12,6 +12,7 @@ if (!JWT_SECRET || JWT_SECRET.length < 24) {
   process.exit(1);
 }
 const prod = NODE_ENV === 'production';
+const passwordMinLength = !prod && process.env.ALLOW_SHORT_TEST_PASSWORDS === 'true' ? 4 : 12;
 
 const app = express();
 app.set('trust proxy', 1);
@@ -78,6 +79,7 @@ app.post('/api/login', h(async (req, res) => {
   res.json({ name: u.name, role: u.role });
 }));
 app.post('/api/logout', (req, res) => { res.clearCookie('tk'); res.json({ ok: true }); });
+app.get('/api/config', (req, res) => res.json({ passwordMinLength }));
 app.get('/api/me', auth, (req, res) => res.json({ id: req.user.id, name: req.user.name, role: req.user.role }));
 app.get('/healthz', h(async (req, res) => { await pool.query('SELECT 1'); res.send('ok'); }));
 
@@ -92,8 +94,8 @@ function userId(value) {
 function userPassword(value) {
   if (typeof value !== 'string') throw fail(400, 'รหัสผ่านไม่ถูกต้อง');
   const password = value;
-  if (password.length < 12 || Buffer.byteLength(password, 'utf8') > 72) {
-    throw fail(400, 'รหัสผ่านต้องมีอย่างน้อย 12 ตัวอักษร และไม่เกิน 72 ไบต์');
+  if (password.length < passwordMinLength || Buffer.byteLength(password, 'utf8') > 72) {
+    throw fail(400, `รหัสผ่านต้องมีอย่างน้อย ${passwordMinLength} ตัวอักษร และไม่เกิน 72 ไบต์`);
   }
   return password;
 }
