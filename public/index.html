@@ -2464,6 +2464,8 @@ dialog .row{margin-top:18px}
 .hist li{padding:9px 0;border-color:var(--bd)}
 #dCats #catList{max-height:220px;overflow:auto;margin:12px 0 18px}
 #dCats #catList li{padding:8px 10px;border:1px solid var(--bd);border-radius:8px;margin-bottom:6px}
+#dCats #catList li.catItem{display:flex;justify-content:space-between;align-items:center;gap:12px}
+#dCats #catList li.catItem button{min-height:34px;padding:2px 12px}
 .pager{margin:14px 0}
 footer{padding-bottom:22px!important}
 footer a{color:var(--pr);text-underline-offset:3px}
@@ -2681,7 +2683,7 @@ function fillCategorySelect(){
   $('cat').innerHTML='<option value="">ไม่ระบุหมวดหมู่</option>'+categoryNames().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('')}
 function renderCategoryList(){
   const names=categoryNames();
-  $('catList').innerHTML=names.length?names.map(c=>`<li>${esc(c)}</li>`).join(''):'<li class="sub">ยังไม่มีหมวดหมู่</li>'}
+  $('catList').innerHTML=names.length?names.map(c=>`<li class="catItem"><span>${esc(c)}</span><button type="button" class="dg" data-cat-del="${esc(c)}">ลบ</button></li>`).join(''):'<li class="sub">ยังไม่มีหมวดหมู่</li>'}
 /* ซิงก์กับเซิร์ฟเวอร์: เก็บ snapshot ล่าสุดที่ตรงกับฐานข้อมูล แล้วส่งเฉพาะส่วนที่ต่าง (ผ่านคิว ทีละงาน) */
 async function api(p,o={}){const r=await fetch('/api'+p,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...o});
   if(r.status===401&&p!=='/login'){showLogin();throw new Error('auth')}
@@ -3063,6 +3065,17 @@ document.addEventListener('click',e=>{const b=e.target.closest('[data-flt]');if(
 $('catF').onchange=e=>{catF=e.target.value;pg=1;render()};
 $('bCats').onclick=()=>{$('catError').textContent='';$('catName').value='';renderCategoryList();$('dCats').showModal();$('catName').focus()};
 $('catClose').onclick=()=>$('dCats').close();
+$('catList').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-cat-del]');if(!b)return;
+  const name=b.dataset.catDel;
+  confirmBox(`ลบหมวดหมู่ “${name}” ใช่หรือไม่?`,'ลบ',async()=>{
+    $('catError').textContent='';
+    try{
+      await api('/categories/'+encodeURIComponent(name),{method:'DELETE'});
+      categories=categories.filter(c=>c!==name);
+      renderCategoryList();renderExtras();toast('ลบหมวดหมู่แล้ว')
+    }catch(x){if(x.message!=='auth')$('catError').textContent=x.message}});
+});
 $('catAddForm').onsubmit=async e=>{
   e.preventDefault();$('catError').textContent='';
   const name=$('catName').value.trim();

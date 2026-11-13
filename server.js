@@ -91,6 +91,26 @@ app.post('/api/categories', auth, h(async (req, res) => {
   if (!rows.length) throw fail(409, 'มีหมวดหมู่นี้อยู่แล้ว');
   res.status(201).json({ name: rows[0].name });
 }));
+app.delete('/api/categories/:name', auth, h(async (req, res) => {
+  const name = str(req.params.name, 80).trim();
+  if (!name) throw fail(400, 'ชื่อหมวดหมู่ไม่ถูกต้อง');
+  const c = await pool.connect();
+  try {
+    await c.query('BEGIN');
+    const category = await c.query(
+      'SELECT name FROM categories WHERE lower(name)=lower($1) FOR UPDATE', [name]);
+    if (!category.rowCount) throw fail(404, 'ไม่พบหมวดหมู่นี้');
+    const canonicalName = category.rows[0].name;
+    await c.query('LOCK TABLE products IN SHARE MODE');
+    const usage = await c.query(
+      'SELECT count(*)::int AS count FROM products WHERE lower(btrim(cat))=lower($1)', [canonicalName]);
+    if (usage.rows[0].count) throw fail(409, `ลบไม่ได้ มีสินค้าใช้หมวดหมู่นี้ ${usage.rows[0].count} รายการ`);
+    await c.query('DELETE FROM categories WHERE name=$1', [canonicalName]);
+    await c.query('COMMIT');
+    res.json({ ok: true, name: canonicalName });
+  } catch (e) { await c.query('ROLLBACK').catch(() => {}); throw e; }
+  finally { c.release(); }
+}));
 
 /* ---------- บันทึกการเปลี่ยนแปลงสินค้า (ธุรกรรมเดียว + กันแก้ทับด้วยเลขเวอร์ชัน) ---------- */
 function cleanProduct(p) {
