@@ -20,6 +20,7 @@
     .top{position:sticky;top:0;z-index:5;background:rgba(239,248,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
     .nav{height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
     .brand{display:flex;align-items:center;gap:11px;font-size:1.04rem;font-weight:800;letter-spacing:.01em}
+    .brandLogo{display:block;width:190px;max-width:100%;height:auto;border-radius:8px;background:#fff}
     .mark{display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:linear-gradient(145deg,#29adf5,var(--blue-deep));color:#fff}
     .mark svg{width:24px}
     .links{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:.9rem;font-weight:600}
@@ -45,6 +46,14 @@
     .tools input,.tools select{min-height:44px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:0 13px;color:var(--ink)}
     .tools input{flex:1;min-width:200px}
     .tools select{min-width:180px}
+    .categoryOverview{margin:0 0 22px;padding:20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(120deg,#e2f4ff,#f7fcff)}
+    .categoryOverview h3{margin:4px 0;font-size:1.05rem}
+    .categoryOverview p{margin:0;color:var(--muted);line-height:1.75}
+    .categoryTags{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+    .categoryTag{display:flex;flex-direction:column;gap:3px;padding:12px;border:1px solid #c8e7fa;border-radius:12px;background:#fff}
+    .categoryTag img{display:block;width:100%;aspect-ratio:1.8;object-fit:cover;border-radius:8px;background:#e9f5fc;margin-bottom:6px}
+    .categoryTag strong{color:var(--blue-deep);font-size:.9rem}
+    .categoryTag small{color:var(--muted);font-size:.78rem;line-height:1.55}
     .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
     .product{overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:18px;transition:transform .18s,box-shadow .18s;cursor:pointer}
     .product:hover{transform:translateY(-3px);box-shadow:0 12px 28px #163c5612}
@@ -67,6 +76,8 @@
     .about{display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}
     .aboutArt{min-height:230px;border-radius:24px;background:radial-gradient(circle at 72% 35%,#fff9 0 8%,transparent 8.5%),linear-gradient(140deg,#a8ddff,#ddf4ff);display:grid;place-items:center;color:var(--blue-deep);font-size:3rem}
     .about p{color:var(--muted);line-height:1.95}
+    .about .sourceNote{font-size:.85rem}
+    .about .sourceNote a{color:var(--blue-deep);font-weight:700;text-decoration:underline;text-underline-offset:3px}
     .contactBox{padding:32px;border-radius:24px;background:linear-gradient(115deg,#1599e5,#0878be);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:28px}
     .contactBox p{color:#e2f4ff;line-height:1.8;margin:8px 0 0}
     .contactWays{display:flex;flex-wrap:wrap;gap:10px}
@@ -81,15 +92,14 @@
     .status{min-height:24px;color:var(--muted);margin:18px 0}
     [hidden]{display:none!important}
     @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.links{gap:14px}.about{gap:24px}}
-    @media(max-width:680px){.wrap{width:min(100% - 28px,560px)}.nav{height:auto;min-height:64px;flex-wrap:wrap;gap:8px;padding:10px 0}.brand{order:1}.navCta{order:2;min-height:40px;padding:0 13px;font-size:.85rem}.links{order:3;display:flex;width:100%;gap:18px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;font-size:.82rem;padding:2px 0 5px}.links::-webkit-scrollbar{display:none}.links a{flex:none}.hero{padding:26px 0 18px}.heroBox{min-height:360px;align-items:end;padding:28px 22px}.heroBox:after{width:230px;height:230px;right:-20px;top:-35px}.heroText{max-width:100%}.heroText p{font-size:.92rem}.section{padding:34px 0}.sectionHead{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productText{padding:11px}.product h3{font-size:.9rem}.newGrid,.infoGrid{grid-template-columns:1fr}.about{grid-template-columns:1fr;gap:16px}.aboutArt{min-height:150px}.contactBox{align-items:start;flex-direction:column;padding:24px}.photo{aspect-ratio:1}.tools select{flex:1}.foot{flex-direction:column}}
+    @media(max-width:680px){.wrap{width:min(100% - 28px,560px)}.nav{height:auto;min-height:64px;flex-wrap:wrap;gap:8px;padding:10px 0}.brand{order:1}.brandLogo{width:168px}.navCta{order:2;min-height:40px;padding:0 13px;font-size:.85rem}.links{order:3;display:flex;width:100%;gap:18px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;font-size:.82rem;padding:2px 0 5px}.links::-webkit-scrollbar{display:none}.links a{flex:none}.hero{padding:26px 0 18px}.heroBox{min-height:360px;align-items:end;padding:28px 22px}.heroBox:after{width:230px;height:230px;right:-20px;top:-35px}.heroText{max-width:100%}.heroText p{font-size:.92rem}.section{padding:34px 0}.sectionHead{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productText{padding:11px}.product h3{font-size:.9rem}.newGrid,.infoGrid{grid-template-columns:1fr}.categoryTags{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.categoryTag{padding:10px}.about{grid-template-columns:1fr;gap:16px}.aboutArt{min-height:150px}.contactBox{align-items:start;flex-direction:column;padding:24px}.photo{aspect-ratio:1}.tools select{flex:1}.foot{flex-direction:column}}
   </style>
 </head>
 <body>
   <header class="top">
     <div class="wrap nav">
       <a class="brand" href="store.html" aria-label="Food Gallery หน้าแรก">
-        <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg></span>
-        <span>FOOD GALLERY</span>
+        <img class="brandLogo" src="images/food-gallery-logo.jpg" alt="Food Gallery — The Gallery of Fine Food">
       </a>
       <nav class="links" aria-label="เมนูหลัก">
         <a href="store.html?page=products" data-page="products">สินค้า</a>
@@ -124,6 +134,21 @@
           <input id="search" type="search" placeholder="ค้นหาชื่อหรือรหัสสินค้า" aria-label="ค้นหาสินค้า">
           <select id="category" aria-label="กรองตามหมวดหมู่"><option value="">ทุกหมวดหมู่</option></select>
         </div>
+        <aside class="categoryOverview" aria-label="กลุ่มสินค้าหลัก">
+          <span class="eyebrow">Food Gallery · Categories</span>
+          <h3>เลือกชมสินค้าหลากหลายหมวด</h3>
+          <p>หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้</p>
+          <div class="categoryTags">
+            <div class="categoryTag"><img src="images/category-produce.jpg" alt="ผักและผลไม้" loading="lazy"><strong>ผักและผลไม้</strong><small>ผักสดและผลไม้สด</small></div>
+            <div class="categoryTag"><img src="images/category-meat.jpg" alt="เนื้อสัตว์" loading="lazy"><strong>เนื้อสัตว์</strong><small>เนื้อสัตว์แช่เย็นและแช่แข็ง</small></div>
+            <div class="categoryTag"><img src="images/category-seafood.jpg" alt="อาหารทะเล" loading="lazy"><strong>อาหารทะเล</strong><small>อาหารทะเลสดและแช่แข็ง</small></div>
+            <div class="categoryTag"><img src="images/category-beverage.jpg" alt="เครื่องดื่ม" loading="lazy"><strong>เครื่องดื่ม</strong><small>น้ำผลไม้ น้ำดื่ม นม และชา</small></div>
+            <div class="categoryTag"><img src="images/category-grocery.jpg" alt="อาหารแห้ง" loading="lazy"><strong>อาหารแห้ง</strong><small>อาหารแห้งและธัญพืช</small></div>
+            <div class="categoryTag"><img src="images/category-bakery.jpg" alt="ขนมอบ" loading="lazy"><strong>ขนมอบ</strong><small>เค้ก ขนมปัง และขนมปังแช่แข็ง</small></div>
+            <div class="categoryTag"><img src="images/category-dairy.jpg" alt="ผลิตภัณฑ์จากนม" loading="lazy"><strong>ผลิตภัณฑ์จากนม</strong><small>ไอศกรีม เนย ชีส และครีม</small></div>
+            <div class="categoryTag"><img src="images/category-snacks.jpg" alt="ขนมขบเคี้ยว" loading="lazy"><strong>ขนมขบเคี้ยว</strong><small>ลูกอม ช็อกโกแลต และขนมกรุบกรอบ</small></div>
+          </div>
+        </aside>
         <div id="productsGrid" class="grid" aria-live="polite"></div>
         <p id="loadStatus" class="status" role="status">กำลังโหลดสินค้า…</p>
       </div>
@@ -155,7 +180,7 @@
 
     <section class="section" id="about">
       <div class="wrap about">
-        <div><span class="eyebrow">About Food Gallery</span><h2>เกี่ยวกับเรา</h2><p>Food Gallery ตั้งใจนำเสนอรายการสินค้าและข่าวสารที่เป็นประโยชน์ ให้คุณเลือกชมสินค้าได้สะดวกในที่เดียว</p><p>ข้อมูลที่แสดงในหน้าร้านเป็นรายการที่ทีมงานเลือกเผยแพร่ โดยไม่แสดงจำนวนคงเหลือหรือตำแหน่งจัดเก็บจากระบบคลัง</p></div>
+        <div><span class="eyebrow">About Food Gallery Limited</span><h2>เกี่ยวกับเรา</h2><p>Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ ผลิตภัณฑ์จากนม และขนมขบเคี้ยว</p><p>หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง</p><p class="sourceNote">สรุปข้อมูลจาก <a href="https://www.foodgallery.co.th/th/" target="_blank" rel="noopener noreferrer">เว็บไซต์ทางการ Food Gallery</a></p></div>
         <div class="aboutArt" aria-hidden="true">FG</div>
       </div>
     </section>
@@ -163,7 +188,7 @@
     <section class="section" id="contact">
       <div class="wrap">
         <div class="contactBox">
-          <div><span class="eyebrow" style="color:#b9e4fa">Get in touch</span><h2>ติดต่อเรา</h2><p id="contactMessage">สอบถามข้อมูลสินค้าเพิ่มเติมได้ทางช่องทางติดต่อของเรา</p></div>
+          <div><span class="eyebrow" style="color:#d8f1ff">Get in touch</span><h2>ติดต่อเรา</h2><p id="contactMessage">สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง</p></div>
           <div id="contactWays" class="contactWays"></div>
         </div>
       </div>
@@ -258,17 +283,24 @@
     }
     function renderContact(contact){
       const ways=$('contactWays');ways.replaceChildren();
-      if(typeof contact.email==='string'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)){
-        const email=document.createElement('a');email.href='mailto:'+contact.email;email.textContent='อีเมล '+contact.email;ways.append(email)}
+      const emailAddress=typeof contact.email==='string'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)?contact.email:'info@foodgallery.co.th';
+      const email=document.createElement('a');email.href='mailto:'+emailAddress;email.textContent='อีเมล '+emailAddress;ways.append(email);
       if(typeof contact.phone==='string'&&/^[\d\s()+-]{7,24}$/.test(contact.phone)){
         const phone=document.createElement('a');phone.href='tel:'+contact.phone.replace(/[^\d+]/g,'');phone.textContent='โทร '+contact.phone;ways.append(phone)}
-      if(!ways.children.length)$('contactMessage').textContent='ยังไม่มีการตั้งค่าช่องทางติดต่อ กรุณาติดต่อผู้ดูแลเว็บไซต์';
+      for(const [url,label] of [
+        ['https://www.foodgallery.co.th/th/','เว็บไซต์ Food Gallery'],
+        ['https://www.facebook.com/foodgalleryth','Facebook'],
+        ['https://www.instagram.com/foodgallerylimited/','Instagram']
+      ]){
+        const link=document.createElement('a');link.href=url;link.textContent=label;link.target='_blank';link.rel='noopener noreferrer';ways.append(link)
+      }
     }
     $('search').addEventListener('input',renderProducts);
     $('category').addEventListener('change',renderProducts);
     $('modalClose').onclick=()=>$('productDialog').close();
     $('modalContact').onclick=()=>$('productDialog').close();
     selectPage();
+    renderContact({});
     (async()=>{
       try{
         const response=await fetch('/api/storefront');
