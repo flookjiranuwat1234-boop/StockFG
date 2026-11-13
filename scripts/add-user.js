@@ -1,6 +1,6 @@
 'use strict';
-// ใช้: npm run add-user -- <ชื่อผู้ใช้> <รหัสผ่าน 12 ตัวขึ้นไป> "<ชื่อที่แสดง>"
-// เลื่อนบัญชีเดิมเป็น super admin: npm run add-user -- --promote <ชื่อผู้ใช้>
+// ใช้: npm run add-user -- USERNAME PASSWORD "DISPLAY NAME"
+// เลื่อนบัญชีเดิมเป็น super admin: npm run add-user -- --promote USERNAME
 // ถ้ามีผู้ใช้อยู่แล้วจะเปลี่ยนรหัสผ่านและชื่อให้
 const fs = require('fs');
 try {
@@ -16,8 +16,8 @@ const { pool, init } = require('../db');
   const promote = args[0] === '--promote';
   const [u, p, n] = promote ? [] : args;
   if ((promote && !args[1]) || (!promote && (!u || !p || p.length < 12 || Buffer.byteLength(p, 'utf8') > 72))) {
-    if (promote) console.error('ใช้: npm run add-user -- --promote <ชื่อผู้ใช้>');
-    else console.error('ใช้: npm run add-user -- <ชื่อผู้ใช้> <รหัสผ่าน 12 ตัวขึ้นไป> "<ชื่อที่แสดง>"');
+    if (promote) console.error('ใช้: npm run add-user -- --promote USERNAME');
+    else console.error('ใช้: npm run add-user -- USERNAME PASSWORD "DISPLAY NAME" (รหัสผ่านอย่างน้อย 12 ตัว)');
     process.exit(1);
   }
   await init();
