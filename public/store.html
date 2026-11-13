@@ -24,6 +24,7 @@
     .mark svg{width:24px}
     .links{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:.9rem;font-weight:600}
     .links a:hover,.links a:focus-visible{color:var(--blue)}
+    .links a[aria-current=page]{color:var(--blue-deep);font-weight:800}
     .navCta,.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:var(--blue-deep);color:#fff;font-weight:700;cursor:pointer}
     .navCta:hover,.button:hover{background:var(--blue)}
     .hero{padding:64px 0 42px}
@@ -80,21 +81,25 @@
     .status{min-height:24px;color:var(--muted);margin:18px 0}
     [hidden]{display:none!important}
     @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.links{gap:14px}.about{gap:24px}}
-    @media(max-width:680px){.wrap{width:min(100% - 28px,560px)}.nav{height:64px}.links{display:none}.navCta{min-height:40px;padding:0 13px;font-size:.85rem}.hero{padding:26px 0 18px}.heroBox{min-height:360px;align-items:end;padding:28px 22px}.heroBox:after{width:230px;height:230px;right:-20px;top:-35px}.heroText{max-width:100%}.heroText p{font-size:.92rem}.section{padding:34px 0}.sectionHead{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productText{padding:11px}.product h3{font-size:.9rem}.newGrid,.infoGrid{grid-template-columns:1fr}.about{grid-template-columns:1fr;gap:16px}.aboutArt{min-height:150px}.contactBox{align-items:start;flex-direction:column;padding:24px}.photo{aspect-ratio:1}.tools select{flex:1}.foot{flex-direction:column}}
+    @media(max-width:680px){.wrap{width:min(100% - 28px,560px)}.nav{height:auto;min-height:64px;flex-wrap:wrap;gap:8px;padding:10px 0}.brand{order:1}.navCta{order:2;min-height:40px;padding:0 13px;font-size:.85rem}.links{order:3;display:flex;width:100%;gap:18px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;font-size:.82rem;padding:2px 0 5px}.links::-webkit-scrollbar{display:none}.links a{flex:none}.hero{padding:26px 0 18px}.heroBox{min-height:360px;align-items:end;padding:28px 22px}.heroBox:after{width:230px;height:230px;right:-20px;top:-35px}.heroText{max-width:100%}.heroText p{font-size:.92rem}.section{padding:34px 0}.sectionHead{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productText{padding:11px}.product h3{font-size:.9rem}.newGrid,.infoGrid{grid-template-columns:1fr}.about{grid-template-columns:1fr;gap:16px}.aboutArt{min-height:150px}.contactBox{align-items:start;flex-direction:column;padding:24px}.photo{aspect-ratio:1}.tools select{flex:1}.foot{flex-direction:column}}
   </style>
 </head>
 <body>
   <header class="top">
     <div class="wrap nav">
-      <a class="brand" href="#home" aria-label="Food Gallery หน้าแรก">
+      <a class="brand" href="store.html" aria-label="Food Gallery หน้าแรก">
         <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg></span>
         <span>FOOD GALLERY</span>
       </a>
       <nav class="links" aria-label="เมนูหลัก">
-        <a href="#products">สินค้า</a><a href="#activities">กิจกรรม</a><a href="#new">สินค้าใหม่</a>
-        <a href="#promotions">โปรโมชั่น</a><a href="#about">เกี่ยวกับเรา</a><a href="#contact">ติดต่อเรา</a>
+        <a href="store.html?page=products" data-page="products">สินค้า</a>
+        <a href="store.html?page=activities" data-page="activities">กิจกรรม</a>
+        <a href="store.html?page=new" data-page="new">สินค้าใหม่</a>
+        <a href="store.html?page=promotions" data-page="promotions">โปรโมชั่น</a>
+        <a href="store.html?page=about" data-page="about">เกี่ยวกับเรา</a>
+        <a href="store.html?page=contact" data-page="contact">ติดต่อเรา</a>
       </nav>
-      <a class="navCta" href="#products">เลือกชมสินค้า <span aria-hidden="true">→</span></a>
+      <a class="navCta" href="store.html?page=products">เลือกชมสินค้า <span aria-hidden="true">→</span></a>
     </div>
   </header>
 
@@ -106,7 +111,7 @@
             <span class="eyebrow">Food Gallery · Product Collection</span>
             <h1>เลือกชมสินค้า<br>ที่ใช่สำหรับคุณ</h1>
             <p>ค้นพบรายการสินค้าใหม่และข่าวสารจากเรา เลือกดูตามหมวดหมู่ แล้วติดต่อทีมงานเพื่อสอบถามรายละเอียดเพิ่มเติม</p>
-            <div class="heroActions"><a class="button" href="#products">ดูสินค้าทั้งหมด</a><a class="button secondary" href="#about">รู้จักเรา</a></div>
+            <div class="heroActions"><a class="button" href="store.html?page=products">ดูสินค้าทั้งหมด</a><a class="button secondary" href="store.html?page=about">รู้จักเรา</a></div>
           </div>
         </div>
       </div>
@@ -171,7 +176,7 @@
     <button class="modalClose" id="modalClose" aria-label="ปิด">×</button>
     <img id="modalImage" class="modalPhoto" alt="" hidden>
     <p id="modalCategory" class="tag"></p><h2 id="modalTitle"></h2><p id="modalSku" class="muted"></p>
-    <p class="muted">สอบถามรายละเอียดเพิ่มเติมได้ทาง <a href="#contact" id="modalContact">ติดต่อเรา</a></p>
+    <p class="muted">สอบถามรายละเอียดเพิ่มเติมได้ทาง <a href="store.html?page=contact" id="modalContact">ติดต่อเรา</a></p>
   </dialog>
 
   <script>
@@ -179,6 +184,20 @@
     const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     const imageCache=new Map();
     let allProducts=[];
+    const pageNames={products:'สินค้า',activities:'กิจกรรม',new:'สินค้าใหม่',promotions:'โปรโมชั่น',about:'เกี่ยวกับเรา',contact:'ติดต่อเรา'};
+    function selectPage(){
+      const requested=new URLSearchParams(location.search).get('page')||'home';
+      const page=requested==='home'||Object.prototype.hasOwnProperty.call(pageNames,requested)?requested:'home';
+      document.querySelector('.hero').hidden=page!=='home';
+      document.querySelectorAll('main>section[id]').forEach(section=>{
+        section.hidden=page!=='home'&&section.id!==page
+      });
+      document.querySelectorAll('.links [data-page]').forEach(link=>{
+        if(link.dataset.page===page)link.setAttribute('aria-current','page');
+        else link.removeAttribute('aria-current')
+      });
+      document.title=page==='home'?'สินค้าและข่าวสาร | Food Gallery':`${pageNames[page]} | Food Gallery`;
+    }
     async function productImage(id){
       if(!id)return '';
       if(imageCache.has(id))return imageCache.get(id);
@@ -249,6 +268,7 @@
     $('category').addEventListener('change',renderProducts);
     $('modalClose').onclick=()=>$('productDialog').close();
     $('modalContact').onclick=()=>$('productDialog').close();
+    selectPage();
     (async()=>{
       try{
         const response=await fetch('/api/storefront');
