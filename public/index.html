@@ -2779,6 +2779,8 @@ footer a:hover{text-decoration-thickness:2px}
       <input id="umUsername" type="text" maxlength="80" autocomplete="off" required>
       <label for="umName">ชื่อที่แสดง</label>
       <input id="umName" type="text" maxlength="100" required>
+      <label for="umGoogleEmail">อีเมล Google ที่อนุมัติ (ไม่บังคับ)</label>
+      <input id="umGoogleEmail" type="email" maxlength="254" autocomplete="email">
       <label for="umPassword">รหัสผ่านเริ่มต้น (อย่างน้อย 12 ตัว)</label>
       <input id="umPassword" type="password" minlength="12" maxlength="72" autocomplete="new-password" required>
       <label for="umRole">บทบาท</label>
@@ -2869,6 +2871,7 @@ footer a:hover{text-decoration-thickness:2px}
     <div class="pw"><input id="lgP" type="password" autocomplete="current-password" required><button type="button" id="lgT" aria-pressed="false" aria-label="แสดงหรือซ่อนรหัสผ่าน">แสดง</button></div>
     <div class="err" id="lgE" role="alert"></div>
     <button class="pr lgGo" type="submit">เข้าสู่ระบบ</button>
+    <button type="button" id="googleLogin" hidden>เข้าสู่ระบบด้วย Google</button>
   </form>
 </dialog>
 <!-- จับคู่คอลัมน์ก่อนนำเข้า CSV -->
@@ -3353,9 +3356,10 @@ const roleLabel=role=>role==='super_admin'?'Super admin':'ผู้ใช้';
 function auditSummary(details){
   if(!details||typeof details!=='object')return '';
   return Object.entries(details).map(([key,value])=>{
-    const labels={name:'ชื่อ',role:'บทบาท',active:'สถานะ',source:'ช่องทาง'};
+    const labels={name:'ชื่อ',role:'บทบาท',active:'สถานะ',source:'ช่องทาง',google_email:'อีเมล Google'};
     const format=v=>key==='role'?roleLabel(v):key==='active'?(v?'ใช้งาน':'ปิดใช้'):
-      key==='source'?({cli:'คำสั่ง CLI','environment bootstrap':'ตั้งค่าตอนติดตั้ง'}[v]||String(v)):String(v);
+      key==='source'?({cli:'คำสั่ง CLI','environment bootstrap':'ตั้งค่าตอนติดตั้ง'}[v]||String(v)):
+      v==null?'ไม่ระบุ':String(v);
     if(value&&typeof value==='object'&&Object.prototype.hasOwnProperty.call(value,'from'))
       return `${labels[key]||key}: ${format(value.from)} → ${format(value.to)}`;
     return `${labels[key]||key}: ${format(value)}`;
@@ -3367,6 +3371,7 @@ function renderUserManagement(){
     return `<div class="umUser" data-user-row="${u.id}">
       <div class="umUserTop"><b>${esc(u.name)}</b><span class="sub">${esc(u.username)} · ${roleLabel(u.role)} · ${u.active?'ใช้งาน':'ปิดใช้'}</span></div>
       <label>ชื่อที่แสดง<input type="text" maxlength="100" data-user-name value="${esc(u.name)}"></label>
+      <label>อีเมล Google ที่อนุมัติ<input type="email" maxlength="254" data-user-google-email value="${esc(u.google_email||'')}"></label>
       <div class="umControls">
         <label>บทบาท<select data-user-role ${self?'disabled':''}>
           <option value="user"${u.role==='user'?' selected':''}>ผู้ใช้</option>
@@ -3381,7 +3386,7 @@ function renderUserManagement(){
       </div>${self?'<div class="umSelf">ใช้บัญชี super admin อื่นเพื่อเปลี่ยนสิทธิ์หรือปิดบัญชีนี้</div>':''}
     </div>`
   }).join('')||'<p class="empty">ยังไม่มีบัญชีผู้ใช้</p>';
-  const actionLabels={created:'สร้างบัญชี',updated:'แก้ไขบัญชี',password_reset:'รีเซ็ตรหัสผ่าน'};
+  const actionLabels={created:'สร้างบัญชี',updated:'แก้ไขบัญชี',password_reset:'รีเซ็ตรหัสผ่าน',google_linked:'เชื่อมบัญชี Google'};
   $('userAudit').innerHTML=userAudit.map(a=>{
     const summary=auditSummary(a.details);
     return `<li><b>${actionLabels[a.action]||esc(a.action)}</b> · ${esc(a.actor_name)} → ${esc(a.target_username)}
@@ -3398,6 +3403,7 @@ async function saveManagedUser(button){
   if(!current||!row)return;
   const body={
     name:row.querySelector('[data-user-name]').value,
+    google_email:row.querySelector('[data-user-google-email]').value,
     role:row.querySelector('[data-user-role]').value,
     active:row.querySelector('[data-user-active]').value==='true'
   };
@@ -3422,7 +3428,7 @@ $('userClose').onclick=()=>$('dUsers').close();
 $('userAddForm').onsubmit=async e=>{
   e.preventDefault();$('umError').textContent='';
   const body={username:$('umUsername').value.trim(),name:$('umName').value.trim(),
-    password:$('umPassword').value,role:$('umRole').value};
+    google_email:$('umGoogleEmail').value,password:$('umPassword').value,role:$('umRole').value};
   if(!body.username||/\s/.test(body.username)||!body.name||body.password.length<PASSWORD_MIN_LENGTH){
     $('umError').textContent=`กรุณากรอกชื่อผู้ใช้ ชื่อที่แสดง และรหัสผ่านอย่างน้อย ${PASSWORD_MIN_LENGTH} ตัว`;return
   }
@@ -3460,10 +3466,15 @@ async function boot(){
   try{
     const config=await api('/config');
     PASSWORD_MIN_LENGTH=config.passwordMinLength===4?4:12;
+    $('googleLogin').hidden=!config.googleLoginEnabled;
     $('umPassword').minLength=PASSWORD_MIN_LENGTH;
     $('userPass1').minLength=PASSWORD_MIN_LENGTH;$('userPass2').minLength=PASSWORD_MIN_LENGTH;
     $('umPassword').previousElementSibling.textContent=`รหัสผ่านเริ่มต้น (อย่างน้อย ${PASSWORD_MIN_LENGTH} ตัว)`;
     $('userPass1').previousElementSibling.textContent=`รหัสผ่านใหม่ (อย่างน้อย ${PASSWORD_MIN_LENGTH} ตัว)`;
+    if(new URLSearchParams(location.search).has('google_error')){
+      $('lgE').textContent='เข้าสู่ระบบด้วย Google ไม่สำเร็จ หรือบัญชียังไม่ได้รับอนุมัติ กรุณาติดต่อผู้ดูแลระบบ';
+      history.replaceState(null,'',location.pathname)
+    }
     const me=await api('/me');ME=me.name;ME_ID=me.id;ME_ROLE=me.role;
     $('who').textContent=me.name;$('bUsers').hidden=ME_ROLE!=='super_admin';db=true;await pull(true);
     if(!pollOn){pollOn=true;setInterval(poll,15000)}}
@@ -3471,6 +3482,7 @@ async function boot(){
 function showLogin(){const d=$('dLogin');if(!d.open)d.showModal();$('lgU').focus()}
 $('dLogin').addEventListener('cancel',e=>e.preventDefault());
 $('lgT').onclick=()=>{const p=$('lgP'),h=p.type==='password';p.type=h?'text':'password';$('lgT').textContent=h?'ซ่อน':'แสดง';$('lgT').setAttribute('aria-pressed',String(h));p.focus()};
+$('googleLogin').onclick=()=>{location.assign('/auth/google')};
 $('lgF').onsubmit=async e=>{e.preventDefault();$('lgE').textContent='';
   try{await api('/login',{method:'POST',body:JSON.stringify({username:$('lgU').value,password:$('lgP').value})});
     $('lgP').value='';$('lgP').type='password';$('lgT').textContent='แสดง';$('dLogin').close();await boot()}catch(x){$('lgE').textContent=x.message}};

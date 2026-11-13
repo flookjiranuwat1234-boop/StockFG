@@ -1,18 +1,32 @@
 'use strict';
 const path = require('path');
+const crypto = require('crypto');
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const { OAuth2Client } = require('google-auth-library');
 const { pool, init } = require('./db');
 
-const { JWT_SECRET, PORT = 3000, NODE_ENV } = process.env;
+const { JWT_SECRET, PORT = 3000, NODE_ENV, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL } = process.env;
 if (!JWT_SECRET || JWT_SECRET.length < 24) {
   console.error('ต้องตั้งค่า JWT_SECRET ยาวอย่างน้อย 24 ตัวอักษร');
   process.exit(1);
 }
 const prod = NODE_ENV === 'production';
 const passwordMinLength = !prod && process.env.ALLOW_SHORT_TEST_PASSWORDS === 'true' ? 4 : 12;
+const googleOAuthValues = [GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL];
+if (googleOAuthValues.some(Boolean) && !googleOAuthValues.every(Boolean)) {
+  console.error('ต้องตั้งค่า GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET และ GOOGLE_CALLBACK_URL ให้ครบ');
+  process.exit(1);
+}
+if (prod && GOOGLE_CALLBACK_URL && !GOOGLE_CALLBACK_URL.startsWith('https://')) {
+  console.error('GOOGLE_CALLBACK_URL ต้องใช้ HTTPS ใน production');
+  process.exit(1);
+}
+const googleOAuth = googleOAuthValues.every(Boolean)
+  ? new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL)
+  : null;
 
 const app = express();
 app.set('trust proxy', 1);
@@ -79,9 +93,81 @@ app.post('/api/login', h(async (req, res) => {
   res.json({ name: u.name, role: u.role });
 }));
 app.post('/api/logout', (req, res) => { res.clearCookie('tk'); res.json({ ok: true }); });
-app.get('/api/config', (req, res) => res.json({ passwordMinLength }));
+app.get('/api/config', (req, res) => res.json({
+  passwordMinLength,
+  googleLoginEnabled: !!googleOAuth,
+}));
 app.get('/api/me', auth, (req, res) => res.json({ id: req.user.id, name: req.user.name, role: req.user.role }));
 app.get('/healthz', h(async (req, res) => { await pool.query('SELECT 1'); res.send('ok'); }));
+
+/* ---------- เข้าสู่ระบบด้วย Google ---------- */
+const oauthCookieOptions = { httpOnly: true, sameSite: 'lax', secure: prod, path: '/' };
+const googleLoginFailure = res => res.redirect('/?google_error=1');
+const secureEqual = (left, right) => {
+  if (typeof left !== 'string' || typeof right !== 'string') return false;
+  const a = Buffer.from(left), b = Buffer.from(right);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+};
+app.get('/auth/google', (req, res) => {
+  if (!googleOAuth) return res.status(503).send('ยังไม่ได้ตั้งค่า Google Sign-In');
+  const state = crypto.randomBytes(32).toString('hex');
+  const nonce = crypto.randomBytes(32).toString('hex');
+  res.cookie('google_oauth_state', state, { ...oauthCookieOptions, maxAge: 10 * 60 * 1000 });
+  res.cookie('google_oauth_nonce', nonce, { ...oauthCookieOptions, maxAge: 10 * 60 * 1000 });
+  res.redirect(googleOAuth.generateAuthUrl({
+    scope: ['openid', 'email', 'profile'],
+    state,
+    nonce,
+    prompt: 'select_account',
+  }));
+});
+app.get('/auth/google/callback', h(async (req, res) => {
+  const state = req.cookies.google_oauth_state;
+  const nonce = req.cookies.google_oauth_nonce;
+  res.clearCookie('google_oauth_state', oauthCookieOptions);
+  res.clearCookie('google_oauth_nonce', oauthCookieOptions);
+  if (!googleOAuth || req.query.error || !req.query.code ||
+      !secureEqual(state, req.query.state) || !nonce) return googleLoginFailure(res);
+
+  let payload;
+  try {
+    const { tokens } = await googleOAuth.getToken(String(req.query.code));
+    if (!tokens.id_token) return googleLoginFailure(res);
+    const ticket = await googleOAuth.verifyIdToken({ idToken: tokens.id_token, audience: GOOGLE_CLIENT_ID });
+    payload = ticket.getPayload();
+  } catch (e) {
+    console.error('Google Sign-In token verification failed');
+    return googleLoginFailure(res);
+  }
+  if (!payload || payload.email_verified !== true || !payload.email || !payload.sub ||
+      !secureEqual(payload.nonce, nonce)) return googleLoginFailure(res);
+
+  const email = String(payload.email).trim().toLowerCase();
+  const c = await pool.connect();
+  let user;
+  try {
+    await c.query('BEGIN');
+    const found = await c.query(
+      `SELECT id,username,name,role,active,token_version,google_sub
+       FROM users WHERE lower(google_email)=lower($1) AND active=true FOR UPDATE`, [email]);
+    user = found.rows[0];
+    if (!user || (user.google_sub && user.google_sub !== payload.sub)) {
+      await c.query('ROLLBACK');
+      return googleLoginFailure(res);
+    }
+    if (!user.google_sub) {
+      await c.query('UPDATE users SET google_sub=$2 WHERE id=$1', [user.id, payload.sub]);
+      await writeUserAudit(c, { id: user.id, name: user.name }, user, 'google_linked', {});
+    }
+    await c.query('COMMIT');
+  } catch (e) {
+    await c.query('ROLLBACK').catch(() => {});
+    throw e;
+  } finally { c.release(); }
+  const token = jwt.sign({ id: user.id, tv: user.token_version }, JWT_SECRET, { expiresIn: '12h' });
+  res.cookie('tk', token, { httpOnly: true, sameSite: 'lax', secure: prod, maxAge: 12 * 3600 * 1000 });
+  res.redirect('/');
+}));
 
 /* ---------- จัดการบัญชีผู้ใช้ ---------- */
 function userId(value) {
@@ -90,6 +176,16 @@ function userId(value) {
     throw fail(400, 'รหัสผู้ใช้ไม่ถูกต้อง');
   }
   return id;
+}
+function normalizedGoogleEmail(value) {
+  if (value == null) return null;
+  if (typeof value !== 'string') throw fail(400, 'อีเมล Google ไม่ถูกต้อง');
+  const email = value.trim().toLowerCase();
+  if (!email) return null;
+  if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw fail(400, 'อีเมล Google ไม่ถูกต้อง');
+  }
+  return email;
 }
 function userPassword(value) {
   if (typeof value !== 'string') throw fail(400, 'รหัสผ่านไม่ถูกต้อง');
@@ -107,7 +203,7 @@ async function writeUserAudit(client, actor, target, action, details) {
 }
 app.get('/api/users', auth, superAdmin, h(async (req, res) => {
   const [users, audit] = await Promise.all([
-    pool.query('SELECT id,username,name,role,active,created_at FROM users ORDER BY id'),
+    pool.query('SELECT id,username,name,google_email,role,active,created_at FROM users ORDER BY id'),
     pool.query(`SELECT id,actor_name,target_username,action,details,created_at
                 FROM user_audit ORDER BY created_at DESC,id DESC LIMIT 100`),
   ]);
@@ -116,6 +212,7 @@ app.get('/api/users', auth, superAdmin, h(async (req, res) => {
 app.post('/api/users', auth, superAdmin, h(async (req, res) => {
   const username = str(req.body.username, 80).trim();
   const name = str(req.body.name, 100).trim();
+  const googleEmail = normalizedGoogleEmail(req.body.google_email);
   const password = userPassword(req.body.password);
   const role = req.body.role;
   if (!username || /\s/.test(username) || !name || !USER_ROLES.has(role)) {
@@ -126,11 +223,11 @@ app.post('/api/users', auth, superAdmin, h(async (req, res) => {
   try {
     await c.query('BEGIN');
     const { rows } = await c.query(
-      `INSERT INTO users (username,name,pass_hash,role)
-       VALUES ($1,$2,$3,$4) ON CONFLICT (lower(username)) DO NOTHING
-       RETURNING id,username,name,role,active,created_at`,
-      [username, name, passHash, role]);
-    if (!rows.length) throw fail(409, 'ชื่อผู้ใช้นี้มีอยู่แล้ว');
+      `INSERT INTO users (username,name,pass_hash,google_email,role)
+       VALUES ($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING
+       RETURNING id,username,name,google_email,role,active,created_at`,
+      [username, name, passHash, googleEmail, role]);
+    if (!rows.length) throw fail(409, 'ชื่อผู้ใช้หรืออีเมล Google นี้มีอยู่แล้ว');
     await writeUserAudit(c, req.user, rows[0], 'created', { role });
     await c.query('COMMIT');
     res.status(201).json(rows[0]);
@@ -150,9 +247,11 @@ app.patch('/api/users/:id', auth, superAdmin, h(async (req, res) => {
     await c.query('BEGIN');
     await c.query('LOCK TABLE users IN SHARE ROW EXCLUSIVE MODE');
     const { rows } = await c.query(
-      'SELECT id,username,name,role,active,created_at FROM users WHERE id=$1 FOR UPDATE', [id]);
+      'SELECT id,username,name,google_email,role,active,created_at FROM users WHERE id=$1 FOR UPDATE', [id]);
     const target = rows[0];
     if (!target) throw fail(404, 'ไม่พบบัญชีผู้ใช้นี้');
+    const googleEmail = Object.prototype.hasOwnProperty.call(req.body, 'google_email')
+      ? normalizedGoogleEmail(req.body.google_email) : target.google_email;
     if (target.id === req.user.id && (role !== target.role || !active)) {
       throw fail(409, 'ใช้บัญชี super admin อื่นเพื่อเปลี่ยนสิทธิ์หรือปิดบัญชีนี้');
     }
@@ -162,17 +261,19 @@ app.patch('/api/users/:id', auth, superAdmin, h(async (req, res) => {
       if (count.rows[0].n <= 1) throw fail(409, 'ต้องมี super admin ที่เปิดใช้งานอย่างน้อย 1 บัญชี');
     }
     const updated = await c.query(
-      `UPDATE users SET name=$2,role=$3,active=$4,
+      `UPDATE users SET name=$2,role=$3,active=$4,google_email=$5,
+         google_sub=CASE WHEN google_email IS DISTINCT FROM $5 THEN NULL ELSE google_sub END,
          token_version=token_version+CASE
-           WHEN active IS DISTINCT FROM $4 OR role IS DISTINCT FROM $3 THEN 1 ELSE 0 END
+           WHEN active IS DISTINCT FROM $4 OR role IS DISTINCT FROM $3 OR google_email IS DISTINCT FROM $5 THEN 1 ELSE 0 END
        WHERE id=$1
-       RETURNING id,username,name,role,active,created_at`,
-      [id, name, role, active]);
+       RETURNING id,username,name,google_email,role,active,created_at`,
+      [id, name, role, active, googleEmail]);
     const next = updated.rows[0];
     const details = {};
     if (target.name !== name) details.name = { from: target.name, to: name };
     if (target.role !== role) details.role = { from: target.role, to: role };
     if (target.active !== active) details.active = { from: target.active, to: active };
+    if (target.google_email !== googleEmail) details.google_email = { from: target.google_email, to: googleEmail };
     if (Object.keys(details).length) await writeUserAudit(c, req.user, next, 'updated', details);
     await c.query('COMMIT');
     res.json(next);
@@ -338,6 +439,8 @@ app.use('/api', (req, res) => res.status(404).json({ error: 'ไม่พบ API
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 0 }));
 app.use((err, req, res, next) => {
   if (err.type === 'entity.too.large') return res.status(413).json({ error: 'ข้อมูลใหญ่เกินไป' });
+  if (req.path === '/auth/google/callback' && err.code === '23505' && err.constraint === 'users_google_sub_uq') return googleLoginFailure(res);
+  if (err.code === '23505' && err.constraint === 'users_google_email_uq') return res.status(409).json({ error: 'อีเมล Google นี้ถูกผูกกับบัญชีอื่นแล้ว' });
   if (err.code === '23505') return res.status(409).json({ error: 'รหัสสินค้าซ้ำกับที่มีอยู่แล้ว' });
   if (err.code === '23514') return res.status(400).json({ error: 'ค่าไม่ถูกต้อง (เช่น จำนวนติดลบ)' });
   const status = err.status || 500;

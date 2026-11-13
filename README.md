@@ -16,6 +16,7 @@
 | `ADMIN_USER`, `ADMIN_PASS`, `ADMIN_NAME` | สร้าง Super admin คนแรกอัตโนมัติ (ใช้ตอนตารางผู้ใช้ยังว่างเท่านั้น; โดยปกติรหัสผ่านอย่างน้อย 12 ตัวอักษร) |
 | `NODE_ENV=production` | เปิดโหมดใช้งานจริง (คุกกี้ล็อกอินเป็น secure และบังคับรหัสผ่านอย่างน้อย 12 ตัว) |
 | `ALLOW_SHORT_TEST_PASSWORDS=true` | อนุญาตรหัสผ่านอย่างน้อย 4 ตัวเฉพาะโหมดทดสอบที่ไม่ใช่ production; ไม่มีผลเมื่อ `NODE_ENV=production` |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_CALLBACK_URL` | เปิด Google Sign-In; ต้องตั้งให้ครบทั้ง 3 ค่า |
 
 ## นำขึ้นคลาวด์ (เลือกอย่างใดอย่างหนึ่ง)
 **Railway** (ง่ายสุด): สร้างโปรเจกต์ > Deploy from GitHub (หรืออัปโหลดโค้ด) > เพิ่ม PostgreSQL > ในบริการเว็บตั้ง `DATABASE_URL` = ค่า `DATABASE_URL` ของ Postgres (reference variable) แล้วตั้งตัวแปรที่เหลือ > Start command: `npm start`
@@ -29,6 +30,13 @@
 > **ฐานข้อมูลเดิม**: หลัง deploy รุ่นนี้ บัญชีเดิมจะเป็นผู้ใช้ทั่วไปโดยค่าเริ่มต้น ให้ผู้ดูแลระบบที่ได้รับอนุญาตเลื่อนบัญชีที่มีอยู่เป็น Super admin หนึ่งบัญชี เช่น `npm run add-user -- --promote admin` (แทน `admin` ด้วยชื่อบัญชีจริง ห้ามพิมพ์เครื่องหมาย `< >`) จากนั้นรีเฟรชหน้าเว็บเพื่อแสดงปุ่มจัดการบัญชี
 >
 > เพิ่มผู้ใช้หรือเปลี่ยนรหัสผ่านผ่าน CLI ได้ด้วย `npm run add-user -- USERNAME PASSWORD "DISPLAY NAME"` โดยแทนคำตัวใหญ่ด้วยข้อมูลจริง; รหัสผ่านต้องมีอย่างน้อย 12 ตัว หรือ 4 ตัวเมื่อเปิด `ALLOW_SHORT_TEST_PASSWORDS=true` ในโหมดที่ไม่ใช่ production เท่านั้น
+
+### เข้าสู่ระบบด้วย Google
+1. สร้าง OAuth Client แบบ **Web application** ใน Google Cloud Console และตั้ง Authorized redirect URI ให้ตรงกับ `GOOGLE_CALLBACK_URL` ทุกตัวอักษร เช่น `http://localhost:3000/auth/google/callback` สำหรับทดสอบ หรือ `https://โดเมนของคุณ/auth/google/callback` สำหรับ production.
+2. ตั้ง `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` และ `GOOGLE_CALLBACK_URL` ใน environment ของเซิร์ฟเวอร์ แล้ว restart ระบบ; ต้องตั้งครบทั้ง 3 ค่า ปุ่ม Google Sign-In จึงจะแสดง
+3. ในหน้าจัดการผู้ใช้ ให้ Super admin ใส่อีเมล Google ที่อนุมัติไว้ในบัญชีผู้ใช้ และเปิดใช้งานบัญชีนั้น ผู้ใช้จะเข้าได้เมื่อ Google ยืนยันอีเมลแล้วและตรงกับอีเมลที่อนุมัติ
+
+ระบบจะไม่สร้างบัญชีให้อัตโนมัติ และไม่ยกระดับบทบาทจากข้อมูล Google; การเข้าสู่ระบบครั้งแรกจะผูก Google identity กับบัญชีที่อนุมัติไว้ รหัสผ่านเดิมยังใช้ได้ตามปกติ Production ต้องใช้ HTTPS และเก็บ Client Secret เป็นความลับ.
 
 ## รันในเครื่อง
 ```
@@ -46,6 +54,7 @@ npm start              # เปิด http://localhost:3000
 - หน้าเว็บดึงข้อมูลใหม่ทุก 15 วินาที (ข้ามเมื่อกำลังเปิดฟอร์ม/มีการแก้ค้างอยู่)
 - ล็อกอินหมดอายุ 12 ชั่วโมง, จำกัดการเดารหัสผ่าน 8 ครั้ง/5 นาที/IP
 - รหัสผ่านขั้นต่ำคือ 12 ตัว; สำหรับข้อมูลทดสอบเท่านั้น ให้ตั้ง `ALLOW_SHORT_TEST_PASSWORDS=true` ใน environment ที่ `NODE_ENV` ไม่ใช่ `production` (มีผลกับหน้าเว็บ API, bootstrap และ CLI); ห้ามเปิดใช้บนระบบจริง
+- Google Sign-In เปิดได้เมื่อกำหนด OAuth credentials ครบ และอนุญาตเฉพาะบัญชีที่ Super admin เปิดใช้งานและอนุมัติอีเมลไว้เท่านั้น
 - รูปสินค้าเก็บในฐานข้อมูล (ย่อเหลือด้านยาวไม่เกิน 900px ฝั่งเบราว์เซอร์)
 - **สำรองข้อมูล**: เปิดการสำรองอัตโนมัติ (backup) ของผู้ให้บริการฐานข้อมูล และกดปุ่ม "สำรองเป็น JSON" เก็บไว้เป็นระยะ
 - ไฟล์ JSON สำรองครอบคลุมข้อมูลสินค้าและประวัติคลังสินค้า แต่ไม่รวมบัญชีผู้ใช้หรือประวัติการจัดการบัญชี; ให้ใช้ database backup เพื่อสำรองข้อมูลเหล่านี้
@@ -54,6 +63,6 @@ npm start              # เปิด http://localhost:3000
 
 ## ลิขสิทธิ์แอปและซอฟต์แวร์บุคคลที่สาม
 - แอปพลิเคชัน: © 2026 Food Gallery Limited. All rights reserved; ไม่ได้เผยแพร่ภายใต้ใบอนุญาตโอเพนซอร์ส
-- หน้าเว็บฝัง `qrcode-generator 1.4.4` (MIT) และ `SheetJS xlsx 0.18.5 mini` (Apache-2.0) รวมทั้งเรียกใช้ Noto Sans Thai ผ่าน Google Fonts (SIL OFL 1.1)
+- หน้าเว็บฝัง `qrcode-generator 1.4.4` (MIT) และ `SheetJS xlsx 0.18.5 mini` (Apache-2.0) รวมทั้งเรียกใช้ Noto Sans Thai ผ่าน Google Fonts (SIL OFL 1.1); ฝั่งเซิร์ฟเวอร์ใช้ `google-auth-library 9.15.1` (Apache-2.0)
 - ข้อความ License และประกาศลิขสิทธิ์ฉบับเต็มอยู่ที่ [public/THIRD_PARTY_NOTICES.txt](public/THIRD_PARTY_NOTICES.txt) และเปิดดูได้จากลิงก์แบบ relative ท้ายหน้าเว็บ (ใช้ได้ทั้งผ่านเซิร์ฟเวอร์และเปิดไฟล์โดยตรง) ต้องแจกจ่ายไฟล์นี้ไปพร้อม `index.html`
-- ไฟล์นี้ครอบคลุมส่วนประกอบที่ฝัง/เรียกใช้จากหน้าเว็บเท่านั้น; ก่อนแจกจ่ายซอร์สหรือแพ็กเกจเซิร์ฟเวอร์ ให้ตรวจ License ของ dependencies ฝั่ง Node.js ตามเวอร์ชันที่ติดตั้งจริงด้วย
+- ไฟล์นี้มีประกาศสำหรับส่วนประกอบหน้าเว็บและ `google-auth-library`; ก่อนแจกจ่ายซอร์สหรือแพ็กเกจเซิร์ฟเวอร์ ให้ตรวจ License ของ dependencies ฝั่ง Node.js ที่เหลือและ dependencies ทางอ้อมตามเวอร์ชันที่ติดตั้งจริงด้วย

@@ -22,22 +22,29 @@ CREATE TABLE IF NOT EXISTS users (
 ALTER TABLE users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'user';
 ALTER TABLE users ADD COLUMN IF NOT EXISTS active BOOLEAN NOT NULL DEFAULT true;
 ALTER TABLE users ADD COLUMN IF NOT EXISTS token_version INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS google_email TEXT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS google_sub TEXT;
 DO $$ BEGIN
   ALTER TABLE users ADD CONSTRAINT users_role_check CHECK (role IN ('user','super_admin'));
 EXCEPTION WHEN duplicate_object THEN NULL;
 END $$;
 CREATE UNIQUE INDEX IF NOT EXISTS users_username_uq ON users (lower(username));
+CREATE UNIQUE INDEX IF NOT EXISTS users_google_email_uq ON users (lower(google_email)) WHERE google_email IS NOT NULL;
+CREATE UNIQUE INDEX IF NOT EXISTS users_google_sub_uq ON users (google_sub) WHERE google_sub IS NOT NULL;
 CREATE TABLE IF NOT EXISTS user_audit (
   id BIGSERIAL PRIMARY KEY,
   actor_id INTEGER REFERENCES users(id),
   actor_name TEXT NOT NULL,
   target_id INTEGER NOT NULL REFERENCES users(id),
   target_username TEXT NOT NULL,
-  action TEXT NOT NULL CHECK (action IN ('created','updated','password_reset')),
+  action TEXT NOT NULL CHECK (action IN ('created','updated','password_reset','google_linked')),
   details JSONB NOT NULL DEFAULT '{}'::jsonb,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 ALTER TABLE user_audit ALTER COLUMN actor_id DROP NOT NULL;
+ALTER TABLE user_audit DROP CONSTRAINT IF EXISTS user_audit_action_check;
+ALTER TABLE user_audit ADD CONSTRAINT user_audit_action_check
+  CHECK (action IN ('created','updated','password_reset','google_linked'));
 CREATE INDEX IF NOT EXISTS user_audit_created_at_idx ON user_audit (created_at DESC);
 CREATE TABLE IF NOT EXISTS products (
   id TEXT PRIMARY KEY,
