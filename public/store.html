@@ -165,14 +165,14 @@
           <h3 data-i18n="categoryTitle">เลือกชมสินค้าหลากหลายหมวด</h3>
           <p data-i18n="categoryDescription">หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้</p>
           <div class="categoryTags">
-            <div class="categoryTag"><img src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" loading="lazy"><strong data-i18n="produce">ผักและผลไม้</strong><small data-i18n="freshProduce">ผักสดและผลไม้สด</small></div>
-            <div class="categoryTag"><img src="images/category-meat.jpg" alt="เนื้อสัตว์" data-i18n-alt="meat" loading="lazy"><strong data-i18n="meat">เนื้อสัตว์</strong><small data-i18n="freshFrozenMeat">เนื้อสัตว์แช่เย็นและแช่แข็ง</small></div>
-            <div class="categoryTag"><img src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood" loading="lazy"><strong data-i18n="seafood">อาหารทะเล</strong><small data-i18n="freshFrozenSeafood">อาหารทะเลสดและแช่แข็ง</small></div>
-            <div class="categoryTag"><img src="images/category-beverage.jpg" alt="เครื่องดื่ม" data-i18n-alt="beverages" loading="lazy"><strong data-i18n="beverages">เครื่องดื่ม</strong><small data-i18n="beveragesDescription">น้ำผลไม้ น้ำดื่ม นม และชา</small></div>
-            <div class="categoryTag"><img src="images/category-grocery.jpg" alt="อาหารแห้ง" data-i18n-alt="grocery" loading="lazy"><strong data-i18n="grocery">อาหารแห้ง</strong><small data-i18n="groceryDescription">อาหารแห้งและธัญพืช</small></div>
-            <div class="categoryTag"><img src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery" loading="lazy"><strong data-i18n="bakery">ขนมอบ</strong><small data-i18n="bakeryDescription">เค้ก ขนมปัง และขนมปังแช่แข็ง</small></div>
-            <div class="categoryTag"><img src="images/category-dairy.jpg" alt="ผลิตภัณฑ์จากนม" data-i18n-alt="dairy" loading="lazy"><strong data-i18n="dairy">ผลิตภัณฑ์จากนม</strong><small data-i18n="dairyDescription">ไอศกรีม เนย ชีส และครีม</small></div>
-            <div class="categoryTag"><img src="images/category-snacks.jpg" alt="ขนมขบเคี้ยว" data-i18n-alt="snacks" loading="lazy"><strong data-i18n="snacks">ขนมขบเคี้ยว</strong><small data-i18n="snacksDescription">ลูกอม ช็อกโกแลต และขนมกรุบกรอบ</small></div>
+            <div class="categoryTag"><img data-src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" loading="lazy"><strong data-i18n="produce">ผักและผลไม้</strong><small data-i18n="freshProduce">ผักสดและผลไม้สด</small></div>
+            <div class="categoryTag"><img data-src="images/category-meat.jpg" alt="เนื้อสัตว์" data-i18n-alt="meat" loading="lazy"><strong data-i18n="meat">เนื้อสัตว์</strong><small data-i18n="freshFrozenMeat">เนื้อสัตว์แช่เย็นและแช่แข็ง</small></div>
+            <div class="categoryTag"><img data-src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood" loading="lazy"><strong data-i18n="seafood">อาหารทะเล</strong><small data-i18n="freshFrozenSeafood">อาหารทะเลสดและแช่แข็ง</small></div>
+            <div class="categoryTag"><img data-src="images/category-beverage.jpg" alt="เครื่องดื่ม" data-i18n-alt="beverages" loading="lazy"><strong data-i18n="beverages">เครื่องดื่ม</strong><small data-i18n="beveragesDescription">น้ำผลไม้ น้ำดื่ม นม และชา</small></div>
+            <div class="categoryTag"><img data-src="images/category-grocery.jpg" alt="อาหารแห้ง" data-i18n-alt="grocery" loading="lazy"><strong data-i18n="grocery">อาหารแห้ง</strong><small data-i18n="groceryDescription">อาหารแห้งและธัญพืช</small></div>
+            <div class="categoryTag"><img data-src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery" loading="lazy"><strong data-i18n="bakery">ขนมอบ</strong><small data-i18n="bakeryDescription">เค้ก ขนมปัง และขนมปังแช่แข็ง</small></div>
+            <div class="categoryTag"><img data-src="images/category-dairy.jpg" alt="ผลิตภัณฑ์จากนม" data-i18n-alt="dairy" loading="lazy"><strong data-i18n="dairy">ผลิตภัณฑ์จากนม</strong><small data-i18n="dairyDescription">ไอศกรีม เนย ชีส และครีม</small></div>
+            <div class="categoryTag"><img data-src="images/category-snacks.jpg" alt="ขนมขบเคี้ยว" data-i18n-alt="snacks" loading="lazy"><strong data-i18n="snacks">ขนมขบเคี้ยว</strong><small data-i18n="snacksDescription">ลูกอม ช็อกโกแลต และขนมกรุบกรอบ</small></div>
           </div>
         </aside>
         <div id="productsGrid" class="grid" aria-live="polite"></div>
@@ -309,25 +309,37 @@
       document.querySelectorAll('main>section[id]').forEach(section=>{
         section.hidden=page!=='home'&&section.id!==page
       });
+      if(page==='home'||page==='products'){
+        document.querySelectorAll('.categoryTag img[data-src]:not([src])').forEach(image=>{image.src=image.dataset.src});
+      }
       document.querySelectorAll('.links [data-page]').forEach(link=>{
         if(link.dataset.page===page)link.setAttribute('aria-current','page');
         else link.removeAttribute('aria-current')
       });
       document.title=page==='home'?translate('homeTitle'):`${pageNames[page]} | Food Gallery`;
     }
-    async function productImage(id){
-      if(!id)return '';
+    function productImage(id){
+      if(!id)return Promise.resolve('');
       if(imageCache.has(id))return imageCache.get(id);
-      const response=await fetch('/api/storefront/images/'+encodeURIComponent(id));
-      if(!response.ok)throw new Error('image');
-      const data=(await response.json()).data;
-      imageCache.set(id,data);
-      return data;
+      const request=fetch('/api/storefront/images/'+encodeURIComponent(id))
+        .then(response=>{if(!response.ok)throw new Error('image');return response.json()})
+        .then(data=>data.data)
+        .catch(error=>{imageCache.delete(id);throw error});
+      imageCache.set(id,request);
+      return request;
     }
     async function fillImage(img,id){
       try{const src=await productImage(id);if(src){img.src=src;img.hidden=false;img.parentElement.querySelector('.placeholder')?.remove()}}
       catch(e){const placeholder=img.parentElement?.querySelector('.placeholder');if(placeholder)placeholder.textContent=translate('imageUnavailable')}
     }
+    const imageObserver=typeof IntersectionObserver==='function'?new IntersectionObserver((entries,observer)=>{
+      for(const entry of entries){
+        if(!entry.isIntersecting)continue;
+        observer.unobserve(entry.target);
+        const image=entry.target.querySelector('.photo img');
+        if(image)fillImage(image,entry.target.dataset.imageId);
+      }
+    },{rootMargin:'200px'}):null;
     function productCard(product,compact){
       const nameText=productName(product);
       const node=document.createElement('article');
@@ -337,8 +349,7 @@
       node.setAttribute('aria-label',`${translate('productDetails')} ${nameText}`);
       const photo=document.createElement('div');photo.className='photo';
       const placeholder=document.createElement('span');placeholder.className='placeholder';placeholder.textContent='✦';photo.append(placeholder);
-      const image=document.createElement('img');image.alt=nameText;image.hidden=true;
-      if(product.image)fillImage(image,product.image);
+      const image=document.createElement('img');image.alt=nameText;image.hidden=true;image.loading='lazy';image.decoding='async';
       photo.append(image);
       const text=document.createElement('div');text.className=compact?'':'productText';
       const category=document.createElement('span');category.className='tag';category.textContent=translatedCategory(product.cat);
@@ -346,6 +357,10 @@
       const sku=document.createElement('span');sku.className='sku';sku.textContent=`${translate('sku')} ${product.sku}`;
       text.append(category,name,sku);
       node.append(photo,text);
+      if(product.image){
+        if(imageObserver){node.dataset.imageId=product.image;imageObserver.observe(node)}
+        else fillImage(image,product.image);
+      }
       const open=()=>showProduct(product);
       node.addEventListener('click',open);
       node.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();open()}});
@@ -368,6 +383,7 @@
     function renderProducts(){
       if(productsLoadFailed)return;
       if(!productsLoaded)return;
+      if(imageObserver)imageObserver.disconnect();
       const products=filteredProducts(),grid=$('productsGrid');grid.replaceChildren();
       if(products.length)products.forEach(product=>grid.append(productCard(product,false)));
       else grid.innerHTML=`<div class="empty">${translate(allProducts.length?'noMatchingProducts':'noPublishedProducts')}</div>`;
