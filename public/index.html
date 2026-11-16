@@ -2415,7 +2415,7 @@ button.cd{cursor:pointer}
 .chips button.on{background:var(--pr);color:var(--prt);border-color:var(--pr)}
 .lay{display:grid;grid-template-columns:1fr;gap:12px}
 .col{min-width:0}
-@media(min-width:900px){.lay{grid-template-columns:minmax(0,1fr) 270px;align-items:start}}
+@media(min-width:1100px){.lay{grid-template-columns:minmax(0,1fr) 270px;align-items:start}}
 .nr{display:flex;justify-content:space-between;gap:8px;width:100%;min-height:44px;margin-top:6px;text-align:left}
 .nr .wn{color:var(--wn);white-space:nowrap}.nr .rd{color:var(--dg);white-space:nowrap}
 .low.out{background:transparent;color:var(--dg);border:1px solid var(--dg)}
@@ -2458,6 +2458,8 @@ button.cd:hover{border-color:var(--pr);box-shadow:var(--shadow);transform:transl
 .card h2{font-size:1.05rem;margin-bottom:12px}
 .tw{overflow:auto}
 table{min-width:620px}
+tbody td.empty{white-space:normal;overflow-wrap:anywhere;line-height:1.9}
+.tw:has(td.empty) table{min-width:0;table-layout:fixed}
 th,td{padding:12px 14px}
 th{color:var(--mut);font-size:.9rem;background:var(--card)}
 tbody tr{transition:background-color .12s}
@@ -2519,7 +2521,7 @@ footer a:hover{text-decoration-thickness:2px}
 .brand h1{line-height:1.25}
 .brand .stat{font-size:.9rem;line-height:1.4}
 .acts{align-items:center;justify-content:flex-end;gap:10px}
-.top .acts>a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:6px 18px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);font-weight:500}
+.top .acts>a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:6px 18px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);font-weight:500;text-decoration:none}
 .top .acts>a:hover{background:var(--bg)}
 .top .acts>button{min-height:44px;padding:6px 18px}
 .top .acts>button.pr{padding:6px 22px}
@@ -2587,7 +2589,7 @@ footer a:hover{text-decoration-thickness:2px}
 .act button.dg:hover{background:color-mix(in srgb,var(--dg) 10%,transparent);border-color:var(--dg);transform:none}
 .pager{margin:14px 2px}
 .pager button{min-height:40px;padding:4px 18px}
-@media(min-width:900px){#side{position:sticky;top:16px}}
+@media(min-width:1100px){#side{position:sticky;top:16px}}
 @media(min-width:641px){.exp{flex-wrap:nowrap;margin-left:auto}.exp button,.exp .expl{flex:none;white-space:nowrap}.toolbar #scope{flex:0 0 150px}}
 .dataCard{padding:0}
 .dataCard>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:10px 18px;
