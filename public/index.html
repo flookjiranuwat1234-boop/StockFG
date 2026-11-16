@@ -2426,8 +2426,13 @@ input[type=radio]{width:22px;height:22px}
 .hist li{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--bd)}
 .ty.in{color:var(--pr)}.ty.out{color:var(--wn)}
 #pa{display:none}
-@media print{html,body{background:#fff!important}body>*:not(#pa){display:none!important}#pa{display:grid;grid-template-columns:repeat(4,1fr);gap:10mm;color:#000}
-#pa figure{margin:0;text-align:center;break-inside:avoid;font-size:10pt}#pa img{width:100%}}
+@page{size:A4 portrait;margin:12mm}
+@media print{html,body{margin:0!important;background:#fff!important}body>*:not(#pa){display:none!important}#pa{display:grid;grid-template-columns:repeat(4,1fr);gap:10mm;color:#000}
+#pa figure{margin:0;text-align:center;break-inside:avoid;font-size:10pt}#pa img{width:100%}
+#pa.single{display:flex;align-items:center;justify-content:center;min-height:273mm}
+#pa.single figure{box-sizing:border-box;width:112mm;padding:12mm;border:1px solid #bbb;border-radius:4mm}
+#pa.single img{display:block;width:82mm;height:82mm;object-fit:contain;margin:0 auto 6mm}
+#pa.single figcaption{font-size:14pt;font-weight:700;line-height:1.5}}
 @media(max-width:520px){.g2{grid-template-columns:1fr}.detailGrid{grid-template-columns:1fr}}
 
 /* ===== ปรับแต่งรูปลักษณ์ ===== */
@@ -3191,7 +3196,7 @@ $('bPrint').onclick=()=>{const a=scoped();if(!a.length)return;
     const f=document.createElement('figure');const cap=document.createElement('figcaption');cap.textContent=`${i.sku} ${i.name} · สแกนเพื่อดูรายละเอียด`;f.append(img,cap);pa.append(f)}catch(e){bad++}});
   if(bad)toast(`สร้าง QR ไม่ได้ ${bad} รายการ`,1);
   if(['localhost','127.0.0.1'].includes(location.hostname))toast('QR จาก localhost ใช้กับเครื่องนี้เท่านั้น: เปิดระบบผ่าน IP หรือโดเมนที่เครื่องสแกนเข้าถึงได้ก่อนพิมพ์',1);
-  if(pa.children.length)setTimeout(()=>window.print(),200)};
+  if(pa.children.length){pa.classList.toggle('single',pa.children.length===1);setTimeout(()=>window.print(),200)}};
 
 /* ===== นำเข้า CSV ===== */
 function parseCSV(t,d=','){t=t.replace(/^\ufeff/,'');const o=[];let r=[],c='',inq=false;
