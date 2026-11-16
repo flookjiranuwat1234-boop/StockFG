@@ -99,6 +99,24 @@
     .contactWays{display:flex;flex-wrap:wrap;gap:10px}
     .contactWays a{display:inline-flex;padding:11px 16px;border:1px solid #ffffff55;border-radius:999px;font-weight:700}
     .contactWays a:hover{background:#ffffff18}
+    .contactMap{height:280px;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#e9f5fc}
+    .contactMap iframe{display:block;width:100%;height:100%;border:0}
+    .contactPageGrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:18px;margin-top:18px;align-items:stretch}
+    .contactFormPanel{min-width:0;padding:26px;border:1px solid var(--line);border-radius:24px;background:#fff}
+    .contactFormPanel h3{margin:0 0 5px;font-size:1.15rem}
+    .contactFormPanel>p{margin:0 0 14px;color:var(--muted);line-height:1.75}
+    .contactFields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    .contactForm label{display:block;min-width:0;margin:12px 0 0;font-size:.9rem;font-weight:700}
+    .contactFields label{margin:0}
+    .contactForm input,.contactForm textarea{display:block;width:100%;min-height:46px;margin-top:5px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font:inherit}
+    .contactForm textarea{min-height:140px;resize:vertical}
+    .contactForm input:focus,.contactForm textarea:focus{border-color:var(--blue-deep);outline:3px solid #0878be22}
+    .contactFormActions{display:flex;justify-content:flex-end;margin-top:16px}
+    .contactFormActions button{min-height:44px;padding:0 20px;border:0;border-radius:999px;background:var(--blue-deep);color:#fff;font-weight:700;cursor:pointer}
+    .contactFormActions button:hover{background:var(--blue)}
+    @media(max-width:900px){.contactPageGrid{grid-template-columns:minmax(0,1fr) minmax(250px,.8fr)}}
+    @media(max-width:680px){.contactMap{height:210px}.contactPageGrid{grid-template-columns:1fr}.contactFormPanel{padding:22px}}
+    @media(max-width:520px){.contactMap{height:185px}.contactFields{grid-template-columns:1fr}}
     footer{margin-top:42px;padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
     .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     dialog{width:min(580px,calc(100% - 28px));border:0;border-radius:22px;padding:24px;color:var(--ink);box-shadow:0 22px 80px #10304a40}
@@ -286,9 +304,42 @@
 
     <section class="section" id="contact">
       <div class="wrap">
-        <div class="contactBox">
-          <div><span class="eyebrow" style="color:#fff">Get in touch</span><h2 data-i18n="contactTitle">ติดต่อเรา</h2><p id="contactMessage" data-i18n="contactMessage">สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง</p></div>
-          <div id="contactWays" class="contactWays"></div>
+        <div class="sectionHead"><div><span class="eyebrow">Get in touch</span><h2 data-i18n="contactTitle">ติดต่อเรา</h2><p id="contactDescription" data-i18n="contactMessage">สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง</p></div></div>
+        <div class="contactMap">
+          <iframe title="Food Gallery Limited map" data-i18n-title="contactMapTitle" src="https://www.google.com/maps?q=Food%20Gallery%20Limited%2C%20Bangkok%2C%20Thailand&amp;output=embed" loading="lazy" referrerpolicy="no-referrer"></iframe>
+        </div>
+        <div class="contactPageGrid">
+          <div class="contactFormPanel">
+            <h3 data-i18n="contactFormTitle">ส่งข้อความถึงเรา</h3>
+            <p data-i18n="contactFormNote">เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง</p>
+            <form id="contactForm" class="contactForm">
+              <div class="contactFields">
+                <label for="contactFirstName"><span data-i18n="contactFirstName">ชื่อ</span>
+                  <input id="contactFirstName" name="firstName" type="text" autocomplete="given-name" maxlength="60" required>
+                </label>
+                <label for="contactLastName"><span data-i18n="contactLastName">นามสกุล</span>
+                  <input id="contactLastName" name="lastName" type="text" autocomplete="family-name" maxlength="60" required>
+                </label>
+                <label for="contactEmail"><span data-i18n="email">อีเมล</span>
+                  <input id="contactEmail" name="email" type="email" autocomplete="email" maxlength="254" required>
+                </label>
+                <label for="contactPhone"><span data-i18n="phone">โทร</span>
+                  <input id="contactPhone" name="phone" type="tel" autocomplete="tel" maxlength="24">
+                </label>
+              </div>
+              <label for="contactSubject"><span data-i18n="contactSubjectField">หัวข้อ</span>
+                <input id="contactSubject" name="subject" type="text" maxlength="120" required>
+              </label>
+              <label for="contactMessageText"><span data-i18n="contactMessageField">ข้อความ</span>
+                <textarea id="contactMessageText" name="message" rows="5" maxlength="2000" required></textarea>
+              </label>
+              <div class="contactFormActions"><button type="submit" data-i18n="contactSend">ส่งข้อความทางอีเมล</button></div>
+            </form>
+          </div>
+          <div class="contactBox">
+            <div><span class="eyebrow" style="color:#fff">Get in touch</span><h2 data-i18n="contactDetailsTitle">ช่องทางติดต่อ</h2></div>
+            <div id="contactWays" class="contactWays"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -319,7 +370,7 @@
         activitiesTitle:'กิจกรรม',activitiesDescription:'ข่าวสารและกิจกรรมจาก Food Gallery',followActivities:'ติดตามกิจกรรมของเรา',noActivities:'ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้',seeYouSoon:'พบกันในโอกาสต่อไป',activitiesAnnounced:'รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ',
         newTitle:'สินค้าใหม่',newDescription:'รายการล่าสุดที่เผยแพร่บนหน้าร้าน',promotionsTitle:'โปรโมชั่น',promotionsDescription:'ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา',noPromotions:'ยังไม่มีโปรโมชั่นที่ประกาศ',promotionsUpdated:'เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้',
         aboutTitle:'เกี่ยวกับเรา',aboutDescription:'Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ ผลิตภัณฑ์จากนม และขนมขบเคี้ยว',aboutStorefront:'หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง',
-        contactTitle:'ติดต่อเรา',contactMessage:'สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง',notices:'ประกาศลิขสิทธิ์ซอฟต์แวร์',close:'ปิด',modalContactPrompt:'สอบถามรายละเอียดเพิ่มเติมได้ทาง',
+        contactTitle:'ติดต่อเรา',contactMessage:'สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง',contactDetailsTitle:'ช่องทางติดต่อ',contactMapTitle:'แผนที่สำนักงาน Food Gallery Limited',contactFormTitle:'ส่งข้อความถึงเรา',contactFormNote:'เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง',contactFirstName:'ชื่อ',contactLastName:'นามสกุล',contactSubjectField:'หัวข้อ',contactMessageField:'ข้อความ',contactSend:'ส่งข้อความทางอีเมล',contactMailSubject:'ติดต่อจากเว็บไซต์',contactNameLabel:'ชื่อ',notices:'ประกาศลิขสิทธิ์ซอฟต์แวร์',close:'ปิด',modalContactPrompt:'สอบถามรายละเอียดเพิ่มเติมได้ทาง',
         homeTitle:'สินค้าและข่าวสาร | Food Gallery',loadingProducts:'กำลังโหลดสินค้า…',showingCount:'แสดง {count} รายการ',noMatchingProducts:'ยังไม่มีสินค้าที่ตรงกับการค้นหา',noPublishedProducts:'ยังไม่มีสินค้าที่เผยแพร่',noNewProducts:'ยังไม่มีสินค้าใหม่ที่เผยแพร่',loadFailed:'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง',unableProducts:'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้',imageUnavailable:'รูปภาพไม่พร้อมใช้งาน',product:'สินค้า',productDetails:'ดูรายละเอียด',sku:'รหัส',skuLabel:'รหัสสินค้า',email:'อีเมล',phone:'โทร',officialSite:'เว็บไซต์ Food Gallery',metaDescription:'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
       },
       en:{
@@ -330,7 +381,7 @@
         activitiesTitle:'Activities',activitiesDescription:'News and activities from Food Gallery',followActivities:'Follow our activities',noActivities:'There are no new activity announcements yet. Please check back for updates.',seeYouSoon:'See you next time',activitiesAnnounced:'Activity details will be announced once officially confirmed.',
         newTitle:'New arrivals',newDescription:'The latest products published in our store',promotionsTitle:'Promotions',promotionsDescription:'Check our channels for promotion announcements',noPromotions:'No promotions have been announced yet',promotionsUpdated:'We will update this page when new promotions are available.',
         aboutTitle:'About us',aboutDescription:'Food Gallery Limited imports and distributes a wide range of food products, from fresh produce, meat and seafood to beverages, groceries, bakery products, dairy and snacks.',aboutStorefront:'This storefront features products selected for publication by our team. Inventory quantities, reorder points and warehouse locations are not shown.',
-        contactTitle:'Contact us',contactMessage:'For product enquiries and more information, please use the contact details below.',notices:'Software notices',close:'Close',modalContactPrompt:'For more information, contact us via',
+        contactTitle:'Contact us',contactMessage:'For product enquiries and more information, please use the contact details below.',contactDetailsTitle:'Contact details',contactMapTitle:'Food Gallery Limited office map',contactFormTitle:'Send us a message',contactFormNote:'Submitting opens a draft in your email app. You will need to confirm sending it there.',contactFirstName:'First name',contactLastName:'Last name',contactSubjectField:'Subject',contactMessageField:'Message',contactSend:'Send by email',contactMailSubject:'Website enquiry',contactNameLabel:'Name',notices:'Software notices',close:'Close',modalContactPrompt:'For more information, contact us via',
         homeTitle:'Products and News | Food Gallery',loadingProducts:'Loading products…',showingCount:'Showing {count} items',noMatchingProducts:'No products match your search.',noPublishedProducts:'No products have been published.',noNewProducts:'No new products have been published.',loadFailed:'Could not load data. Please try again later.',unableProducts:'Unable to connect to product data.',imageUnavailable:'Image unavailable',product:'Product',productDetails:'View details',sku:'SKU',skuLabel:'Product SKU',email:'Email',phone:'Phone',officialSite:'Food Gallery website',metaDescription:'Browse new products, activities and promotions from Food Gallery'
       }
     };
@@ -359,6 +410,7 @@
       document.querySelectorAll('[data-i18n]').forEach(element=>{element.textContent=translate(element.dataset.i18n)});
       document.querySelectorAll('[data-i18n-placeholder]').forEach(element=>{element.placeholder=translate(element.dataset.i18nPlaceholder)});
       document.querySelectorAll('[data-i18n-aria-label]').forEach(element=>{element.setAttribute('aria-label',translate(element.dataset.i18nAriaLabel))});
+      document.querySelectorAll('[data-i18n-title]').forEach(element=>{element.title=translate(element.dataset.i18nTitle)});
       document.querySelectorAll('[data-i18n-alt]').forEach(element=>{element.alt=translate(element.dataset.i18nAlt)});
       document.querySelectorAll('[data-language]').forEach(button=>{
         const selected=button.dataset.language===currentLanguage;
@@ -470,6 +522,9 @@
       if(recent.length)recent.forEach(product=>newGrid.append(productCard(product,true)));
       else newGrid.innerHTML=`<div class="empty">${translate('noNewProducts')}</div>`;
     }
+    function getContactEmail(){
+      return typeof currentContact.email==='string'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(currentContact.email)?currentContact.email:'info@foodgallery.co.th';
+    }
     function renderContact(contact){
       const ways=$('contactWays');ways.replaceChildren();
       const mobileSocial=$('mobileSocial');mobileSocial.replaceChildren();
@@ -477,7 +532,8 @@
         Facebook:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.6 1.6-1.6h1.7V3.8c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6V10H6.7v3h2.9v8h3.9z"></path></svg>',
         Instagram:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"></rect><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg>'
       };
-      const emailAddress=typeof contact.email==='string'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)?contact.email:'info@foodgallery.co.th';
+      currentContact=contact;
+      const emailAddress=getContactEmail();
       const email=document.createElement('a');email.href='mailto:'+emailAddress;email.textContent=`${translate('email')} ${emailAddress}`;ways.append(email);
       if(typeof contact.phone==='string'&&/^[\d\s()+-]{7,24}$/.test(contact.phone)){
         const phone=document.createElement('a');phone.href='tel:'+contact.phone.replace(/[^\d+]/g,'');phone.textContent=`${translate('phone')} ${contact.phone}`;ways.append(phone)}
@@ -540,6 +596,23 @@
     }));
     $('modalClose').onclick=()=>$('productDialog').close();
     $('modalContact').onclick=()=>$('productDialog').close();
+    $('contactForm').addEventListener('submit',event=>{
+      event.preventDefault();
+      const form=event.currentTarget;
+      if(!form.reportValidity())return;
+      const fields=new FormData(form);
+      const value=name=>String(fields.get(name)||'').trim();
+      const subject=`${translate('contactMailSubject')}: ${value('subject')}`;
+      const body=[
+        `${translate('contactNameLabel')}: ${value('firstName')} ${value('lastName')}`,
+        `${translate('email')}: ${value('email')}`,
+        `${translate('phone')}: ${value('phone')||'-'}`,
+        `${translate('contactSubjectField')}: ${value('subject')}`,
+        '',
+        value('message')
+      ].join('\n');
+      location.href=`mailto:${getContactEmail()}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
     const initialSearch=new URLSearchParams(location.search).get('search');
     if(initialSearch!==null){$('search').value=initialSearch;$('mobileSearch').value=initialSearch}
     $('loadStatus').textContent=translate('loadingProducts');

@@ -38,7 +38,7 @@ app.use((req, res, next) => {
     'Referrer-Policy': 'same-origin',
     'Content-Security-Policy':
       "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-      "font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'",
+      "font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-src https://www.google.com/maps https://www.google.com/maps/; frame-ancestors 'none'",
   });
   next();
 });
