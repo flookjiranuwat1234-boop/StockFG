@@ -332,3 +332,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
    License: Apache License 2.0
    Source: https://github.com/googleapis/google-auth-library-nodejs/tree/v9.15.1
    The complete Apache License 2.0 text in item 2 above also applies to this package.
+
+5. Brand and image assets (not software licenses)
+   The project owner has confirmed that this project is authorized to use the
+   Food Gallery logo and category images in public/images. The category images
+   are sourced from the official Food Gallery website. This records the
+   project's stated authorization; it is not a license for others to reuse
+   these assets and does not replace permission records from the rights holder.
+   Administrators publishing product images must ensure they have the rights
+   or permissions needed for publication. The application does not verify
+   image licenses.
