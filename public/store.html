@@ -107,10 +107,11 @@
     .status{min-height:24px;color:var(--muted);margin:18px 0}
     .mobileMenuToggle{display:none;place-items:center;width:48px;height:48px;padding:0;border:0;border-radius:12px;background:transparent;color:var(--ink);cursor:pointer}
     .mobileMenuToggle svg{width:36px;height:36px}
-    #mobileMenuBackdrop{display:none;position:fixed;inset:0;z-index:20;background:#203b380a}
-    #mobileMenuBackdrop:not([hidden]){display:block}
-    .mobileDrawer{position:fixed;inset:0 0 0 auto;z-index:21;display:flex;flex-direction:column;width:min(360px,calc(100vw - 48px));overflow-y:auto;background:#f4f4f4;color:#5a5a5a;box-shadow:-12px 0 28px #0003}
-    .mobileDrawer[hidden]{display:none}
+    #mobileMenuBackdrop{position:fixed;inset:0;z-index:20;background:#203b380a;opacity:0;visibility:hidden;transition:opacity .24s ease,visibility 0s linear .24s}
+    #mobileMenuBackdrop.is-open{opacity:1;visibility:visible;transition:opacity .24s ease}
+    .mobileDrawer{position:fixed;inset:0 0 0 auto;z-index:21;display:flex;flex-direction:column;width:min(360px,calc(100vw - 48px));overflow-y:auto;background:#f4f4f4;color:#5a5a5a;box-shadow:-12px 0 28px #0003;transform:translateX(100%);visibility:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s linear .28s}
+    .mobileDrawer.is-open{transform:translateX(0);visibility:visible;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s}
+    @media(prefers-reduced-motion:reduce){#mobileMenuBackdrop,.mobileDrawer{transition:none!important}}
     .srOnly{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     .drawerSearch{display:flex;align-items:center;gap:8px;padding:9px clamp(16px,6vw,36px);background:#e5e5e5}
     .drawerSearch input{width:100%;min-width:0;height:50px;padding:0 52px 0 14px;border:0;border-radius:0;background:#fff;color:var(--ink);font-size:1rem}
@@ -134,7 +135,7 @@
       .nav{display:flex;height:100px;min-height:100px;justify-content:flex-start;padding:0}
       .brand,.navActions,.nav>.links{display:none}
       .mobileMenuToggle{display:grid}
-      body.menuOpen{overflow:hidden}
+      body.menuOpen{overflow:hidden;padding-right:var(--menu-scrollbar-width,0px)}
       .hero{padding:26px 0 18px}
       .heroBox{min-height:0;grid-template-columns:1fr;gap:12px;padding:22px}
       .heroVisual{order:-1;height:225px}
@@ -187,8 +188,8 @@
       </div>
     </div>
   </header>
-  <div id="mobileMenuBackdrop" hidden></div>
-  <aside class="mobileDrawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-labelledby="mobileDrawerTitle" hidden>
+  <div id="mobileMenuBackdrop" aria-hidden="true"></div>
+  <aside class="mobileDrawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-labelledby="mobileDrawerTitle" aria-hidden="true">
     <h2 class="srOnly" id="mobileDrawerTitle" tabindex="-1" data-i18n="mainMenu">เมนูหลัก</h2>
     <form class="drawerSearch" id="mobileSearchForm">
       <label class="srOnly" for="mobileSearch" data-i18n="searchProducts">ค้นหาสินค้า</label>
@@ -492,8 +493,15 @@
     }
     function setMobileMenuOpen(open){
       const toggle=$('mobileMenuToggle'),drawer=$('mobileDrawer');
-      drawer.hidden=!open;
-      $('mobileMenuBackdrop').hidden=!open;
+      if(open&&!document.body.classList.contains('menuOpen')){
+        const scrollbarWidth=window.innerWidth-document.documentElement.clientWidth;
+        document.body.style.setProperty('--menu-scrollbar-width',`${scrollbarWidth}px`);
+      }else if(!open){
+        document.body.style.removeProperty('--menu-scrollbar-width')
+      }
+      drawer.classList.toggle('is-open',open);
+      drawer.setAttribute('aria-hidden',String(!open));
+      $('mobileMenuBackdrop').classList.toggle('is-open',open);
       document.body.classList.toggle('menuOpen',open);
       toggle.setAttribute('aria-expanded',String(open));
       toggle.dataset.i18nAriaLabel=open?'closeMenu':'openMenu';
@@ -512,7 +520,7 @@
     });
     document.addEventListener('keydown',event=>{
       const drawer=$('mobileDrawer');
-      if(drawer.hidden)return;
+      if(drawer.getAttribute('aria-hidden')==='true')return;
       if(event.key==='Escape'){setMobileMenuOpen(false);return}
       if(event.key==='Tab'){
         const focusable=Array.from(drawer.querySelectorAll('a[href],button:not([disabled]),input:not([disabled])'));
