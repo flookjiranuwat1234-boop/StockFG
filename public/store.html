@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#eff8ff">
+  <meta name="theme-color" content="#f8f7f1">
   <title>สินค้าและข่าวสาร | Food Gallery</title>
   <meta name="description" content="เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{--ink:#183e5c;--muted:#587893;--blue:#168fe0;--blue-deep:#0878be;--blue-soft:#e0f3ff;--page:#f3faff;--line:#d2eafb;font-family:"Noto Sans Thai",sans-serif;color:var(--ink);background:var(--page);font-synthesis:none;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+    :root{--ink:#203b38;--muted:#617773;--blue:#168fe0;--blue-deep:#0878be;--blue-soft:#e0f3ff;--page:#f8f7f1;--line:#e4e6dc;font-family:"Noto Sans Thai",sans-serif;color:var(--ink);background:var(--page);font-synthesis:none;text-rendering:optimizeLegibility;scroll-behavior:smooth}
     *{box-sizing:border-box}
     body{margin:0}
     a{color:inherit;text-decoration:none}
     button,input,select{font:inherit}
     button,a{ -webkit-tap-highlight-color:transparent}
     .wrap{width:min(1160px,calc(100% - 40px));margin:auto}
-    .top{position:sticky;top:0;z-index:5;background:rgba(239,248,255,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .top{position:sticky;top:0;z-index:5;background:rgba(248,247,241,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
     .nav{height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
     @media(min-width:901px){.nav{display:grid;grid-template-columns:190px minmax(0,1fr) 303px}.links{justify-content:center;gap:1vw}.links a{text-align:center;white-space:nowrap}.links a:nth-child(1){width:72px}.links a:nth-child(2){width:76px}.links a:nth-child(3){width:96px}.links a:nth-child(4){width:92px}.links a:nth-child(5){width:76px}.links a:nth-child(6){width:72px}}
     .brand{display:flex;align-items:center;gap:11px;font-size:1.04rem;font-weight:800;letter-spacing:.01em}
@@ -36,10 +36,16 @@
     .navCta,.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:var(--blue-deep);color:#fff;font-weight:700;cursor:pointer}
     .navCta{width:210px;white-space:nowrap}
     .navCta:hover,.button:hover{background:var(--blue)}
-    .hero{padding:64px 0 42px}
-    .heroBox{position:relative;overflow:hidden;padding:clamp(30px,6vw,72px);border-radius:30px;background:linear-gradient(115deg,#c8efff,#a8ddff);min-height:340px;display:flex;align-items:center}
-    .heroBox:after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;right:5%;top:-90px;background:radial-gradient(circle at 42% 38%,#fff9 0 5%,transparent 6%),radial-gradient(circle,#6fc5fa,#b4e5ff 65%,transparent 66%);opacity:.9}
+    .hero{padding:54px 0 36px}
+    .heroBox{position:relative;overflow:hidden;padding:clamp(28px,5vw,62px);border-radius:30px;background:linear-gradient(115deg,#edf3e8,#e1f0e9);min-height:390px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:24px}
     .heroText{position:relative;z-index:1;max-width:570px}
+    .heroVisual{position:relative;width:100%;height:310px}
+    .heroPhoto{position:absolute;overflow:hidden;border:6px solid #fff;border-radius:24px;background:#dce7dc;box-shadow:0 18px 42px #203b3826}
+    .heroPhoto img{display:block;width:100%;height:100%;object-fit:cover}
+    .heroPhoto span{position:absolute;left:12px;bottom:12px;padding:6px 12px;border-radius:999px;background:#fff;color:var(--ink);font-size:.76rem;font-weight:800;box-shadow:0 4px 12px #203b3818}
+    .heroPhotoMain{top:3%;right:2%;width:61%;height:91%;border-radius:48% 48% 24px 24px}
+    .heroPhotoTop{top:3%;left:0;width:38%;height:43%;transform:rotate(-5deg)}
+    .heroPhotoBottom{bottom:2%;left:4%;width:43%;height:44%;transform:rotate(4deg)}
     .eyebrow{display:inline-block;color:var(--blue);font-weight:800;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
     h1{font-size:clamp(2rem,4.7vw,3.8rem);line-height:1.24;letter-spacing:-.04em;margin:12px 0 14px;white-space:pre-line}
     .heroText p{max-width:490px;color:var(--muted);line-height:1.9;margin:0 0 24px}
@@ -54,12 +60,13 @@
     .tools input,.tools select{min-height:44px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:0 13px;color:var(--ink)}
     .tools input{flex:1;min-width:200px}
     .tools select{min-width:180px}
-    .categoryOverview{margin:0 0 22px;padding:20px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(120deg,#e2f4ff,#f7fcff)}
+    .categoryOverview{margin:0 0 22px;padding:22px;border:1px solid var(--line);border-radius:22px;background:#f1f2e9}
     .categoryOverview h3{margin:4px 0;font-size:1.05rem}
     .categoryOverview p{margin:0;color:var(--muted);line-height:1.75}
-    .categoryTags{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
-    .categoryTag{display:flex;flex-direction:column;gap:3px;padding:12px;border:1px solid #c8e7fa;border-radius:12px;background:#fff}
-    .categoryTag img{display:block;width:100%;aspect-ratio:1.8;object-fit:cover;border-radius:8px;background:#e9f5fc;margin-bottom:6px}
+    .categoryTags{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+    .categoryTag{overflow:hidden;display:flex;flex-direction:column;gap:3px;padding:8px 8px 13px;border:1px solid #e3e5da;border-radius:16px;background:#fff;transition:transform .18s,box-shadow .18s}
+    .categoryTag:hover{transform:translateY(-3px);box-shadow:0 10px 24px #203b3812}
+    .categoryTag img{display:block;width:100%;aspect-ratio:1.55;object-fit:cover;border-radius:11px;background:#e9f5fc;margin-bottom:5px}
     .categoryTag strong{color:var(--blue-deep);font-size:.9rem}
     .categoryTag small{color:var(--muted);font-size:.78rem;line-height:1.55}
     .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
@@ -100,7 +107,7 @@
     .status{min-height:24px;color:var(--muted);margin:18px 0}
     [hidden]{display:none!important}
     @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.links{gap:14px}.about{gap:24px}}
-    @media(max-width:680px){.wrap{width:min(100% - 28px,560px)}.nav{display:flex;height:auto;min-height:64px;flex-wrap:wrap;gap:8px;padding:10px 0}.brand{order:1}.brandLogo{width:168px}.navActions{order:2;margin-left:auto}.navCta{width:180px;min-height:40px;padding:0 13px;font-size:.85rem}.links{order:3;display:flex;width:100%;gap:18px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;font-size:.82rem;padding:2px 0 5px}.links::-webkit-scrollbar{display:none}.links a{flex:none}.hero{padding:26px 0 18px}.heroBox{min-height:360px;align-items:end;padding:28px 22px}.heroBox:after{width:230px;height:230px;right:-20px;top:-35px}.heroText{max-width:100%}.heroText p{font-size:.92rem}.section{padding:34px 0}.sectionHead{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productText{padding:11px}.product h3{font-size:.9rem}.newGrid,.infoGrid{grid-template-columns:1fr}.categoryTags{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.categoryTag{padding:10px}.about{grid-template-columns:1fr;gap:16px}.aboutArt{min-height:150px}.contactBox{align-items:start;flex-direction:column;padding:24px}.photo{aspect-ratio:1}.tools select{flex:1}.foot{flex-direction:column}}
+    @media(max-width:680px){.wrap{width:min(100% - 28px,560px)}.nav{display:flex;height:auto;min-height:64px;flex-wrap:wrap;gap:8px;padding:10px 0}.brand{order:1}.brandLogo{width:168px}.navActions{order:2;margin-left:auto}.navCta{width:180px;min-height:40px;padding:0 13px;font-size:.85rem}.links{order:3;display:flex;width:100%;gap:18px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;font-size:.82rem;padding:2px 0 5px}.links::-webkit-scrollbar{display:none}.links a{flex:none}.hero{padding:26px 0 18px}.heroBox{min-height:0;grid-template-columns:1fr;gap:12px;padding:22px}.heroVisual{order:-1;height:225px}.heroPhoto{border-width:5px;border-radius:18px}.heroPhotoMain{border-radius:48% 48% 18px 18px}.heroPhoto span{left:8px;bottom:8px;padding:5px 9px;font-size:.68rem}.heroText{max-width:100%}.heroText p{font-size:.92rem}.section{padding:34px 0}.sectionHead{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productText{padding:11px}.product h3{font-size:.9rem}.newGrid,.infoGrid{grid-template-columns:1fr}.categoryTags{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.categoryTag{padding:7px 7px 11px}.about{grid-template-columns:1fr;gap:16px}.aboutArt{min-height:150px}.contactBox{align-items:start;flex-direction:column;padding:24px}.photo{aspect-ratio:1}.tools select{flex:1}.foot{flex-direction:column}}
   </style>
 </head>
 <body>
@@ -132,10 +139,15 @@
       <div class="wrap">
         <div class="heroBox">
           <div class="heroText">
-            <span class="eyebrow">Food Gallery · Product Collection</span>
+            <span class="eyebrow" data-i18n="heroEyebrow">รวมวัตถุดิบหลากหลายหมวด</span>
             <h1 data-i18n="heroTitle">เลือกชมสินค้า<br>ที่ใช่สำหรับคุณ</h1>
             <p data-i18n="heroDescription">ค้นพบรายการสินค้าใหม่และข่าวสารจากเรา เลือกดูตามหมวดหมู่ แล้วติดต่อทีมงานเพื่อสอบถามรายละเอียดเพิ่มเติม</p>
             <div class="heroActions"><a class="button" href="store.html?page=products" data-i18n="heroBrowse">ดูสินค้าทั้งหมด</a><a class="button secondary" href="store.html?page=about" data-i18n="heroAbout">รู้จักเรา</a></div>
+          </div>
+          <div class="heroVisual" role="group" aria-label="ตัวอย่างหมวดหมู่อาหาร" data-i18n-aria-label="heroVisual">
+            <div class="heroPhoto heroPhotoMain"><img src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce"><span aria-hidden="true" data-i18n="produce">ผักและผลไม้</span></div>
+            <div class="heroPhoto heroPhotoTop"><img src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood"><span aria-hidden="true" data-i18n="seafood">อาหารทะเล</span></div>
+            <div class="heroPhoto heroPhotoBottom"><img src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery"><span aria-hidden="true" data-i18n="bakery">ขนมอบ</span></div>
           </div>
         </div>
       </div>
@@ -228,7 +240,7 @@
     const translations={
       th:{
         mainMenu:'เมนูหลัก',chooseLanguage:'เลือกภาษา',navProducts:'สินค้า',navActivities:'กิจกรรม',navNew:'สินค้าใหม่',navPromotions:'โปรโมชั่น',navAbout:'เกี่ยวกับเรา',navContact:'ติดต่อเรา',navCta:'เลือกชมสินค้า',
-        heroTitle:'เลือกชมสินค้า\nที่ใช่สำหรับคุณ',heroDescription:'ค้นพบรายการสินค้าใหม่และข่าวสารจากเรา เลือกดูตามหมวดหมู่ แล้วติดต่อทีมงานเพื่อสอบถามรายละเอียดเพิ่มเติม',heroBrowse:'ดูสินค้าทั้งหมด',heroAbout:'รู้จักเรา',
+        heroEyebrow:'รวมวัตถุดิบหลากหลายหมวด',heroVisual:'ตัวอย่างหมวดหมู่อาหาร',heroTitle:'วัตถุดิบหลากหลาย\nเพื่อทุกไอเดียอาหาร',heroDescription:'สำรวจสินค้าอาหารจากหลากหลายหมวดหมู่ เลือกชมรายการที่ทีมงานเผยแพร่ และติดต่อเราเพื่อสอบถามรายละเอียดเพิ่มเติม',heroBrowse:'ดูสินค้าทั้งหมด',heroAbout:'รู้จักเรา',
         productsTitle:'เลือกชมสินค้า',productsDescription:'แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้',searchPlaceholder:'ค้นหาชื่อหรือรหัสสินค้า',searchProducts:'ค้นหาสินค้า',filterCategory:'กรองตามหมวดหมู่',allCategories:'ทุกหมวดหมู่',mainCategories:'กลุ่มสินค้าหลัก',categoryTitle:'เลือกชมสินค้าหลากหลายหมวด',categoryDescription:'หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้',
         produce:'ผักและผลไม้',freshProduce:'ผักสดและผลไม้สด',meat:'เนื้อสัตว์',freshFrozenMeat:'เนื้อสัตว์แช่เย็นและแช่แข็ง',seafood:'อาหารทะเล',freshFrozenSeafood:'อาหารทะเลสดและแช่แข็ง',beverages:'เครื่องดื่ม',beveragesDescription:'น้ำผลไม้ น้ำดื่ม นม และชา',grocery:'อาหารแห้ง',groceryDescription:'อาหารแห้งและธัญพืช',bakery:'ขนมอบ',bakeryDescription:'เค้ก ขนมปัง และขนมปังแช่แข็ง',dairy:'ผลิตภัณฑ์จากนม',dairyDescription:'ไอศกรีม เนย ชีส และครีม',snacks:'ขนมขบเคี้ยว',snacksDescription:'ลูกอม ช็อกโกแลต และขนมกรุบกรอบ',
         activitiesTitle:'กิจกรรม',activitiesDescription:'ข่าวสารและกิจกรรมจาก Food Gallery',followActivities:'ติดตามกิจกรรมของเรา',noActivities:'ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้',seeYouSoon:'พบกันในโอกาสต่อไป',activitiesAnnounced:'รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ',
@@ -239,7 +251,7 @@
       },
       en:{
         mainMenu:'Main menu',chooseLanguage:'Choose language',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
-        heroTitle:'Discover products\nmade for you',heroDescription:'Explore our latest products and news. Browse by category, then contact our team for more information.',heroBrowse:'Browse all products',heroAbout:'About us',
+        heroEyebrow:'A curated food collection',heroVisual:'Featured food categories',heroTitle:'A world of ingredients\nfor every food idea',heroDescription:'Explore food products across a range of categories. Browse items published by our team, then contact us for more information.',heroBrowse:'Browse all products',heroAbout:'About us',
         productsTitle:'Browse products',productsDescription:'Showing products published by our team.',searchPlaceholder:'Search by product name or SKU',searchProducts:'Search products',filterCategory:'Filter by category',allCategories:'All categories',mainCategories:'Main categories',categoryTitle:'Explore our product range',categoryDescription:'Here are some of the product categories featured on our website.',
         produce:'Fresh produce',freshProduce:'Fresh vegetables and fruit',meat:'Meat',freshFrozenMeat:'Chilled and frozen meat',seafood:'Seafood',freshFrozenSeafood:'Fresh and frozen seafood',beverages:'Beverages',beveragesDescription:'Juice, water, milk and tea',grocery:'Grocery',groceryDescription:'Pantry goods and grains',bakery:'Bakery',bakeryDescription:'Cakes, bread and frozen bakery',dairy:'Dairy',dairyDescription:'Ice cream, butter, cheese and cream',snacks:'Snacks',snacksDescription:'Candy, chocolate and snack foods',
         activitiesTitle:'Activities',activitiesDescription:'News and activities from Food Gallery',followActivities:'Follow our activities',noActivities:'There are no new activity announcements yet. Please check back for updates.',seeYouSoon:'See you next time',activitiesAnnounced:'Activity details will be announced once officially confirmed.',
