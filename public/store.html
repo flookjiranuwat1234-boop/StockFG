@@ -99,6 +99,11 @@
     .contactWays{display:flex;flex-wrap:wrap;gap:10px}
     .contactWays a{display:inline-flex;padding:11px 16px;border:1px solid #ffffff55;border-radius:999px;font-weight:700}
     .contactWays a:hover{background:#ffffff18}
+    .contactPageGrid .contactBox{display:grid;grid-template-columns:minmax(140px,.8fr) minmax(0,1.2fr);align-items:center;gap:22px}
+    .contactPageGrid .contactBox h2{font-size:clamp(1.3rem,1.8vw,1.65rem);line-height:1.4;overflow-wrap:anywhere}
+    .contactPageGrid .contactWays{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-width:0}
+    .contactPageGrid .contactWays a{display:flex;align-items:center;justify-content:center;min-width:0;padding:10px 12px;text-align:center;font-size:.92rem;overflow-wrap:anywhere}
+    .contactPageGrid .contactWays a:first-child{grid-column:1/-1}
     .contactMap{height:280px;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#e9f5fc}
     .contactMap iframe{display:block;width:100%;height:100%;border:0}
     .contactPageGrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:18px;margin-top:18px;align-items:stretch}
@@ -114,9 +119,9 @@
     .contactFormActions{display:flex;justify-content:flex-end;margin-top:16px}
     .contactFormActions button{min-height:44px;padding:0 20px;border:0;border-radius:999px;background:var(--blue-deep);color:#fff;font-weight:700;cursor:pointer}
     .contactFormActions button:hover{background:var(--blue)}
-    @media(max-width:900px){.contactPageGrid{grid-template-columns:minmax(0,1fr) minmax(250px,.8fr)}}
+    @media(max-width:1100px){.contactPageGrid{grid-template-columns:1fr}}
     @media(max-width:680px){.contactMap{height:210px}.contactPageGrid{grid-template-columns:1fr}.contactFormPanel{padding:22px}}
-    @media(max-width:520px){.contactMap{height:185px}.contactFields{grid-template-columns:1fr}}
+    @media(max-width:520px){.contactMap{height:185px}.contactFields,.contactPageGrid .contactBox{grid-template-columns:1fr}.contactPageGrid .contactBox{gap:18px}.contactPageGrid .contactWays{grid-template-columns:1fr}}
     footer{margin-top:42px;padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
     .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
     dialog{width:min(580px,calc(100% - 28px));border:0;border-radius:22px;padding:24px;color:var(--ink);box-shadow:0 22px 80px #10304a40}
