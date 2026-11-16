@@ -89,7 +89,8 @@
     .infoCard p{color:var(--muted);line-height:1.85;margin:8px 0 0}
     .empty{grid-column:1/-1;padding:30px;border:1px dashed #c9dce8;border-radius:16px;color:var(--muted);text-align:center;background:#ffffffc9}
     .about{display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}
-    .aboutArt{min-height:230px;border-radius:24px;background:radial-gradient(circle at 72% 35%,#fff9 0 8%,transparent 8.5%),linear-gradient(140deg,#a8ddff,#ddf4ff);display:grid;place-items:center;color:var(--blue-deep);font-size:3rem}
+    .aboutArt{position:relative;min-height:230px;overflow:hidden;border-radius:24px;background:#edf4f8}
+    .aboutArt img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
     .about p{color:var(--muted);line-height:1.95}
     .about .sourceNote{font-size:.85rem}
     .about .sourceNote a{color:var(--blue-deep);font-weight:700;text-decoration:underline;text-underline-offset:3px}
@@ -279,7 +280,7 @@
     <section class="section" id="about">
       <div class="wrap about">
         <div><span class="eyebrow">About Food Gallery Limited</span><h2 data-i18n="aboutTitle">เกี่ยวกับเรา</h2><p data-i18n="aboutDescription">Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ ผลิตภัณฑ์จากนม และขนมขบเคี้ยว</p><p data-i18n="aboutStorefront">หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง</p></div>
-        <div class="aboutArt" aria-hidden="true">FG</div>
+        <div class="aboutArt" aria-hidden="true"><img src="images/category-grocery.jpg" alt="" decoding="async"></div>
       </div>
     </section>
 
