@@ -105,14 +105,68 @@
     .modalPhoto{width:100%;max-height:320px;object-fit:cover;border-radius:14px;background:#edf4f8}
     .modalClose{float:right;border:0;background:var(--blue-soft);color:var(--blue-deep);border-radius:50%;width:38px;height:38px;font-size:1.2rem;cursor:pointer}
     .status{min-height:24px;color:var(--muted);margin:18px 0}
+    .mobileMenuToggle{display:none;place-items:center;width:48px;height:48px;padding:0;border:0;border-radius:12px;background:transparent;color:var(--ink);cursor:pointer}
+    .mobileMenuToggle svg{width:36px;height:36px}
+    #mobileMenuBackdrop{display:none;position:fixed;inset:0;z-index:20;background:#203b380a}
+    #mobileMenuBackdrop:not([hidden]){display:block}
+    .mobileDrawer{position:fixed;inset:0 0 0 auto;z-index:21;display:flex;flex-direction:column;width:min(360px,calc(100vw - 48px));overflow-y:auto;background:#f4f4f4;color:#5a5a5a;box-shadow:-12px 0 28px #0003}
+    .mobileDrawer[hidden]{display:none}
+    .srOnly{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .drawerSearch{display:flex;align-items:center;gap:8px;padding:9px clamp(16px,6vw,36px);background:#e5e5e5}
+    .drawerSearch input{width:100%;min-width:0;height:50px;padding:0 52px 0 14px;border:0;border-radius:0;background:#fff;color:var(--ink);font-size:1rem}
+    .drawerSearch button{display:grid;place-items:center;flex:none;width:48px;height:48px;margin-left:-56px;border:0;background:transparent;color:#999;cursor:pointer}
+    .drawerSearch button svg{width:24px;height:24px}
+    .drawerLinks{display:flex;flex-direction:column}
+    .drawerLinks a{display:flex;align-items:center;justify-content:space-between;min-height:76px;padding:0 clamp(20px,6vw,36px);border-bottom:1px solid #ddd;color:inherit;font-weight:600}
+    .drawerLinks a::after{width:8px;height:8px;border-top:2px solid #aaa;border-right:2px solid #aaa;content:"";opacity:.5;transform:rotate(45deg)}
+    .drawerLinks a[aria-current=page]{color:var(--blue-deep)}
+    .drawerLanguages{display:flex;align-items:center;justify-content:center;gap:20px;min-height:120px;border-bottom:1px solid #ddd}
+    .drawerLanguages button{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:10px;background:transparent;font-size:1.35rem;cursor:pointer}
+    .drawerLanguages button svg{display:block;width:30px;height:20px}
+    .drawerSocial{display:flex;align-items:center;gap:20px;min-height:76px;padding:0 clamp(20px,6vw,36px);border-bottom:1px solid #ddd}
+    .drawerSocial a{display:grid;place-items:center;width:28px;height:28px;color:#686868}
+    .drawerSocial svg{width:20px;height:20px}
     [hidden]{display:none!important}
     @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.links{gap:14px}.about{gap:24px}}
-    @media(max-width:680px){.wrap{width:min(100% - 28px,560px)}.nav{display:flex;height:auto;min-height:64px;flex-wrap:wrap;gap:8px;padding:10px 0}.brand{order:1}.brandLogo{width:168px}.navActions{order:2;margin-left:auto}.navCta{width:180px;min-height:40px;padding:0 13px;font-size:.85rem}.links{order:3;display:flex;width:100%;gap:18px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;font-size:.82rem;padding:2px 0 5px}.links::-webkit-scrollbar{display:none}.links a{flex:none}.hero{padding:26px 0 18px}.heroBox{min-height:0;grid-template-columns:1fr;gap:12px;padding:22px}.heroVisual{order:-1;height:225px}.heroPhoto{border-width:5px;border-radius:18px}.heroPhotoMain{border-radius:48% 48% 18px 18px}.heroPhoto span{left:8px;bottom:8px;padding:5px 9px;font-size:.68rem}.heroText{max-width:100%}.heroText p{font-size:.92rem}.section{padding:34px 0}.sectionHead{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productText{padding:11px}.product h3{font-size:.9rem}.newGrid,.infoGrid{grid-template-columns:1fr}.categoryTags{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.categoryTag{padding:7px 7px 11px}.about{grid-template-columns:1fr;gap:16px}.aboutArt{min-height:150px}.contactBox{align-items:start;flex-direction:column;padding:24px}.photo{aspect-ratio:1}.tools select{flex:1}.foot{flex-direction:column}}
+    @media(max-width:680px){
+      .wrap{width:min(100% - 28px,560px)}
+      .top{background:rgba(255,250,235,.98);border-bottom-color:#ece5d4}
+      .nav{display:flex;height:100px;min-height:100px;justify-content:flex-start;padding:0}
+      .brand,.navActions,.nav>.links{display:none}
+      .mobileMenuToggle{display:grid}
+      body.menuOpen{overflow:hidden}
+      .hero{padding:26px 0 18px}
+      .heroBox{min-height:0;grid-template-columns:1fr;gap:12px;padding:22px}
+      .heroVisual{order:-1;height:225px}
+      .heroPhoto{border-width:5px;border-radius:18px}
+      .heroPhotoMain{border-radius:48% 48% 18px 18px}
+      .heroPhoto span{left:8px;bottom:8px;padding:5px 9px;font-size:.68rem}
+      .heroPhotoMain span{left:auto;right:8px}
+      .heroText{max-width:100%}
+      .heroText p{font-size:.92rem}
+      .section{padding:34px 0}
+      .sectionHead{align-items:start;flex-direction:column}
+      .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+      .productText{padding:11px}
+      .product h3{font-size:.9rem}
+      .newGrid,.infoGrid{grid-template-columns:1fr}
+      .categoryTags{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+      .categoryTag{padding:7px 7px 11px}
+      .about{grid-template-columns:1fr;gap:16px}
+      .aboutArt{min-height:150px}
+      .contactBox{align-items:start;flex-direction:column;padding:24px}
+      .photo{aspect-ratio:1}
+      .tools select{flex:1}
+      .foot{flex-direction:column}
+    }
   </style>
 </head>
 <body>
   <header class="top">
     <div class="wrap nav">
+      <button class="mobileMenuToggle" id="mobileMenuToggle" type="button" aria-expanded="false" aria-controls="mobileDrawer" aria-label="เปิดเมนู" data-i18n-aria-label="openMenu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg>
+      </button>
       <a class="brand" href="store.html" aria-label="Food Gallery หน้าแรก">
         <img class="brandLogo" src="images/food-gallery-logo.png" alt="Food Gallery — The Gallery of Fine Food">
       </a>
@@ -133,6 +187,23 @@
       </div>
     </div>
   </header>
+  <div id="mobileMenuBackdrop" hidden></div>
+  <aside class="mobileDrawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-labelledby="mobileDrawerTitle" hidden>
+    <h2 class="srOnly" id="mobileDrawerTitle" tabindex="-1" data-i18n="mainMenu">เมนูหลัก</h2>
+    <form class="drawerSearch" id="mobileSearchForm">
+      <label class="srOnly" for="mobileSearch" data-i18n="searchProducts">ค้นหาสินค้า</label>
+      <input id="mobileSearch" type="search" placeholder="ค้นหา" aria-label="ค้นหาสินค้า" data-i18n-placeholder="drawerSearchPlaceholder" data-i18n-aria-label="searchProducts">
+      <button type="submit" aria-label="ค้นหา" data-i18n-aria-label="submitSearch">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="2.5"></circle><path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path></svg>
+      </button>
+    </form>
+    <nav class="drawerLinks" id="mobileDrawerLinks" aria-label="เมนูหลัก" data-i18n-aria-label="mainMenu"></nav>
+    <div class="drawerLanguages" role="group" aria-label="เลือกภาษา" data-i18n-aria-label="chooseLanguage">
+      <button type="button" data-language="en" aria-label="English" title="English" aria-pressed="false"><svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#012169"></rect><path d="M0 0 30 20M30 0 0 20" stroke="#fff" stroke-width="5"></path><path d="M0 0 30 20M30 0 0 20" stroke="#c8102e" stroke-width="2"></path><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="8"></path><path d="M15 0v20M0 10h30" stroke="#c8102e" stroke-width="4"></path></svg></button>
+      <button type="button" data-language="th" aria-label="ภาษาไทย" title="ภาษาไทย" aria-pressed="true"><svg viewBox="0 0 30 20" aria-hidden="true"><path fill="#a51931" d="M0 0h30v20H0z"></path><path fill="#f4f5f8" d="M0 3.33h30v13.34H0z"></path><path fill="#2d2a4a" d="M0 6.67h30v6.66H0z"></path></svg></button>
+    </div>
+    <div class="drawerSocial" id="mobileSocial" aria-label="โซเชียลมีเดีย" data-i18n-aria-label="socialMedia"></div>
+  </aside>
 
   <main>
     <section class="hero" id="home">
@@ -239,7 +310,7 @@
     let productsLoadFailed=false;
     const translations={
       th:{
-        mainMenu:'เมนูหลัก',chooseLanguage:'เลือกภาษา',navProducts:'สินค้า',navActivities:'กิจกรรม',navNew:'สินค้าใหม่',navPromotions:'โปรโมชั่น',navAbout:'เกี่ยวกับเรา',navContact:'ติดต่อเรา',navCta:'เลือกชมสินค้า',
+        mainMenu:'เมนูหลัก',chooseLanguage:'เลือกภาษา',openMenu:'เปิดเมนู',closeMenu:'ปิดเมนู',drawerSearchPlaceholder:'ค้นหาสินค้า',submitSearch:'ค้นหา',socialMedia:'โซเชียลมีเดีย',navProducts:'สินค้า',navActivities:'กิจกรรม',navNew:'สินค้าใหม่',navPromotions:'โปรโมชั่น',navAbout:'เกี่ยวกับเรา',navContact:'ติดต่อเรา',navCta:'เลือกชมสินค้า',
         heroEyebrow:'รวมวัตถุดิบหลากหลายหมวด',heroVisual:'ตัวอย่างหมวดหมู่อาหาร',heroTitle:'วัตถุดิบหลากหลาย\nเพื่อทุกไอเดียอาหาร',heroDescription:'สำรวจสินค้าอาหารจากหลากหลายหมวดหมู่ เลือกชมรายการที่ทีมงานเผยแพร่ และติดต่อเราเพื่อสอบถามรายละเอียดเพิ่มเติม',heroBrowse:'ดูสินค้าทั้งหมด',heroAbout:'รู้จักเรา',
         productsTitle:'เลือกชมสินค้า',productsDescription:'แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้',searchPlaceholder:'ค้นหาชื่อหรือรหัสสินค้า',searchProducts:'ค้นหาสินค้า',filterCategory:'กรองตามหมวดหมู่',allCategories:'ทุกหมวดหมู่',mainCategories:'กลุ่มสินค้าหลัก',categoryTitle:'เลือกชมสินค้าหลากหลายหมวด',categoryDescription:'หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้',
         produce:'ผักและผลไม้',freshProduce:'ผักสดและผลไม้สด',meat:'เนื้อสัตว์',freshFrozenMeat:'เนื้อสัตว์แช่เย็นและแช่แข็ง',seafood:'อาหารทะเล',freshFrozenSeafood:'อาหารทะเลสดและแช่แข็ง',beverages:'เครื่องดื่ม',beveragesDescription:'น้ำผลไม้ น้ำดื่ม นม และชา',grocery:'อาหารแห้ง',groceryDescription:'อาหารแห้งและธัญพืช',bakery:'ขนมอบ',bakeryDescription:'เค้ก ขนมปัง และขนมปังแช่แข็ง',dairy:'ผลิตภัณฑ์จากนม',dairyDescription:'ไอศกรีม เนย ชีส และครีม',snacks:'ขนมขบเคี้ยว',snacksDescription:'ลูกอม ช็อกโกแลต และขนมกรุบกรอบ',
@@ -250,7 +321,7 @@
         homeTitle:'สินค้าและข่าวสาร | Food Gallery',loadingProducts:'กำลังโหลดสินค้า…',showingCount:'แสดง {count} รายการ',noMatchingProducts:'ยังไม่มีสินค้าที่ตรงกับการค้นหา',noPublishedProducts:'ยังไม่มีสินค้าที่เผยแพร่',noNewProducts:'ยังไม่มีสินค้าใหม่ที่เผยแพร่',loadFailed:'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง',unableProducts:'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้',imageUnavailable:'รูปภาพไม่พร้อมใช้งาน',product:'สินค้า',productDetails:'ดูรายละเอียด',sku:'รหัส',skuLabel:'รหัสสินค้า',email:'อีเมล',phone:'โทร',officialSite:'เว็บไซต์ Food Gallery',metaDescription:'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
       },
       en:{
-        mainMenu:'Main menu',chooseLanguage:'Choose language',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
+        mainMenu:'Main menu',chooseLanguage:'Choose language',openMenu:'Open menu',closeMenu:'Close menu',drawerSearchPlaceholder:'Search',submitSearch:'Search',socialMedia:'Social media',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
         heroEyebrow:'A curated food collection',heroVisual:'Featured food categories',heroTitle:'A world of ingredients\nfor every food idea',heroDescription:'Explore food products across a range of categories. Browse items published by our team, then contact us for more information.',heroBrowse:'Browse all products',heroAbout:'About us',
         productsTitle:'Browse products',productsDescription:'Showing products published by our team.',searchPlaceholder:'Search by product name or SKU',searchProducts:'Search products',filterCategory:'Filter by category',allCategories:'All categories',mainCategories:'Main categories',categoryTitle:'Explore our product range',categoryDescription:'Here are some of the product categories featured on our website.',
         produce:'Fresh produce',freshProduce:'Fresh vegetables and fruit',meat:'Meat',freshFrozenMeat:'Chilled and frozen meat',seafood:'Seafood',freshFrozenSeafood:'Fresh and frozen seafood',beverages:'Beverages',beveragesDescription:'Juice, water, milk and tea',grocery:'Grocery',groceryDescription:'Pantry goods and grains',bakery:'Bakery',bakeryDescription:'Cakes, bread and frozen bakery',dairy:'Dairy',dairyDescription:'Ice cream, butter, cheese and cream',snacks:'Snacks',snacksDescription:'Candy, chocolate and snack foods',
@@ -279,6 +350,8 @@
       catch(error){console.warn('Could not read the saved storefront language.',error);return 'th'}
     }
     let currentLanguage=readLanguage();
+    const mobileDrawerLinks=$('mobileDrawerLinks');
+    document.querySelectorAll('.links [data-page]').forEach(link=>mobileDrawerLinks.append(link.cloneNode(true)));
     function applyLanguage(){
       document.documentElement.lang=currentLanguage;
       document.querySelectorAll('[data-i18n]').forEach(element=>{element.textContent=translate(element.dataset.i18n)});
@@ -315,7 +388,7 @@
       if(page==='home'||page==='products'){
         document.querySelectorAll('.categoryTag img[data-src]:not([src])').forEach(image=>{image.src=image.dataset.src});
       }
-      document.querySelectorAll('.links [data-page]').forEach(link=>{
+      document.querySelectorAll('[data-page]').forEach(link=>{
         if(link.dataset.page===page)link.setAttribute('aria-current','page');
         else link.removeAttribute('aria-current')
       });
@@ -397,6 +470,11 @@
     }
     function renderContact(contact){
       const ways=$('contactWays');ways.replaceChildren();
+      const mobileSocial=$('mobileSocial');mobileSocial.replaceChildren();
+      const socialIcons={
+        Facebook:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.6 1.6-1.6h1.7V3.8c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6V10H6.7v3h2.9v8h3.9z"></path></svg>',
+        Instagram:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"></rect><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg>'
+      };
       const emailAddress=typeof contact.email==='string'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)?contact.email:'info@foodgallery.co.th';
       const email=document.createElement('a');email.href='mailto:'+emailAddress;email.textContent=`${translate('email')} ${emailAddress}`;ways.append(email);
       if(typeof contact.phone==='string'&&/^[\d\s()+-]{7,24}$/.test(contact.phone)){
@@ -406,9 +484,43 @@
         ['https://www.facebook.com/foodgalleryth','Facebook'],
         ['https://www.instagram.com/foodgallerylimited/','Instagram']
       ]){
-        const link=document.createElement('a');link.href=url;link.textContent=label;link.target='_blank';link.rel='noopener noreferrer';ways.append(link)
+        const link=document.createElement('a');link.href=url;link.textContent=label;link.target='_blank';link.rel='noopener noreferrer';ways.append(link);
+        if(socialIcons[label]){
+          const social=document.createElement('a');social.href=url;social.target='_blank';social.rel='noopener noreferrer';social.setAttribute('aria-label',label);social.innerHTML=socialIcons[label];mobileSocial.append(social)
+        }
       }
     }
+    function setMobileMenuOpen(open){
+      const toggle=$('mobileMenuToggle'),drawer=$('mobileDrawer');
+      drawer.hidden=!open;
+      $('mobileMenuBackdrop').hidden=!open;
+      document.body.classList.toggle('menuOpen',open);
+      toggle.setAttribute('aria-expanded',String(open));
+      toggle.dataset.i18nAriaLabel=open?'closeMenu':'openMenu';
+      toggle.setAttribute('aria-label',translate(toggle.dataset.i18nAriaLabel));
+      if(open)$('mobileDrawerTitle').focus();
+      else toggle.focus()
+    }
+    $('mobileMenuToggle').addEventListener('click',()=>setMobileMenuOpen($('mobileMenuToggle').getAttribute('aria-expanded')!=='true'));
+    $('mobileMenuBackdrop').addEventListener('click',()=>setMobileMenuOpen(false));
+    $('mobileSearchForm').addEventListener('submit',event=>{
+      event.preventDefault();
+      const params=new URLSearchParams({page:'products'});
+      const query=$('mobileSearch').value.trim();
+      if(query)params.set('search',query);
+      location.href=`store.html?${params}`;
+    });
+    document.addEventListener('keydown',event=>{
+      const drawer=$('mobileDrawer');
+      if(drawer.hidden)return;
+      if(event.key==='Escape'){setMobileMenuOpen(false);return}
+      if(event.key==='Tab'){
+        const focusable=Array.from(drawer.querySelectorAll('a[href],button:not([disabled]),input:not([disabled])'));
+        const first=focusable[0],last=focusable[focusable.length-1];
+        if(event.shiftKey&&(document.activeElement===first||document.activeElement===$('mobileDrawerTitle'))){event.preventDefault();last.focus()}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
+      }
+    });
     $('search').addEventListener('input',renderProducts);
     $('category').addEventListener('change',renderProducts);
     document.querySelectorAll('[data-language]').forEach(button=>button.addEventListener('click',()=>{
@@ -419,6 +531,8 @@
     }));
     $('modalClose').onclick=()=>$('productDialog').close();
     $('modalContact').onclick=()=>$('productDialog').close();
+    const initialSearch=new URLSearchParams(location.search).get('search');
+    if(initialSearch!==null){$('search').value=initialSearch;$('mobileSearch').value=initialSearch}
     $('loadStatus').textContent=translate('loadingProducts');
     applyLanguage();
     renderContact({});
