@@ -99,14 +99,16 @@
     .contactWays{display:flex;flex-wrap:wrap;gap:10px}
     .contactWays a{display:inline-flex;padding:11px 16px;border:1px solid #ffffff55;border-radius:999px;font-weight:700}
     .contactWays a:hover{background:#ffffff18}
-    .contactPageGrid .contactBox{display:grid;grid-template-columns:minmax(140px,.8fr) minmax(0,1.2fr);align-items:center;gap:22px}
-    .contactPageGrid .contactBox h2{font-size:clamp(1.3rem,1.8vw,1.65rem);line-height:1.4;overflow-wrap:anywhere}
+    .contactPageGrid .contactBox{align-self:start;display:grid;grid-template-columns:minmax(140px,.8fr) minmax(0,1.2fr);align-items:center;gap:22px;background:radial-gradient(circle at 100% 0,#ffffff20,transparent 15rem),linear-gradient(135deg,#0878be,#006da8 62%,#075982);box-shadow:0 16px 36px #006da82b}
+    .contactPageGrid .contactBox h2{margin:4px 0 0;font-size:clamp(1.3rem,1.8vw,1.65rem);line-height:1.4;overflow-wrap:anywhere}
     .contactPageGrid .contactWays{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-width:0}
-    .contactPageGrid .contactWays a{display:flex;align-items:center;justify-content:center;min-width:0;padding:10px 12px;text-align:center;font-size:.92rem;overflow-wrap:anywhere}
+    .contactPageGrid .contactWays a{display:flex;align-items:center;justify-content:center;min-width:0;min-height:46px;padding:9px 12px;border-color:#ffffff55;background:#ffffff0a;text-align:center;font-size:.92rem;line-height:1.45;overflow-wrap:anywhere;transition:background .18s,border-color .18s,transform .18s}
     .contactPageGrid .contactWays a:first-child{grid-column:1/-1}
+    .contactPageGrid .contactWays a:hover{transform:translateY(-2px);border-color:#ffffffa8;background:#ffffff20}
+    .contactPageGrid .contactWays a:focus-visible{outline:3px solid #fff;outline-offset:3px}
     .contactMap{height:280px;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#e9f5fc}
     .contactMap iframe{display:block;width:100%;height:100%;border:0}
-    .contactPageGrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:18px;margin-top:18px;align-items:stretch}
+    .contactPageGrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:18px;margin-top:18px;align-items:start}
     .contactFormPanel{min-width:0;padding:26px;border:1px solid var(--line);border-radius:24px;background:#fff}
     .contactFormPanel h3{margin:0 0 5px;font-size:1.15rem}
     .contactFormPanel>p{margin:0 0 14px;color:var(--muted);line-height:1.75}
