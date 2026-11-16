@@ -145,9 +145,9 @@
             <div class="heroActions"><a class="button" href="store.html?page=products" data-i18n="heroBrowse">ดูสินค้าทั้งหมด</a><a class="button secondary" href="store.html?page=about" data-i18n="heroAbout">รู้จักเรา</a></div>
           </div>
           <div class="heroVisual" role="group" aria-label="ตัวอย่างหมวดหมู่อาหาร" data-i18n-aria-label="heroVisual">
-            <div class="heroPhoto heroPhotoMain"><img src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce"><span aria-hidden="true" data-i18n="produce">ผักและผลไม้</span></div>
-            <div class="heroPhoto heroPhotoTop"><img src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood"><span aria-hidden="true" data-i18n="seafood">อาหารทะเล</span></div>
-            <div class="heroPhoto heroPhotoBottom"><img src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery"><span aria-hidden="true" data-i18n="bakery">ขนมอบ</span></div>
+            <div class="heroPhoto heroPhotoMain"><img data-src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" fetchpriority="high"><span aria-hidden="true" data-i18n="produce">ผักและผลไม้</span></div>
+            <div class="heroPhoto heroPhotoTop"><img data-src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood"><span aria-hidden="true" data-i18n="seafood">อาหารทะเล</span></div>
+            <div class="heroPhoto heroPhotoBottom"><img data-src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery"><span aria-hidden="true" data-i18n="bakery">ขนมอบ</span></div>
           </div>
         </div>
       </div>
@@ -309,6 +309,9 @@
       document.querySelectorAll('main>section[id]').forEach(section=>{
         section.hidden=page!=='home'&&section.id!==page
       });
+      if(page==='home'){
+        document.querySelectorAll('.heroVisual img[data-src]:not([src])').forEach(image=>{image.src=image.dataset.src});
+      }
       if(page==='home'||page==='products'){
         document.querySelectorAll('.categoryTag img[data-src]:not([src])').forEach(image=>{image.src=image.dataset.src});
       }
@@ -419,22 +422,25 @@
     $('loadStatus').textContent=translate('loadingProducts');
     applyLanguage();
     renderContact({});
-    (async()=>{
-      try{
-        const response=await fetch('/api/storefront');
-        if(!response.ok)throw new Error('Product request failed');
-        const data=await response.json();
-        allProducts=Array.isArray(data.products)?data.products:[];
-        currentContact=data.contact||{};
-        for(const category of data.categories||[]){const option=document.createElement('option');option.value=category;option.textContent=translatedCategory(category);$('category').append(option)}
-        productsLoaded=true;
-        applyLanguage();
-      }catch(error){
-        console.error('Could not load storefront data.',error);
-        productsLoadFailed=true;
-        applyLanguage();
-      }
-    })();
+    const pageWithoutStorefrontData=['activities','promotions','about'].includes(new URLSearchParams(location.search).get('page'));
+    if(!pageWithoutStorefrontData){
+      (async()=>{
+        try{
+          const response=await fetch('/api/storefront');
+          if(!response.ok)throw new Error('Product request failed');
+          const data=await response.json();
+          allProducts=Array.isArray(data.products)?data.products:[];
+          currentContact=data.contact||{};
+          for(const category of data.categories||[]){const option=document.createElement('option');option.value=category;option.textContent=translatedCategory(category);$('category').append(option)}
+          productsLoaded=true;
+          applyLanguage();
+        }catch(error){
+          console.error('Could not load storefront data.',error);
+          productsLoadFailed=true;
+          applyLanguage();
+        }
+      })();
+    }
   </script>
 </body>
 </html>
