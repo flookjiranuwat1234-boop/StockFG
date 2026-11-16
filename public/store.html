@@ -21,6 +21,12 @@
     .nav{height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
     .brand{display:flex;align-items:center;gap:11px;font-size:1.04rem;font-weight:800;letter-spacing:.01em}
     .brandLogo{display:block;width:190px;max-width:100%;height:auto;border-radius:8px}
+    .languageSwitch{display:flex;align-items:center;gap:4px;padding:4px;border:1px solid var(--line);border-radius:999px;background:#fff}
+    .languageSwitch button{display:grid;place-items:center;min-width:36px;min-height:36px;padding:4px;border:0;border-radius:999px;background:transparent;cursor:pointer}
+    .languageSwitch button[aria-pressed=true]{background:var(--blue-soft);box-shadow:inset 0 0 0 1px var(--line)}
+    .languageSwitch button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+    .languageSwitch span{font-size:1.2rem;line-height:1}
+    .navActions{display:flex;align-items:center;gap:8px;flex:none}
     .mark{display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:linear-gradient(145deg,#29adf5,var(--blue-deep));color:#fff}
     .mark svg{width:24px}
     .links{display:flex;align-items:center;gap:24px;color:var(--muted);font-size:.9rem;font-weight:600}
@@ -33,7 +39,7 @@
     .heroBox:after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;right:5%;top:-90px;background:radial-gradient(circle at 42% 38%,#fff9 0 5%,transparent 6%),radial-gradient(circle,#6fc5fa,#b4e5ff 65%,transparent 66%);opacity:.9}
     .heroText{position:relative;z-index:1;max-width:570px}
     .eyebrow{display:inline-block;color:var(--blue);font-weight:800;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
-    h1{font-size:clamp(2rem,4.7vw,3.8rem);line-height:1.24;letter-spacing:-.04em;margin:12px 0 14px}
+    h1{font-size:clamp(2rem,4.7vw,3.8rem);line-height:1.24;letter-spacing:-.04em;margin:12px 0 14px;white-space:pre-line}
     .heroText p{max-width:490px;color:var(--muted);line-height:1.9;margin:0 0 24px}
     .heroActions{display:flex;flex-wrap:wrap;gap:10px}
     .button.secondary{background:#fff;color:var(--blue-deep);border:1px solid var(--line)}
@@ -92,7 +98,7 @@
     .status{min-height:24px;color:var(--muted);margin:18px 0}
     [hidden]{display:none!important}
     @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.links{gap:14px}.about{gap:24px}}
-    @media(max-width:680px){.wrap{width:min(100% - 28px,560px)}.nav{height:auto;min-height:64px;flex-wrap:wrap;gap:8px;padding:10px 0}.brand{order:1}.brandLogo{width:168px}.navCta{order:2;min-height:40px;padding:0 13px;font-size:.85rem}.links{order:3;display:flex;width:100%;gap:18px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;font-size:.82rem;padding:2px 0 5px}.links::-webkit-scrollbar{display:none}.links a{flex:none}.hero{padding:26px 0 18px}.heroBox{min-height:360px;align-items:end;padding:28px 22px}.heroBox:after{width:230px;height:230px;right:-20px;top:-35px}.heroText{max-width:100%}.heroText p{font-size:.92rem}.section{padding:34px 0}.sectionHead{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productText{padding:11px}.product h3{font-size:.9rem}.newGrid,.infoGrid{grid-template-columns:1fr}.categoryTags{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.categoryTag{padding:10px}.about{grid-template-columns:1fr;gap:16px}.aboutArt{min-height:150px}.contactBox{align-items:start;flex-direction:column;padding:24px}.photo{aspect-ratio:1}.tools select{flex:1}.foot{flex-direction:column}}
+    @media(max-width:680px){.wrap{width:min(100% - 28px,560px)}.nav{height:auto;min-height:64px;flex-wrap:wrap;gap:8px;padding:10px 0}.brand{order:1}.brandLogo{width:168px}.navActions{order:2;margin-left:auto}.navCta{min-height:40px;padding:0 13px;font-size:.85rem}.links{order:3;display:flex;width:100%;gap:18px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;font-size:.82rem;padding:2px 0 5px}.links::-webkit-scrollbar{display:none}.links a{flex:none}.hero{padding:26px 0 18px}.heroBox{min-height:360px;align-items:end;padding:28px 22px}.heroBox:after{width:230px;height:230px;right:-20px;top:-35px}.heroText{max-width:100%}.heroText p{font-size:.92rem}.section{padding:34px 0}.sectionHead{align-items:start;flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.productText{padding:11px}.product h3{font-size:.9rem}.newGrid,.infoGrid{grid-template-columns:1fr}.categoryTags{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.categoryTag{padding:10px}.about{grid-template-columns:1fr;gap:16px}.aboutArt{min-height:150px}.contactBox{align-items:start;flex-direction:column;padding:24px}.photo{aspect-ratio:1}.tools select{flex:1}.foot{flex-direction:column}}
   </style>
 </head>
 <body>
@@ -101,15 +107,21 @@
       <a class="brand" href="store.html" aria-label="Food Gallery หน้าแรก">
         <img class="brandLogo" src="images/food-gallery-logo.png" alt="Food Gallery — The Gallery of Fine Food">
       </a>
-      <nav class="links" aria-label="เมนูหลัก">
-        <a href="store.html?page=products" data-page="products">สินค้า</a>
-        <a href="store.html?page=activities" data-page="activities">กิจกรรม</a>
-        <a href="store.html?page=new" data-page="new">สินค้าใหม่</a>
-        <a href="store.html?page=promotions" data-page="promotions">โปรโมชั่น</a>
-        <a href="store.html?page=about" data-page="about">เกี่ยวกับเรา</a>
-        <a href="store.html?page=contact" data-page="contact">ติดต่อเรา</a>
+      <nav class="links" aria-label="เมนูหลัก" data-i18n-aria-label="mainMenu">
+        <a href="store.html?page=products" data-page="products" data-i18n="navProducts">สินค้า</a>
+        <a href="store.html?page=activities" data-page="activities" data-i18n="navActivities">กิจกรรม</a>
+        <a href="store.html?page=new" data-page="new" data-i18n="navNew">สินค้าใหม่</a>
+        <a href="store.html?page=promotions" data-page="promotions" data-i18n="navPromotions">โปรโมชั่น</a>
+        <a href="store.html?page=about" data-page="about" data-i18n="navAbout">เกี่ยวกับเรา</a>
+        <a href="store.html?page=contact" data-page="contact" data-i18n="navContact">ติดต่อเรา</a>
       </nav>
-      <a class="navCta" href="store.html?page=products">เลือกชมสินค้า <span aria-hidden="true">→</span></a>
+      <div class="navActions">
+        <div class="languageSwitch" role="group" aria-label="เลือกภาษา" data-i18n-aria-label="chooseLanguage">
+          <button type="button" data-language="th" aria-pressed="true" aria-label="ภาษาไทย" title="ภาษาไทย"><span aria-hidden="true">🇹🇭</span></button>
+          <button type="button" data-language="en" aria-pressed="false" aria-label="English" title="English"><span aria-hidden="true">🇬🇧</span></button>
+        </div>
+        <a class="navCta" href="store.html?page=products"><span data-i18n="navCta">เลือกชมสินค้า</span><span aria-hidden="true">→</span></a>
+      </div>
     </div>
   </header>
 
@@ -119,9 +131,9 @@
         <div class="heroBox">
           <div class="heroText">
             <span class="eyebrow">Food Gallery · Product Collection</span>
-            <h1>เลือกชมสินค้า<br>ที่ใช่สำหรับคุณ</h1>
-            <p>ค้นพบรายการสินค้าใหม่และข่าวสารจากเรา เลือกดูตามหมวดหมู่ แล้วติดต่อทีมงานเพื่อสอบถามรายละเอียดเพิ่มเติม</p>
-            <div class="heroActions"><a class="button" href="store.html?page=products">ดูสินค้าทั้งหมด</a><a class="button secondary" href="store.html?page=about">รู้จักเรา</a></div>
+            <h1 data-i18n="heroTitle">เลือกชมสินค้า<br>ที่ใช่สำหรับคุณ</h1>
+            <p data-i18n="heroDescription">ค้นพบรายการสินค้าใหม่และข่าวสารจากเรา เลือกดูตามหมวดหมู่ แล้วติดต่อทีมงานเพื่อสอบถามรายละเอียดเพิ่มเติม</p>
+            <div class="heroActions"><a class="button" href="store.html?page=products" data-i18n="heroBrowse">ดูสินค้าทั้งหมด</a><a class="button secondary" href="store.html?page=about" data-i18n="heroAbout">รู้จักเรา</a></div>
           </div>
         </div>
       </div>
@@ -129,24 +141,24 @@
 
     <section class="section" id="products">
       <div class="wrap">
-        <div class="sectionHead"><div><span class="eyebrow">Our products</span><h2>เลือกชมสินค้า</h2><p>แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้</p></div></div>
+        <div class="sectionHead"><div><span class="eyebrow">Our products</span><h2 data-i18n="productsTitle">เลือกชมสินค้า</h2><p data-i18n="productsDescription">แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้</p></div></div>
         <div class="tools">
-          <input id="search" type="search" placeholder="ค้นหาชื่อหรือรหัสสินค้า" aria-label="ค้นหาสินค้า">
-          <select id="category" aria-label="กรองตามหมวดหมู่"><option value="">ทุกหมวดหมู่</option></select>
+          <input id="search" type="search" placeholder="ค้นหาชื่อหรือรหัสสินค้า" aria-label="ค้นหาสินค้า" data-i18n-placeholder="searchPlaceholder" data-i18n-aria-label="searchProducts">
+          <select id="category" aria-label="กรองตามหมวดหมู่" data-i18n-aria-label="filterCategory"><option value="" data-i18n="allCategories">ทุกหมวดหมู่</option></select>
         </div>
-        <aside class="categoryOverview" aria-label="กลุ่มสินค้าหลัก">
+        <aside class="categoryOverview" aria-label="กลุ่มสินค้าหลัก" data-i18n-aria-label="mainCategories">
           <span class="eyebrow">Food Gallery · Categories</span>
-          <h3>เลือกชมสินค้าหลากหลายหมวด</h3>
-          <p>หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้</p>
+          <h3 data-i18n="categoryTitle">เลือกชมสินค้าหลากหลายหมวด</h3>
+          <p data-i18n="categoryDescription">หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้</p>
           <div class="categoryTags">
-            <div class="categoryTag"><img src="images/category-produce.jpg" alt="ผักและผลไม้" loading="lazy"><strong>ผักและผลไม้</strong><small>ผักสดและผลไม้สด</small></div>
-            <div class="categoryTag"><img src="images/category-meat.jpg" alt="เนื้อสัตว์" loading="lazy"><strong>เนื้อสัตว์</strong><small>เนื้อสัตว์แช่เย็นและแช่แข็ง</small></div>
-            <div class="categoryTag"><img src="images/category-seafood.jpg" alt="อาหารทะเล" loading="lazy"><strong>อาหารทะเล</strong><small>อาหารทะเลสดและแช่แข็ง</small></div>
-            <div class="categoryTag"><img src="images/category-beverage.jpg" alt="เครื่องดื่ม" loading="lazy"><strong>เครื่องดื่ม</strong><small>น้ำผลไม้ น้ำดื่ม นม และชา</small></div>
-            <div class="categoryTag"><img src="images/category-grocery.jpg" alt="อาหารแห้ง" loading="lazy"><strong>อาหารแห้ง</strong><small>อาหารแห้งและธัญพืช</small></div>
-            <div class="categoryTag"><img src="images/category-bakery.jpg" alt="ขนมอบ" loading="lazy"><strong>ขนมอบ</strong><small>เค้ก ขนมปัง และขนมปังแช่แข็ง</small></div>
-            <div class="categoryTag"><img src="images/category-dairy.jpg" alt="ผลิตภัณฑ์จากนม" loading="lazy"><strong>ผลิตภัณฑ์จากนม</strong><small>ไอศกรีม เนย ชีส และครีม</small></div>
-            <div class="categoryTag"><img src="images/category-snacks.jpg" alt="ขนมขบเคี้ยว" loading="lazy"><strong>ขนมขบเคี้ยว</strong><small>ลูกอม ช็อกโกแลต และขนมกรุบกรอบ</small></div>
+            <div class="categoryTag"><img src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" loading="lazy"><strong data-i18n="produce">ผักและผลไม้</strong><small data-i18n="freshProduce">ผักสดและผลไม้สด</small></div>
+            <div class="categoryTag"><img src="images/category-meat.jpg" alt="เนื้อสัตว์" data-i18n-alt="meat" loading="lazy"><strong data-i18n="meat">เนื้อสัตว์</strong><small data-i18n="freshFrozenMeat">เนื้อสัตว์แช่เย็นและแช่แข็ง</small></div>
+            <div class="categoryTag"><img src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood" loading="lazy"><strong data-i18n="seafood">อาหารทะเล</strong><small data-i18n="freshFrozenSeafood">อาหารทะเลสดและแช่แข็ง</small></div>
+            <div class="categoryTag"><img src="images/category-beverage.jpg" alt="เครื่องดื่ม" data-i18n-alt="beverages" loading="lazy"><strong data-i18n="beverages">เครื่องดื่ม</strong><small data-i18n="beveragesDescription">น้ำผลไม้ น้ำดื่ม นม และชา</small></div>
+            <div class="categoryTag"><img src="images/category-grocery.jpg" alt="อาหารแห้ง" data-i18n-alt="grocery" loading="lazy"><strong data-i18n="grocery">อาหารแห้ง</strong><small data-i18n="groceryDescription">อาหารแห้งและธัญพืช</small></div>
+            <div class="categoryTag"><img src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery" loading="lazy"><strong data-i18n="bakery">ขนมอบ</strong><small data-i18n="bakeryDescription">เค้ก ขนมปัง และขนมปังแช่แข็ง</small></div>
+            <div class="categoryTag"><img src="images/category-dairy.jpg" alt="ผลิตภัณฑ์จากนม" data-i18n-alt="dairy" loading="lazy"><strong data-i18n="dairy">ผลิตภัณฑ์จากนม</strong><small data-i18n="dairyDescription">ไอศกรีม เนย ชีส และครีม</small></div>
+            <div class="categoryTag"><img src="images/category-snacks.jpg" alt="ขนมขบเคี้ยว" data-i18n-alt="snacks" loading="lazy"><strong data-i18n="snacks">ขนมขบเคี้ยว</strong><small data-i18n="snacksDescription">ลูกอม ช็อกโกแลต และขนมกรุบกรอบ</small></div>
           </div>
         </aside>
         <div id="productsGrid" class="grid" aria-live="polite"></div>
@@ -156,31 +168,31 @@
 
     <section class="section soft" id="activities">
       <div class="wrap">
-        <div class="sectionHead"><div><span class="eyebrow">What's happening</span><h2>กิจกรรม</h2><p>ข่าวสารและกิจกรรมจาก Food Gallery</p></div></div>
+        <div class="sectionHead"><div><span class="eyebrow">What's happening</span><h2 data-i18n="activitiesTitle">กิจกรรม</h2><p data-i18n="activitiesDescription">ข่าวสารและกิจกรรมจาก Food Gallery</p></div></div>
         <div class="infoGrid">
-          <article class="infoCard"><span class="eyebrow">News & events</span><h3>ติดตามกิจกรรมของเรา</h3><p>ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้</p></article>
-          <article class="infoCard"><span class="eyebrow">Community</span><h3>พบกันในโอกาสต่อไป</h3><p>รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ</p></article>
+          <article class="infoCard"><span class="eyebrow">News & events</span><h3 data-i18n="followActivities">ติดตามกิจกรรมของเรา</h3><p data-i18n="noActivities">ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้</p></article>
+          <article class="infoCard"><span class="eyebrow">Community</span><h3 data-i18n="seeYouSoon">พบกันในโอกาสต่อไป</h3><p data-i18n="activitiesAnnounced">รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ</p></article>
         </div>
       </div>
     </section>
 
     <section class="section" id="new">
       <div class="wrap">
-        <div class="sectionHead"><div><span class="eyebrow">Just arrived</span><h2>สินค้าใหม่</h2><p>รายการล่าสุดที่เผยแพร่บนหน้าร้าน</p></div></div>
+        <div class="sectionHead"><div><span class="eyebrow">Just arrived</span><h2 data-i18n="newTitle">สินค้าใหม่</h2><p data-i18n="newDescription">รายการล่าสุดที่เผยแพร่บนหน้าร้าน</p></div></div>
         <div id="newGrid" class="newGrid"></div>
       </div>
     </section>
 
     <section class="section soft" id="promotions">
       <div class="wrap">
-        <div class="sectionHead"><div><span class="eyebrow">Special offers</span><h2>โปรโมชั่น</h2><p>ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา</p></div></div>
-        <div class="infoCard"><h3>ยังไม่มีโปรโมชั่นที่ประกาศ</h3><p>เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้</p></div>
+        <div class="sectionHead"><div><span class="eyebrow">Special offers</span><h2 data-i18n="promotionsTitle">โปรโมชั่น</h2><p data-i18n="promotionsDescription">ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา</p></div></div>
+        <div class="infoCard"><h3 data-i18n="noPromotions">ยังไม่มีโปรโมชั่นที่ประกาศ</h3><p data-i18n="promotionsUpdated">เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้</p></div>
       </div>
     </section>
 
     <section class="section" id="about">
       <div class="wrap about">
-        <div><span class="eyebrow">About Food Gallery Limited</span><h2>เกี่ยวกับเรา</h2><p>Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ ผลิตภัณฑ์จากนม และขนมขบเคี้ยว</p><p>หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง</p></div>
+        <div><span class="eyebrow">About Food Gallery Limited</span><h2 data-i18n="aboutTitle">เกี่ยวกับเรา</h2><p data-i18n="aboutDescription">Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ ผลิตภัณฑ์จากนม และขนมขบเคี้ยว</p><p data-i18n="aboutStorefront">หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง</p></div>
         <div class="aboutArt" aria-hidden="true">FG</div>
       </div>
     </section>
@@ -188,30 +200,96 @@
     <section class="section" id="contact">
       <div class="wrap">
         <div class="contactBox">
-          <div><span class="eyebrow" style="color:#d8f1ff">Get in touch</span><h2>ติดต่อเรา</h2><p id="contactMessage">สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง</p></div>
+          <div><span class="eyebrow" style="color:#d8f1ff">Get in touch</span><h2 data-i18n="contactTitle">ติดต่อเรา</h2><p id="contactMessage" data-i18n="contactMessage">สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง</p></div>
           <div id="contactWays" class="contactWays"></div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer><div class="wrap foot"><span>© 2026 Food Gallery Limited. All rights reserved.</span><a href="THIRD_PARTY_NOTICES.txt">ประกาศลิขสิทธิ์ซอฟต์แวร์</a></div></footer>
+  <footer><div class="wrap foot"><span>© 2026 Food Gallery Limited. All rights reserved.</span><a href="THIRD_PARTY_NOTICES.txt" data-i18n="notices">ประกาศลิขสิทธิ์ซอฟต์แวร์</a></div></footer>
 
   <dialog id="productDialog" aria-labelledby="modalTitle">
-    <button class="modalClose" id="modalClose" aria-label="ปิด">×</button>
+    <button class="modalClose" id="modalClose" aria-label="ปิด" data-i18n-aria-label="close">×</button>
     <img id="modalImage" class="modalPhoto" alt="" hidden>
     <p id="modalCategory" class="tag"></p><h2 id="modalTitle"></h2><p id="modalSku" class="muted"></p>
-    <p class="muted">สอบถามรายละเอียดเพิ่มเติมได้ทาง <a href="store.html?page=contact" id="modalContact">ติดต่อเรา</a></p>
+    <p class="muted"><span data-i18n="modalContactPrompt">สอบถามรายละเอียดเพิ่มเติมได้ทาง</span> <a href="store.html?page=contact" id="modalContact" data-i18n="navContact">ติดต่อเรา</a></p>
   </dialog>
 
   <script>
     const $=id=>document.getElementById(id);
-    const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     const imageCache=new Map();
     let allProducts=[];
-    const pageNames={products:'สินค้า',activities:'กิจกรรม',new:'สินค้าใหม่',promotions:'โปรโมชั่น',about:'เกี่ยวกับเรา',contact:'ติดต่อเรา'};
+    let currentContact={};
+    let productsLoaded=false;
+    let productsLoadFailed=false;
+    const translations={
+      th:{
+        mainMenu:'เมนูหลัก',chooseLanguage:'เลือกภาษา',navProducts:'สินค้า',navActivities:'กิจกรรม',navNew:'สินค้าใหม่',navPromotions:'โปรโมชั่น',navAbout:'เกี่ยวกับเรา',navContact:'ติดต่อเรา',navCta:'เลือกชมสินค้า',
+        heroTitle:'เลือกชมสินค้า\nที่ใช่สำหรับคุณ',heroDescription:'ค้นพบรายการสินค้าใหม่และข่าวสารจากเรา เลือกดูตามหมวดหมู่ แล้วติดต่อทีมงานเพื่อสอบถามรายละเอียดเพิ่มเติม',heroBrowse:'ดูสินค้าทั้งหมด',heroAbout:'รู้จักเรา',
+        productsTitle:'เลือกชมสินค้า',productsDescription:'แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้',searchPlaceholder:'ค้นหาชื่อหรือรหัสสินค้า',searchProducts:'ค้นหาสินค้า',filterCategory:'กรองตามหมวดหมู่',allCategories:'ทุกหมวดหมู่',mainCategories:'กลุ่มสินค้าหลัก',categoryTitle:'เลือกชมสินค้าหลากหลายหมวด',categoryDescription:'หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้',
+        produce:'ผักและผลไม้',freshProduce:'ผักสดและผลไม้สด',meat:'เนื้อสัตว์',freshFrozenMeat:'เนื้อสัตว์แช่เย็นและแช่แข็ง',seafood:'อาหารทะเล',freshFrozenSeafood:'อาหารทะเลสดและแช่แข็ง',beverages:'เครื่องดื่ม',beveragesDescription:'น้ำผลไม้ น้ำดื่ม นม และชา',grocery:'อาหารแห้ง',groceryDescription:'อาหารแห้งและธัญพืช',bakery:'ขนมอบ',bakeryDescription:'เค้ก ขนมปัง และขนมปังแช่แข็ง',dairy:'ผลิตภัณฑ์จากนม',dairyDescription:'ไอศกรีม เนย ชีส และครีม',snacks:'ขนมขบเคี้ยว',snacksDescription:'ลูกอม ช็อกโกแลต และขนมกรุบกรอบ',
+        activitiesTitle:'กิจกรรม',activitiesDescription:'ข่าวสารและกิจกรรมจาก Food Gallery',followActivities:'ติดตามกิจกรรมของเรา',noActivities:'ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้',seeYouSoon:'พบกันในโอกาสต่อไป',activitiesAnnounced:'รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ',
+        newTitle:'สินค้าใหม่',newDescription:'รายการล่าสุดที่เผยแพร่บนหน้าร้าน',promotionsTitle:'โปรโมชั่น',promotionsDescription:'ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา',noPromotions:'ยังไม่มีโปรโมชั่นที่ประกาศ',promotionsUpdated:'เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้',
+        aboutTitle:'เกี่ยวกับเรา',aboutDescription:'Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ ผลิตภัณฑ์จากนม และขนมขบเคี้ยว',aboutStorefront:'หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง',
+        contactTitle:'ติดต่อเรา',contactMessage:'สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง',notices:'ประกาศลิขสิทธิ์ซอฟต์แวร์',close:'ปิด',modalContactPrompt:'สอบถามรายละเอียดเพิ่มเติมได้ทาง',
+        homeTitle:'สินค้าและข่าวสาร | Food Gallery',loadingProducts:'กำลังโหลดสินค้า…',showingCount:'แสดง {count} รายการ',noMatchingProducts:'ยังไม่มีสินค้าที่ตรงกับการค้นหา',noPublishedProducts:'ยังไม่มีสินค้าที่เผยแพร่',noNewProducts:'ยังไม่มีสินค้าใหม่ที่เผยแพร่',loadFailed:'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง',unableProducts:'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้',imageUnavailable:'รูปภาพไม่พร้อมใช้งาน',product:'สินค้า',productDetails:'ดูรายละเอียด',sku:'รหัส',skuLabel:'รหัสสินค้า',email:'อีเมล',phone:'โทร',officialSite:'เว็บไซต์ Food Gallery',metaDescription:'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
+      },
+      en:{
+        mainMenu:'Main menu',chooseLanguage:'Choose language',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
+        heroTitle:'Discover products\nmade for you',heroDescription:'Explore our latest products and news. Browse by category, then contact our team for more information.',heroBrowse:'Browse all products',heroAbout:'About us',
+        productsTitle:'Browse products',productsDescription:'Showing products published by our team.',searchPlaceholder:'Search by product name or SKU',searchProducts:'Search products',filterCategory:'Filter by category',allCategories:'All categories',mainCategories:'Main categories',categoryTitle:'Explore our product range',categoryDescription:'Here are some of the product categories featured on our website.',
+        produce:'Fresh produce',freshProduce:'Fresh vegetables and fruit',meat:'Meat',freshFrozenMeat:'Chilled and frozen meat',seafood:'Seafood',freshFrozenSeafood:'Fresh and frozen seafood',beverages:'Beverages',beveragesDescription:'Juice, water, milk and tea',grocery:'Grocery',groceryDescription:'Pantry goods and grains',bakery:'Bakery',bakeryDescription:'Cakes, bread and frozen bakery',dairy:'Dairy',dairyDescription:'Ice cream, butter, cheese and cream',snacks:'Snacks',snacksDescription:'Candy, chocolate and snack foods',
+        activitiesTitle:'Activities',activitiesDescription:'News and activities from Food Gallery',followActivities:'Follow our activities',noActivities:'There are no new activity announcements yet. Please check back for updates.',seeYouSoon:'See you next time',activitiesAnnounced:'Activity details will be announced once officially confirmed.',
+        newTitle:'New arrivals',newDescription:'The latest products published in our store',promotionsTitle:'Promotions',promotionsDescription:'Check our channels for promotion announcements',noPromotions:'No promotions have been announced yet',promotionsUpdated:'We will update this page when new promotions are available.',
+        aboutTitle:'About us',aboutDescription:'Food Gallery Limited imports and distributes a wide range of food products, from fresh produce, meat and seafood to beverages, groceries, bakery products, dairy and snacks.',aboutStorefront:'This storefront features products selected for publication by our team. Inventory quantities, reorder points and warehouse locations are not shown.',
+        contactTitle:'Contact us',contactMessage:'For product enquiries and more information, please use the contact details below.',notices:'Software notices',close:'Close',modalContactPrompt:'For more information, contact us via',
+        homeTitle:'Products and News | Food Gallery',loadingProducts:'Loading products…',showingCount:'Showing {count} items',noMatchingProducts:'No products match your search.',noPublishedProducts:'No products have been published.',noNewProducts:'No new products have been published.',loadFailed:'Could not load data. Please try again later.',unableProducts:'Unable to connect to product data.',imageUnavailable:'Image unavailable',product:'Product',productDetails:'View details',sku:'SKU',skuLabel:'Product SKU',email:'Email',phone:'Phone',officialSite:'Food Gallery website',metaDescription:'Browse new products, activities and promotions from Food Gallery'
+      }
+    };
+    const categoryTranslations={
+      'ผักและผลไม้':'Fresh produce','เนื้อสัตว์':'Meat','อาหารทะเล':'Seafood','เครื่องดื่ม':'Beverages','อาหารแห้ง':'Grocery','ขนมอบ':'Bakery','ผลิตภัณฑ์จากนม':'Dairy','ขนมขบเคี้ยว':'Snacks',
+      'Fresh produce':'ผักและผลไม้','Meat':'เนื้อสัตว์','Seafood':'อาหารทะเล','Beverages':'เครื่องดื่ม','Grocery':'อาหารแห้ง','Bakery':'ขนมอบ','Dairy':'ผลิตภัณฑ์จากนม','Snacks':'ขนมขบเคี้ยว'
+    };
+    function translate(key){return translations[currentLanguage][key]||translations.th[key]||key}
+    function translatedCategory(category){
+      if(!category)return translate('product');
+      if(currentLanguage==='en')return categoryTranslations[category]||category;
+      return Object.keys(categoryTranslations).find(key=>categoryTranslations[key]===category)||category;
+    }
+    function productName(product){
+      return currentLanguage==='en'?(product.name_en||product.name): (product.name_th||product.name);
+    }
+    function readLanguage(){
+      try{return localStorage.getItem('store_language')==='en'?'en':'th'}
+      catch(error){console.warn('Could not read the saved storefront language.',error);return 'th'}
+    }
+    let currentLanguage=readLanguage();
+    function applyLanguage(){
+      document.documentElement.lang=currentLanguage;
+      document.querySelectorAll('[data-i18n]').forEach(element=>{element.textContent=translate(element.dataset.i18n)});
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(element=>{element.placeholder=translate(element.dataset.i18nPlaceholder)});
+      document.querySelectorAll('[data-i18n-aria-label]').forEach(element=>{element.setAttribute('aria-label',translate(element.dataset.i18nAriaLabel))});
+      document.querySelectorAll('[data-i18n-alt]').forEach(element=>{element.alt=translate(element.dataset.i18nAlt)});
+      document.querySelectorAll('[data-language]').forEach(button=>{
+        const selected=button.dataset.language===currentLanguage;
+        button.setAttribute('aria-pressed',String(selected));
+      });
+      $('category').querySelectorAll('option').forEach(option=>{
+        if(option.value)option.textContent=translatedCategory(option.value);
+      });
+      document.querySelector('meta[name="description"]').content=translate('metaDescription');
+      selectPage();
+      if(productsLoaded||productsLoadFailed)renderProducts();
+      renderContact(currentContact);
+      if(productsLoadFailed){
+        $('loadStatus').textContent=translate('loadFailed');
+        $('productsGrid').innerHTML=`<div class="empty">${translate('unableProducts')}</div>`;
+      }
+    }
     function selectPage(){
       const requested=new URLSearchParams(location.search).get('page')||'home';
+      const pageNames={products:translate('navProducts'),activities:translate('navActivities'),new:translate('navNew'),promotions:translate('navPromotions'),about:translate('navAbout'),contact:translate('navContact')};
       const page=requested==='home'||Object.prototype.hasOwnProperty.call(pageNames,requested)?requested:'home';
       document.querySelector('.hero').hidden=page!=='home';
       document.querySelectorAll('main>section[id]').forEach(section=>{
@@ -221,7 +299,7 @@
         if(link.dataset.page===page)link.setAttribute('aria-current','page');
         else link.removeAttribute('aria-current')
       });
-      document.title=page==='home'?'สินค้าและข่าวสาร | Food Gallery':`${pageNames[page]} | Food Gallery`;
+      document.title=page==='home'?translate('homeTitle'):`${pageNames[page]} | Food Gallery`;
     }
     async function productImage(id){
       if(!id)return '';
@@ -234,61 +312,64 @@
     }
     async function fillImage(img,id){
       try{const src=await productImage(id);if(src){img.src=src;img.hidden=false;img.parentElement.querySelector('.placeholder')?.remove()}}
-      catch(e){const placeholder=img.parentElement?.querySelector('.placeholder');if(placeholder)placeholder.textContent='รูปภาพไม่พร้อมใช้งาน'}
+      catch(e){const placeholder=img.parentElement?.querySelector('.placeholder');if(placeholder)placeholder.textContent=translate('imageUnavailable')}
     }
     function productCard(product,compact){
-      const node=document.createElement(compact?'article':'article');
+      const nameText=productName(product);
+      const node=document.createElement('article');
       node.className=compact?'newCard':'product';
       node.tabIndex=0;
       node.setAttribute('role','button');
-      node.setAttribute('aria-label','ดูรายละเอียด '+product.name);
+      node.setAttribute('aria-label',`${translate('productDetails')} ${nameText}`);
       const photo=document.createElement('div');photo.className='photo';
       const placeholder=document.createElement('span');placeholder.className='placeholder';placeholder.textContent='✦';photo.append(placeholder);
-      const image=document.createElement('img');image.alt=product.name;image.hidden=true;
+      const image=document.createElement('img');image.alt=nameText;image.hidden=true;
       if(product.image)fillImage(image,product.image);
       photo.append(image);
       const text=document.createElement('div');text.className=compact?'':'productText';
-      const category=document.createElement('span');category.className='tag';category.textContent=product.cat||'สินค้า';
-      const name=document.createElement('h3');name.textContent=product.name;
-      const sku=document.createElement('span');sku.className='sku';sku.textContent='รหัส '+product.sku;
+      const category=document.createElement('span');category.className='tag';category.textContent=translatedCategory(product.cat);
+      const name=document.createElement('h3');name.textContent=nameText;
+      const sku=document.createElement('span');sku.className='sku';sku.textContent=`${translate('sku')} ${product.sku}`;
       text.append(category,name,sku);
-      if(compact)node.append(photo,text);else node.append(photo,text);
+      node.append(photo,text);
       const open=()=>showProduct(product);
       node.addEventListener('click',open);
       node.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();open()}});
       return node;
     }
     async function showProduct(product){
-      $('modalTitle').textContent=product.name;
-      $('modalCategory').textContent=product.cat||'สินค้า';
-      $('modalSku').textContent='รหัสสินค้า '+product.sku;
+      $('modalTitle').textContent=productName(product);
+      $('modalCategory').textContent=translatedCategory(product.cat);
+      $('modalSku').textContent=`${translate('skuLabel')} ${product.sku}`;
       const image=$('modalImage');image.hidden=true;image.removeAttribute('src');
       if(product.image)try{image.src=await productImage(product.image);image.hidden=false}catch(e){}
       $('productDialog').showModal();
     }
     function filteredProducts(){
-      const query=$('search').value.trim().toLocaleLowerCase('th');
+      const query=$('search').value.trim().toLocaleLowerCase(currentLanguage);
       const category=$('category').value;
       return allProducts.filter(product=>(!category||product.cat===category)&&
-        (!query||`${product.name} ${product.sku} ${product.cat}`.toLocaleLowerCase('th').includes(query)));
+        (!query||`${productName(product)} ${product.sku} ${translatedCategory(product.cat)}`.toLocaleLowerCase(currentLanguage).includes(query)));
     }
     function renderProducts(){
+      if(productsLoadFailed)return;
+      if(!productsLoaded)return;
       const products=filteredProducts(),grid=$('productsGrid');grid.replaceChildren();
       if(products.length)products.forEach(product=>grid.append(productCard(product,false)));
-      else grid.innerHTML='<div class="empty">ยังไม่มีสินค้าที่ตรงกับการค้นหา</div>';
-      $('loadStatus').textContent=`แสดง ${products.length} รายการ`;
+      else grid.innerHTML=`<div class="empty">${translate(allProducts.length?'noMatchingProducts':'noPublishedProducts')}</div>`;
+      $('loadStatus').textContent=translate('showingCount').replace('{count}',products.length);
       const recent=allProducts.slice(0,3),newGrid=$('newGrid');newGrid.replaceChildren();
       if(recent.length)recent.forEach(product=>newGrid.append(productCard(product,true)));
-      else newGrid.innerHTML='<div class="empty">ยังไม่มีสินค้าใหม่ที่เผยแพร่</div>';
+      else newGrid.innerHTML=`<div class="empty">${translate('noNewProducts')}</div>`;
     }
     function renderContact(contact){
       const ways=$('contactWays');ways.replaceChildren();
       const emailAddress=typeof contact.email==='string'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email)?contact.email:'info@foodgallery.co.th';
-      const email=document.createElement('a');email.href='mailto:'+emailAddress;email.textContent='อีเมล '+emailAddress;ways.append(email);
+      const email=document.createElement('a');email.href='mailto:'+emailAddress;email.textContent=`${translate('email')} ${emailAddress}`;ways.append(email);
       if(typeof contact.phone==='string'&&/^[\d\s()+-]{7,24}$/.test(contact.phone)){
-        const phone=document.createElement('a');phone.href='tel:'+contact.phone.replace(/[^\d+]/g,'');phone.textContent='โทร '+contact.phone;ways.append(phone)}
+        const phone=document.createElement('a');phone.href='tel:'+contact.phone.replace(/[^\d+]/g,'');phone.textContent=`${translate('phone')} ${contact.phone}`;ways.append(phone)}
       for(const [url,label] of [
-        ['https://www.foodgallery.co.th/th/','เว็บไซต์ Food Gallery'],
+        [`https://www.foodgallery.co.th/${currentLanguage}/`,translate('officialSite')],
         ['https://www.facebook.com/foodgalleryth','Facebook'],
         ['https://www.instagram.com/foodgallerylimited/','Instagram']
       ]){
@@ -297,19 +378,32 @@
     }
     $('search').addEventListener('input',renderProducts);
     $('category').addEventListener('change',renderProducts);
+    document.querySelectorAll('[data-language]').forEach(button=>button.addEventListener('click',()=>{
+      currentLanguage=button.dataset.language;
+      try{localStorage.setItem('store_language',currentLanguage)}
+      catch(error){console.warn('Could not save the storefront language preference.',error)}
+      applyLanguage();
+    }));
     $('modalClose').onclick=()=>$('productDialog').close();
     $('modalContact').onclick=()=>$('productDialog').close();
-    selectPage();
+    $('loadStatus').textContent=translate('loadingProducts');
+    applyLanguage();
     renderContact({});
     (async()=>{
       try{
         const response=await fetch('/api/storefront');
-        if(!response.ok)throw new Error('โหลดสินค้าไม่สำเร็จ');
+        if(!response.ok)throw new Error('Product request failed');
         const data=await response.json();
         allProducts=Array.isArray(data.products)?data.products:[];
-        for(const category of data.categories||[]){const option=document.createElement('option');option.value=category;option.textContent=category;$('category').append(option)}
-        renderProducts();renderContact(data.contact||{});
-      }catch(error){$('loadStatus').textContent='โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง';$('productsGrid').innerHTML='<div class="empty">ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้</div>'}
+        currentContact=data.contact||{};
+        for(const category of data.categories||[]){const option=document.createElement('option');option.value=category;option.textContent=translatedCategory(category);$('category').append(option)}
+        productsLoaded=true;
+        applyLanguage();
+      }catch(error){
+        console.error('Could not load storefront data.',error);
+        productsLoadFailed=true;
+        applyLanguage();
+      }
     })();
   </script>
 </body>
