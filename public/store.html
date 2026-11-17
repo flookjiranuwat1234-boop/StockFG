@@ -170,7 +170,7 @@
     #mobileMenuBackdrop.is-open{opacity:1;visibility:visible;transition:opacity .24s ease}
     .mobileDrawer{position:fixed;inset:0 0 0 auto;z-index:21;display:flex;flex-direction:column;width:min(360px,calc(100vw - 48px));overflow-y:auto;background:#f4f4f4;color:#5a5a5a;box-shadow:-12px 0 28px #0003;transform:translateX(100%);visibility:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s linear .28s}
     .mobileDrawer.is-open{transform:translateX(0);visibility:visible;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s}
-    @media(prefers-reduced-motion:reduce){#mobileMenuBackdrop,.mobileDrawer{transition:none!important}.partnerViewport{scroll-behavior:auto;scroll-snap-type:x proximity}}
+    @media(prefers-reduced-motion:reduce){#mobileMenuBackdrop,.mobileDrawer,.introScreen{transition:none!important}.introScreen::before,.introScreen::after,.introCard,.introProgress span{animation:none!important}.introProgress span{transform:scaleX(1)}.partnerViewport{scroll-behavior:auto;scroll-snap-type:x proximity}}
     .srOnly{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     .drawerSearch{display:flex;align-items:center;gap:8px;padding:9px clamp(16px,6vw,36px);background:#e5e5e5}
     .drawerSearch input{width:100%;min-width:0;height:50px;padding:0 52px 0 14px;border:0;border-radius:0;background:#fff;color:var(--ink);font-size:1rem}
@@ -186,6 +186,26 @@
     .drawerSocial{display:flex;align-items:center;gap:20px;min-height:76px;padding:0 clamp(20px,6vw,36px);border-bottom:1px solid #ddd}
     .drawerSocial a{display:grid;place-items:center;width:28px;height:28px;color:#686868}
     .drawerSocial svg{width:20px;height:20px}
+    .introScreen{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;overflow:hidden;padding:24px;background:radial-gradient(ellipse at 50% 40%,#fff 0,#f1f5eb 48%,#e0efe8 100%);opacity:1;transition:opacity .4s ease,visibility .4s ease}
+    .introScreen::before,.introScreen::after{position:absolute;width:clamp(220px,32vw,420px);aspect-ratio:1;border:1px solid #0878be12;border-radius:50%;content:"";animation:introOrbit 16s linear infinite}
+    .introScreen::after{width:clamp(300px,44vw,580px);animation-direction:reverse}
+    .introScreen.is-leaving{visibility:hidden;opacity:0;pointer-events:none}
+    .introCard{position:relative;z-index:1;width:min(460px,100%);padding:clamp(28px,6vw,48px);border:1px solid #fff;border-radius:32px;background:#ffffffd9;box-shadow:0 28px 90px #203b3817;text-align:center;animation:introArrive .7s cubic-bezier(.2,.8,.2,1) both}
+    .introLogo{display:block;width:min(245px,78%);height:auto;margin:0 auto 26px}
+    .introEyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--blue);font-size:.76rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+    .introEyebrow::before,.introEyebrow::after{width:18px;height:1px;background:#7cc4df;content:""}
+    .introCard h1{margin:12px 0 8px;font-size:clamp(1.65rem,5vw,2.1rem);letter-spacing:-.03em}
+    .introCard p{margin:0;color:var(--muted);line-height:1.75}
+    .introProgress{height:3px;margin:26px 0 18px;overflow:hidden;border-radius:10px;background:#e6eee8}
+    .introProgress span{display:block;width:100%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#0878be,#6fceb5);transform:scaleX(0);transform-origin:left;animation:introProgress 1.8s ease-out forwards}
+    .introSkip{padding:7px 12px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-size:.85rem;font-weight:700;cursor:pointer}
+    .introSkip:hover,.introSkip:focus-visible{background:var(--blue-soft);color:var(--blue-deep)}
+    .introSkip:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+    .intro-seen .introScreen:not(.is-leaving){display:none}
+    html:not(.intro-seen) body{overflow:hidden}
+    @keyframes introArrive{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+    @keyframes introOrbit{to{transform:rotate(360deg)}}
+    @keyframes introProgress{to{transform:scaleX(1)}}
     [hidden]{display:none!important}
     @media(max-width:1000px){.nav{height:68px;min-height:68px;justify-content:flex-start}.brand,.navActions,.nav>.links{display:none}.mobileMenuToggle{display:grid}}
     @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.links{gap:14px}.about{gap:24px}}
@@ -228,8 +248,48 @@
       .foot{flex-direction:column}
     }
   </style>
+  <script>
+    try{
+      if(sessionStorage.getItem('foodGalleryIntroSeen')==='true')document.documentElement.classList.add('intro-seen');
+      else sessionStorage.setItem('foodGalleryIntroSeen','true');
+    }catch(error){console.warn('Could not store the storefront intro state.',error)}
+  </script>
 </head>
 <body>
+  <div class="introScreen" id="introScreen" role="dialog" aria-modal="true" aria-labelledby="introTitle" aria-describedby="introMessage">
+    <div class="introCard">
+      <img class="introLogo" src="images/food-gallery-logo.png" alt="Food Gallery — The Gallery of Fine Food">
+      <span class="introEyebrow">The Gallery of Fine Food</span>
+      <h1 id="introTitle" data-i18n="introTitle">โลกแห่งวัตถุดิบคุณภาพ</h1>
+      <p id="introMessage" data-i18n="introMessage">ค้นพบแรงบันดาลใจและสินค้าคัดสรรจาก Food Gallery</p>
+      <div class="introProgress" aria-hidden="true"><span></span></div>
+      <button class="introSkip" id="introSkip" type="button" data-i18n="introSkip">ข้ามเข้าสู่เว็บไซต์</button>
+    </div>
+  </div>
+  <script>
+    const introScreen=document.getElementById('introScreen');
+    if(!document.documentElement.classList.contains('intro-seen')){
+      const introSkip=document.getElementById('introSkip');
+      let introTimer;
+      const closeIntro=()=>{
+        if(introScreen.classList.contains('is-leaving'))return;
+        clearTimeout(introTimer);
+        introScreen.classList.add('is-leaving');
+        document.documentElement.classList.add('intro-seen');
+        setTimeout(()=>introScreen.remove(),420);
+      };
+      introSkip.addEventListener('click',closeIntro);
+      introScreen.addEventListener('click',event=>{if(event.target===introScreen)closeIntro()});
+      document.addEventListener('keydown',event=>{
+        if(event.key==='Escape')closeIntro();
+        if(event.key==='Tab'&&!introScreen.classList.contains('is-leaving')){
+          event.preventDefault();
+          introSkip.focus();
+        }
+      });
+      introTimer=setTimeout(closeIntro,1800);
+    }
+  </script>
   <header class="top">
     <div class="wrap nav">
       <button class="mobileMenuToggle" id="mobileMenuToggle" type="button" aria-expanded="false" aria-controls="mobileDrawer" aria-label="เปิดเมนู" data-i18n-aria-label="openMenu">
@@ -477,6 +537,7 @@
     let productsLoadFailed=false;
     const translations={
       th:{
+        introTitle:'โลกแห่งวัตถุดิบคุณภาพ',introMessage:'ค้นพบแรงบันดาลใจและสินค้าคัดสรรจาก Food Gallery',introSkip:'ข้ามเข้าสู่เว็บไซต์',
         mainMenu:'เมนูหลัก',chooseLanguage:'เลือกภาษา',openMenu:'เปิดเมนู',closeMenu:'ปิดเมนู',drawerSearchPlaceholder:'ค้นหาสินค้า',submitSearch:'ค้นหา',socialMedia:'โซเชียลมีเดีย',navProducts:'สินค้า',navActivities:'กิจกรรม',navNew:'สินค้าใหม่',navPromotions:'โปรโมชั่น',navAbout:'เกี่ยวกับเรา',navContact:'ติดต่อเรา',navCta:'เลือกชมสินค้า',
         partnersEyebrow:'Company Partners',partnersTitle:'แบรนด์และพาร์ตเนอร์',partnersDescription:'แบรนด์ที่ปรากฏในส่วน Company Partners บนเว็บไซต์ Food Gallery',partnersPrevious:'ดูแบรนด์ก่อนหน้า',partnersNext:'ดูแบรนด์ถัดไป',partnersList:'รายชื่อแบรนด์และพาร์ตเนอร์',
         heroEyebrow:'รวมวัตถุดิบหลากหลายหมวด',heroVisual:'ตัวอย่างหมวดหมู่อาหาร',heroTitle:'วัตถุดิบหลากหลาย\nเพื่อทุกไอเดียอาหาร',heroDescription:'สำรวจสินค้าอาหารจากหลากหลายหมวดหมู่ เลือกชมรายการที่ทีมงานเผยแพร่ และติดต่อเราเพื่อสอบถามรายละเอียดเพิ่มเติม',heroBrowse:'ดูสินค้าทั้งหมด',heroAbout:'รู้จักเรา',
@@ -489,6 +550,7 @@
         homeTitle:'สินค้าและข่าวสาร | Food Gallery',loadingProducts:'กำลังโหลดสินค้า…',showingCount:'แสดง {count} รายการ',noMatchingProducts:'ยังไม่มีสินค้าที่ตรงกับการค้นหา',noCategoryProducts:'ยังไม่มีสินค้าที่เผยแพร่ในหมวดนี้',noPublishedProducts:'ยังไม่มีสินค้าที่เผยแพร่',noNewProducts:'ยังไม่มีสินค้าใหม่ที่เผยแพร่',loadFailed:'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง',unableProducts:'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้',imageUnavailable:'รูปภาพไม่พร้อมใช้งาน',product:'สินค้า',productDetails:'ดูรายละเอียด',productDescriptionLabel:'รายละเอียดสินค้า',noProductDescription:'ยังไม่มีรายละเอียดสินค้า',sku:'รหัส',skuLabel:'รหัสสินค้า',email:'อีเมล',phone:'โทร',officialSite:'เว็บไซต์ Food Gallery',metaDescription:'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
       },
       en:{
+        introTitle:'A world of fine ingredients',introMessage:'Discover inspiration and carefully selected products from Food Gallery.',introSkip:'Skip to website',
         mainMenu:'Main menu',chooseLanguage:'Choose language',openMenu:'Open menu',closeMenu:'Close menu',drawerSearchPlaceholder:'Search',submitSearch:'Search',socialMedia:'Social media',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
         partnersEyebrow:'Company Partners',partnersTitle:'Brands and partners',partnersDescription:'Brands featured in the Company Partners section on the Food Gallery website.',partnersPrevious:'View previous brands',partnersNext:'View next brands',partnersList:'Brand and partner logos',partnersSource:'Listed in the Company Partners section on the',partnersSourceLink:'Food Gallery website',
         heroEyebrow:'A curated food collection',heroVisual:'Featured food categories',heroTitle:'A world of ingredients\nfor every food idea',heroDescription:'Explore food products across a range of categories. Browse items published by our team, then contact us for more information.',heroBrowse:'Browse all products',heroAbout:'About us',
