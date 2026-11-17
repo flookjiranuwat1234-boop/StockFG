@@ -254,24 +254,24 @@
 
     <section class="section" id="products">
       <div class="wrap">
-        <div class="sectionHead"><div><span class="eyebrow">Our products</span><h2 data-i18n="productsTitle">เลือกชมสินค้า</h2><p data-i18n="productsDescription">แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้</p></div></div>
+        <div class="sectionHead"><div><span class="eyebrow">Our products</span><h2 id="productsTitle" data-i18n="productsTitle">เลือกชมสินค้า</h2><p id="productsDescription" data-i18n="productsDescription">แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้</p></div></div>
         <div class="tools">
           <input id="search" type="search" placeholder="ค้นหาชื่อหรือรหัสสินค้า" aria-label="ค้นหาสินค้า" data-i18n-placeholder="searchPlaceholder" data-i18n-aria-label="searchProducts">
           <select id="category" aria-label="กรองตามหมวดหมู่" data-i18n-aria-label="filterCategory"><option value="" data-i18n="allCategories">ทุกหมวดหมู่</option></select>
         </div>
-        <aside class="categoryOverview" aria-label="กลุ่มสินค้าหลัก" data-i18n-aria-label="mainCategories">
+        <aside class="categoryOverview" id="categoryOverview" aria-label="กลุ่มสินค้าหลัก" data-i18n-aria-label="mainCategories">
           <span class="eyebrow">Food Gallery · Categories</span>
           <h3 data-i18n="categoryTitle">เลือกชมสินค้าหลากหลายหมวด</h3>
           <p data-i18n="categoryDescription">หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้</p>
           <div class="categoryTags">
-            <a class="categoryTag" href="store.html?page=products&amp;category=produce"><img data-src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" loading="lazy"><strong data-i18n="produce">ผักและผลไม้</strong><small data-i18n="freshProduce">ผักสดและผลไม้สด</small></a>
-            <a class="categoryTag" href="store.html?page=products&amp;category=meat"><img data-src="images/category-meat.jpg" alt="เนื้อสัตว์" data-i18n-alt="meat" loading="lazy"><strong data-i18n="meat">เนื้อสัตว์</strong><small data-i18n="freshFrozenMeat">เนื้อสัตว์แช่เย็นและแช่แข็ง</small></a>
-            <a class="categoryTag" href="store.html?page=products&amp;category=seafood"><img data-src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood" loading="lazy"><strong data-i18n="seafood">อาหารทะเล</strong><small data-i18n="freshFrozenSeafood">อาหารทะเลสดและแช่แข็ง</small></a>
-            <a class="categoryTag" href="store.html?page=products&amp;category=beverages"><img data-src="images/category-beverage.jpg" alt="เครื่องดื่ม" data-i18n-alt="beverages" loading="lazy"><strong data-i18n="beverages">เครื่องดื่ม</strong><small data-i18n="beveragesDescription">น้ำผลไม้ น้ำดื่ม นม และชา</small></a>
-            <a class="categoryTag" href="store.html?page=products&amp;category=grocery"><img data-src="images/category-grocery.jpg" alt="อาหารแห้ง" data-i18n-alt="grocery" loading="lazy"><strong data-i18n="grocery">อาหารแห้ง</strong><small data-i18n="groceryDescription">อาหารแห้งและธัญพืช</small></a>
-            <a class="categoryTag" href="store.html?page=products&amp;category=bakery"><img data-src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery" loading="lazy"><strong data-i18n="bakery">ขนมอบ</strong><small data-i18n="bakeryDescription">เค้ก ขนมปัง และขนมปังแช่แข็ง</small></a>
-            <a class="categoryTag" href="store.html?page=products&amp;category=dairy"><img data-src="images/category-dairy.jpg" alt="ผลิตภัณฑ์จากนม" data-i18n-alt="dairy" loading="lazy"><strong data-i18n="dairy">ผลิตภัณฑ์จากนม</strong><small data-i18n="dairyDescription">ไอศกรีม เนย ชีส และครีม</small></a>
-            <a class="categoryTag" href="store.html?page=products&amp;category=snacks"><img data-src="images/category-snacks.jpg" alt="ขนมขบเคี้ยว" data-i18n-alt="snacks" loading="lazy"><strong data-i18n="snacks">ขนมขบเคี้ยว</strong><small data-i18n="snacksDescription">ลูกอม ช็อกโกแลต และขนมกรุบกรอบ</small></a>
+            <a class="categoryTag" href="store.html?page=category&amp;category=produce"><img data-src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" loading="lazy"><strong data-i18n="produce">ผักและผลไม้</strong><small data-i18n="freshProduce">ผักสดและผลไม้สด</small></a>
+            <a class="categoryTag" href="store.html?page=category&amp;category=meat"><img data-src="images/category-meat.jpg" alt="เนื้อสัตว์" data-i18n-alt="meat" loading="lazy"><strong data-i18n="meat">เนื้อสัตว์</strong><small data-i18n="freshFrozenMeat">เนื้อสัตว์แช่เย็นและแช่แข็ง</small></a>
+            <a class="categoryTag" href="store.html?page=category&amp;category=seafood"><img data-src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood" loading="lazy"><strong data-i18n="seafood">อาหารทะเล</strong><small data-i18n="freshFrozenSeafood">อาหารทะเลสดและแช่แข็ง</small></a>
+            <a class="categoryTag" href="store.html?page=category&amp;category=beverages"><img data-src="images/category-beverage.jpg" alt="เครื่องดื่ม" data-i18n-alt="beverages" loading="lazy"><strong data-i18n="beverages">เครื่องดื่ม</strong><small data-i18n="beveragesDescription">น้ำผลไม้ น้ำดื่ม นม และชา</small></a>
+            <a class="categoryTag" href="store.html?page=category&amp;category=grocery"><img data-src="images/category-grocery.jpg" alt="อาหารแห้ง" data-i18n-alt="grocery" loading="lazy"><strong data-i18n="grocery">อาหารแห้ง</strong><small data-i18n="groceryDescription">อาหารแห้งและธัญพืช</small></a>
+            <a class="categoryTag" href="store.html?page=category&amp;category=bakery"><img data-src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery" loading="lazy"><strong data-i18n="bakery">ขนมอบ</strong><small data-i18n="bakeryDescription">เค้ก ขนมปัง และขนมปังแช่แข็ง</small></a>
+            <a class="categoryTag" href="store.html?page=category&amp;category=dairy"><img data-src="images/category-dairy.jpg" alt="ผลิตภัณฑ์จากนม" data-i18n-alt="dairy" loading="lazy"><strong data-i18n="dairy">ผลิตภัณฑ์จากนม</strong><small data-i18n="dairyDescription">ไอศกรีม เนย ชีส และครีม</small></a>
+            <a class="categoryTag" href="store.html?page=category&amp;category=snacks"><img data-src="images/category-snacks.jpg" alt="ขนมขบเคี้ยว" data-i18n-alt="snacks" loading="lazy"><strong data-i18n="snacks">ขนมขบเคี้ยว</strong><small data-i18n="snacksDescription">ลูกอม ช็อกโกแลต และขนมกรุบกรอบ</small></a>
           </div>
         </aside>
         <div id="productsGrid" class="grid" aria-live="polite"></div>
@@ -373,7 +373,7 @@
       th:{
         mainMenu:'เมนูหลัก',chooseLanguage:'เลือกภาษา',openMenu:'เปิดเมนู',closeMenu:'ปิดเมนู',drawerSearchPlaceholder:'ค้นหาสินค้า',submitSearch:'ค้นหา',socialMedia:'โซเชียลมีเดีย',navProducts:'สินค้า',navActivities:'กิจกรรม',navNew:'สินค้าใหม่',navPromotions:'โปรโมชั่น',navAbout:'เกี่ยวกับเรา',navContact:'ติดต่อเรา',navCta:'เลือกชมสินค้า',
         heroEyebrow:'รวมวัตถุดิบหลากหลายหมวด',heroVisual:'ตัวอย่างหมวดหมู่อาหาร',heroTitle:'วัตถุดิบหลากหลาย\nเพื่อทุกไอเดียอาหาร',heroDescription:'สำรวจสินค้าอาหารจากหลากหลายหมวดหมู่ เลือกชมรายการที่ทีมงานเผยแพร่ และติดต่อเราเพื่อสอบถามรายละเอียดเพิ่มเติม',heroBrowse:'ดูสินค้าทั้งหมด',heroAbout:'รู้จักเรา',
-        productsTitle:'เลือกชมสินค้า',productsDescription:'แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้',searchPlaceholder:'ค้นหาชื่อหรือรหัสสินค้า',searchProducts:'ค้นหาสินค้า',filterCategory:'กรองตามหมวดหมู่',allCategories:'ทุกหมวดหมู่',mainCategories:'กลุ่มสินค้าหลัก',categoryTitle:'เลือกชมสินค้าหลากหลายหมวด',categoryDescription:'หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้',
+        productsTitle:'เลือกชมสินค้า',productsDescription:'แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้',categoryPageTitle:'หมวดสินค้า',categoryPageDescription:'เลือกชมสินค้าทั้งหมดในหมวดนี้',searchPlaceholder:'ค้นหาชื่อหรือรหัสสินค้า',searchProducts:'ค้นหาสินค้า',filterCategory:'กรองตามหมวดหมู่',allCategories:'ทุกหมวดหมู่',mainCategories:'กลุ่มสินค้าหลัก',categoryTitle:'เลือกชมสินค้าหลากหลายหมวด',categoryDescription:'หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้',
         produce:'ผักและผลไม้',freshProduce:'ผักสดและผลไม้สด',meat:'เนื้อสัตว์',freshFrozenMeat:'เนื้อสัตว์แช่เย็นและแช่แข็ง',seafood:'อาหารทะเล',freshFrozenSeafood:'อาหารทะเลสดและแช่แข็ง',beverages:'เครื่องดื่ม',beveragesDescription:'น้ำผลไม้ น้ำดื่ม นม และชา',grocery:'อาหารแห้ง',groceryDescription:'อาหารแห้งและธัญพืช',bakery:'ขนมอบ',bakeryDescription:'เค้ก ขนมปัง และขนมปังแช่แข็ง',dairy:'ผลิตภัณฑ์จากนม',dairyDescription:'ไอศกรีม เนย ชีส และครีม',snacks:'ขนมขบเคี้ยว',snacksDescription:'ลูกอม ช็อกโกแลต และขนมกรุบกรอบ',
         activitiesTitle:'กิจกรรม',activitiesDescription:'ข่าวสารและกิจกรรมจาก Food Gallery',followActivities:'ติดตามกิจกรรมของเรา',noActivities:'ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้',seeYouSoon:'พบกันในโอกาสต่อไป',activitiesAnnounced:'รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ',
         newTitle:'สินค้าใหม่',newDescription:'รายการล่าสุดที่เผยแพร่บนหน้าร้าน',promotionsTitle:'โปรโมชั่น',promotionsDescription:'ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา',noPromotions:'ยังไม่มีโปรโมชั่นที่ประกาศ',promotionsUpdated:'เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้',
@@ -384,7 +384,7 @@
       en:{
         mainMenu:'Main menu',chooseLanguage:'Choose language',openMenu:'Open menu',closeMenu:'Close menu',drawerSearchPlaceholder:'Search',submitSearch:'Search',socialMedia:'Social media',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
         heroEyebrow:'A curated food collection',heroVisual:'Featured food categories',heroTitle:'A world of ingredients\nfor every food idea',heroDescription:'Explore food products across a range of categories. Browse items published by our team, then contact us for more information.',heroBrowse:'Browse all products',heroAbout:'About us',
-        productsTitle:'Browse products',productsDescription:'Showing products published by our team.',searchPlaceholder:'Search by product name or SKU',searchProducts:'Search products',filterCategory:'Filter by category',allCategories:'All categories',mainCategories:'Main categories',categoryTitle:'Explore our product range',categoryDescription:'Here are some of the product categories featured on our website.',
+        productsTitle:'Browse products',productsDescription:'Showing products published by our team.',categoryPageTitle:'Product category',categoryPageDescription:'Browse all products in this category.',searchPlaceholder:'Search by product name or SKU',searchProducts:'Search products',filterCategory:'Filter by category',allCategories:'All categories',mainCategories:'Main categories',categoryTitle:'Explore our product range',categoryDescription:'Here are some of the product categories featured on our website.',
         produce:'Fresh produce',freshProduce:'Fresh vegetables and fruit',meat:'Meat',freshFrozenMeat:'Chilled and frozen meat',seafood:'Seafood',freshFrozenSeafood:'Fresh and frozen seafood',beverages:'Beverages',beveragesDescription:'Juice, water, milk and tea',grocery:'Grocery',groceryDescription:'Pantry goods and grains',bakery:'Bakery',bakeryDescription:'Cakes, bread and frozen bakery',dairy:'Dairy',dairyDescription:'Ice cream, butter, cheese and cream',snacks:'Snacks',snacksDescription:'Candy, chocolate and snack foods',
         activitiesTitle:'Activities',activitiesDescription:'News and activities from Food Gallery',followActivities:'Follow our activities',noActivities:'There are no new activity announcements yet. Please check back for updates.',seeYouSoon:'See you next time',activitiesAnnounced:'Activity details will be announced once officially confirmed.',
         newTitle:'New arrivals',newDescription:'The latest products published in our store',promotionsTitle:'Promotions',promotionsDescription:'Check our channels for promotion announcements',noPromotions:'No promotions have been announced yet',promotionsUpdated:'We will update this page when new promotions are available.',
@@ -438,12 +438,18 @@
     }
     function selectPage(){
       const requested=new URLSearchParams(location.search).get('page')||'home';
-      const pageNames={products:translate('navProducts'),activities:translate('navActivities'),new:translate('navNew'),promotions:translate('navPromotions'),about:translate('navAbout'),contact:translate('navContact')};
+      const categoryKey=new URLSearchParams(location.search).get('category');
+      const categoryName=$('category').value?translatedCategory($('category').value):categoryKey?translate(categoryKey):'';
+      const pageNames={products:translate('navProducts'),category:categoryName||translate('categoryPageTitle'),activities:translate('navActivities'),new:translate('navNew'),promotions:translate('navPromotions'),about:translate('navAbout'),contact:translate('navContact')};
       const page=requested==='home'||Object.prototype.hasOwnProperty.call(pageNames,requested)?requested:'home';
+      const sectionPage=page==='category'?'products':page;
       document.querySelector('.hero').hidden=page!=='home';
       document.querySelectorAll('main>section[id]').forEach(section=>{
-        section.hidden=page!=='home'&&section.id!==page
+        section.hidden=page!=='home'&&section.id!==sectionPage
       });
+      $('categoryOverview').hidden=page==='category';
+      $('productsTitle').textContent=page==='category'?(categoryName||translate('categoryPageTitle')):translate('productsTitle');
+      $('productsDescription').textContent=page==='category'?translate('categoryPageDescription'):translate('productsDescription');
       if(page==='home'){
         document.querySelectorAll('.heroVisual img[data-src]:not([src])').forEach(image=>{image.src=image.dataset.src});
       }
@@ -595,7 +601,14 @@
       }
     });
     $('search').addEventListener('input',renderProducts);
-    $('category').addEventListener('change',renderProducts);
+    $('category').addEventListener('change',()=>{
+      if(new URLSearchParams(location.search).get('page')==='category'&&$('category').value){
+        const params=new URLSearchParams(location.search);
+        params.set('category',$('category').value);
+        history.replaceState(null,'',`${location.pathname}?${params}`);
+      }
+      selectPage();renderProducts();
+    });
     document.querySelectorAll('[data-language]').forEach(button=>button.addEventListener('click',()=>{
       currentLanguage=button.dataset.language;
       try{localStorage.setItem('store_language',currentLanguage)}
@@ -639,7 +652,7 @@
           const categoryKey=new URLSearchParams(location.search).get('category');
           if(categoryKey){
             const categoryLabel=translate(categoryKey);
-            const categoryOption=Array.from($('category').options).find(option=>option.value&&translatedCategory(option.value)===categoryLabel);
+            const categoryOption=Array.from($('category').options).find(option=>option.value&&(option.value===categoryKey||translatedCategory(option.value)===categoryLabel));
             if(categoryOption)$('category').value=categoryOption.value;
           }
           productsLoaded=true;
