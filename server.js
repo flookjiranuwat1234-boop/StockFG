@@ -45,7 +45,6 @@ app.use((req, res, next) => {
 app.use(express.json({ limit: '2mb' }));
 app.use(cookieParser());
 
-/* ---------- ตัวช่วย ---------- */
 const h = fn => (req, res, next) => fn(req, res).catch(next);
 const str = (v, n) => String(v ?? '').slice(0, n);
 const int = v => Math.max(0, Math.min(1e9, parseInt(v, 10) || 0));
@@ -68,7 +67,6 @@ const auth = (req, res, next) => {
 const superAdmin = (req, res, next) => req.user.role === 'super_admin'
   ? next() : res.status(403).json({ error: 'ต้องใช้บัญชี super admin' });
 
-// จำกัดการเดารหัสผ่าน: 8 ครั้ง/5 นาที/IP
 const tries = new Map();
 const limited = ip => {
   const now = Date.now(), r = tries.get(ip);
@@ -77,14 +75,12 @@ const limited = ip => {
 };
 setInterval(() => { const now = Date.now(); tries.forEach((v, k) => now - v.t > 300000 && tries.delete(k)); }, 600000).unref();
 
-/* ---------- เข้าสู่ระบบ ---------- */
 app.post('/api/login', h(async (req, res) => {
   if (limited(req.ip)) throw fail(429, 'ลองผิดหลายครั้งเกินไป กรุณารอ 5 นาที');
   const { rows } = await pool.query(
     'SELECT id,username,name,pass_hash,role,active,token_version FROM users WHERE lower(username)=lower($1)',
     [str(req.body.username, 80)]);
   const u = rows[0];
-  // เทียบ hash เสมอ แม้ไม่พบผู้ใช้ เพื่อไม่ให้เดาชื่อผู้ใช้จากเวลาตอบกลับได้
   const ok = await bcrypt.compare(str(req.body.password, 200), u ? u.pass_hash : '$2a$12$invalidinvalidinvalidinvalidinvalidinvalidinvalidinvalidinva');
   if (!u || !ok || !u.active) throw fail(401, 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
   tries.delete(req.ip);
@@ -100,7 +96,6 @@ app.get('/api/config', (req, res) => res.json({
 app.get('/api/me', auth, (req, res) => res.json({ id: req.user.id, name: req.user.name, role: req.user.role }));
 app.get('/healthz', h(async (req, res) => { await pool.query('SELECT 1'); res.send('ok'); }));
 
-/* ---------- เข้าสู่ระบบด้วย Google ---------- */
 const oauthCookieOptions = { httpOnly: true, sameSite: 'lax', secure: prod, path: '/' };
 const googleLoginFailure = (res, productId) => res.redirect('/?google_error=1' +
   (typeof productId === 'string' && ID_RE.test(productId) ? `&product=${encodeURIComponent(productId)}` : ''));
@@ -175,7 +170,6 @@ app.get('/auth/google/callback', h(async (req, res) => {
   res.redirect(ID_RE.test(returnProduct || '') ? `/?product=${encodeURIComponent(returnProduct)}` : '/');
 }));
 
-/* ---------- จัดการบัญชีผู้ใช้ ---------- */
 function userId(value) {
   const id = Number(value);
   if (!/^\d+$/.test(String(value)) || !Number.isSafeInteger(id) || id < 1) {
@@ -306,7 +300,6 @@ app.post('/api/users/:id/password', auth, superAdmin, h(async (req, res) => {
   finally { c.release(); }
 }));
 
-/* ---------- หน้าร้านสาธารณะ: แสดงเฉพาะสินค้าที่เผยแพร่ ---------- */
 app.get('/api/storefront', h(async (req, res) => {
   const { rows } = await pool.query(
     `SELECT id,sku,name,cat,imgs,created_at AS created
@@ -340,7 +333,6 @@ app.get('/api/storefront/images/:id', h(async (req, res) => {
   res.json({ data: rows[0].data });
 }));
 
-/* ---------- ข้อมูลทั้งหมด (สินค้า + หมวดหมู่ + ประวัติล่าสุด 1,000 รายการ) ---------- */
 app.get('/api/state', auth, h(async (req, res) => {
   const [p, l, c] = await Promise.all([
     pool.query(`SELECT id,sku,name,cat,qty,unit,min,loc,imgs,demo,published,version AS v,created_at AS created
@@ -353,7 +345,6 @@ app.get('/api/state', auth, h(async (req, res) => {
   res.json({ items: p.rows, log: l.rows, categories: c.rows.map(row => row.name) });
 }));
 
-/* ---------- หมวดหมู่สินค้า ---------- */
 app.post('/api/categories', auth, h(async (req, res) => {
   const name = str(req.body.name, 80).trim();
   if (!name) throw fail(400, 'กรุณาระบุชื่อหมวดหมู่');
@@ -384,7 +375,6 @@ app.delete('/api/categories/:name', auth, h(async (req, res) => {
   finally { c.release(); }
 }));
 
-/* ---------- บันทึกการเปลี่ยนแปลงสินค้า (ธุรกรรมเดียว + กันแก้ทับด้วยเลขเวอร์ชัน) ---------- */
 function cleanProduct(p) {
   if (!p || !ID_RE.test(String(p.id)) || !str(p.sku, 80).trim() || !str(p.name, 200).trim()) throw fail(400, 'ข้อมูลสินค้าไม่ถูกต้อง');
   const created = new Date(p.created);
@@ -443,7 +433,6 @@ app.post('/api/sync', auth, h(async (req, res) => {
   finally { c.release(); }
 }));
 
-/* ---------- ประวัติรับ/เบิก ---------- */
 app.post('/api/log', auth, h(async (req, res) => {
   const es = (Array.isArray(req.body.entries) ? req.body.entries : []).slice(0, 2000);
   const c = await pool.connect();
@@ -464,7 +453,6 @@ app.post('/api/log', auth, h(async (req, res) => {
 }));
 app.post('/api/log/clear', auth, h(async (req, res) => { await pool.query('DELETE FROM movements'); res.json({ ok: true }); }));
 
-/* ---------- รูปภาพ (เก็บเป็นข้อมูลในฐานข้อมูล เพราะดิสก์บนคลาวด์มักไม่ถาวร) ---------- */
 const idList = v => (Array.isArray(v) ? v : []).map(String).filter(x => ID_RE.test(x)).slice(0, 500);
 app.post('/api/images', auth, h(async (req, res) => {
   const { id, data } = req.body;
@@ -482,7 +470,6 @@ app.post('/api/images/delete', auth, h(async (req, res) => {
 }));
 app.post('/api/images/clear', auth, h(async (req, res) => { await pool.query('DELETE FROM images'); res.json({ ok: true }); }));
 
-/* ---------- หน้าเว็บ + จัดการข้อผิดพลาด ---------- */
 app.use('/api', (req, res) => res.status(404).json({ error: 'ไม่พบ API นี้' }));
 app.use(express.static(path.join(__dirname, 'public'), { maxAge: 0 }));
 app.use((err, req, res, next) => {
@@ -496,7 +483,6 @@ app.use((err, req, res, next) => {
   res.status(status).json({ error: status >= 500 ? 'เซิร์ฟเวอร์ขัดข้อง' : err.message });
 });
 
-/* ---------- เริ่มทำงาน ---------- */
 (async () => {
   await init();
   const { rows } = await pool.query('SELECT count(*)::int AS n FROM users');

@@ -1,14 +1,11 @@
 'use strict';
-// ใช้: npm run add-user -- USERNAME PASSWORD "DISPLAY NAME"
-// เลื่อนบัญชีเดิมเป็น super admin: npm run add-user -- --promote USERNAME
-// ถ้ามีผู้ใช้อยู่แล้วจะเปลี่ยนรหัสผ่านและชื่อให้
 const fs = require('fs');
 try {
   fs.readFileSync(__dirname + '/../.env', 'utf8').split('\n').forEach(l => {
     const m = l.match(/^([A-Z_]+)=(.*)$/);
     if (m && !process.env[m[1]]) process.env[m[1]] = m[2];
   });
-} catch (e) { /* ไม่มี .env ก็ใช้ค่าจากระบบ */ }
+} catch (e) {}
 const bcrypt = require('bcryptjs');
 const { pool, init } = require('../db');
 (async () => {
