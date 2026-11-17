@@ -17,7 +17,7 @@
     button,input,select{font:inherit}
     button,a{ -webkit-tap-highlight-color:transparent}
     .wrap{width:min(1160px,calc(100% - 40px));margin:auto}
-    .top{position:sticky;top:0;z-index:5;background:rgba(232,240,233,.97);backdrop-filter:blur(14px);border-bottom:1px solid #d9e3da}
+    .top{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.98);backdrop-filter:blur(14px);border-bottom:3px solid var(--blue-deep);box-shadow:0 5px 18px #203b3818}
     .nav{width:min(1240px,calc(100% - 40px));height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px}
     @media(min-width:901px){.nav{display:grid;grid-template-columns:190px minmax(0,1fr) 303px}.links{justify-content:center;gap:1vw}.links a{text-align:center;white-space:nowrap}.links a:nth-child(1){width:72px}.links a:nth-child(2){width:76px}.links a:nth-child(3){width:96px}.links a:nth-child(4){width:92px}.links a:nth-child(5){width:76px}.links a:nth-child(6){width:72px}}
     .brand{display:flex;align-items:center;gap:11px;font-size:1.04rem;font-weight:800;letter-spacing:.01em}
@@ -191,7 +191,7 @@
     @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.links{gap:14px}.about{gap:24px}}
     @media(max-width:680px){
       .wrap{width:min(100% - 28px,560px)}
-      .top{background:rgba(255,250,235,.98);border-bottom-color:#ece5d4}
+      .top{background:rgba(255,255,255,.98);border-bottom-color:var(--blue-deep)}
       .nav{display:flex;height:72px;min-height:72px;justify-content:flex-start;padding:0}
       .brand,.navActions,.nav>.links{display:none}
       .mobileMenuToggle{display:grid}
