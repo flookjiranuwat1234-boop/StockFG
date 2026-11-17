@@ -297,7 +297,7 @@
           <img id="categoryDetailImage" alt="">
           <div><p id="categoryDetailDescription"></p><p id="categoryProductCount" class="count" aria-live="polite"></p></div>
         </div>
-        <div class="tools">
+        <div class="tools" id="productTools">
           <input id="search" type="search" placeholder="ค้นหาชื่อหรือรหัสสินค้า" aria-label="ค้นหาสินค้า" data-i18n-placeholder="searchPlaceholder" data-i18n-aria-label="searchProducts">
           <select id="category" aria-label="กรองตามหมวดหมู่" data-i18n-aria-label="filterCategory"><option value="" data-i18n="allCategories">ทุกหมวดหมู่</option></select>
         </div>
@@ -679,10 +679,14 @@
       const categoryDetail=page==='category'?(categoryDetails[detailKey]||{description:'categoryGenericDescription'}):null;
       renderCategoryExamples(page,detailKey);
       const sectionPage=page==='category'?'products':page;
+      const homeSections=new Set(['home','products','partners','about','contact']);
       document.querySelector('.hero').hidden=page!=='home';
       document.querySelectorAll('main>section[id]').forEach(section=>{
-        section.hidden=page!=='home'&&section.id!==sectionPage
+        section.hidden=page==='home'?!homeSections.has(section.id):section.id!==sectionPage
       });
+      $('productTools').hidden=page==='home';
+      $('productsGrid').hidden=page==='home';
+      $('loadStatus').hidden=page==='home';
       $('categoryOverview').hidden=page==='category';
       $('categoryDetail').hidden=!categoryDetail;
       $('categoryDetail').classList.toggle('noImage',!categoryDetail||!categoryDetail.image);
@@ -852,13 +856,25 @@
     const partnerViewport=$('partnerViewport');
     const updatePartnerArrows=()=>{
       const maxScroll=partnerViewport.scrollWidth-partnerViewport.clientWidth;
-      $('partnersPrev').disabled=partnerViewport.scrollLeft<=1;
-      $('partnersNext').disabled=partnerViewport.scrollLeft>=maxScroll-1;
+      $('partnersPrev').disabled=maxScroll<=1;
+      $('partnersNext').disabled=maxScroll<=1;
     };
     const scrollPartners=direction=>{
+      const maxScroll=partnerViewport.scrollWidth-partnerViewport.clientWidth;
+      const atStart=partnerViewport.scrollLeft<=1;
+      const atEnd=partnerViewport.scrollLeft>=maxScroll-1;
+      const behavior=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
+      if(direction>0&&atEnd){
+        partnerViewport.scrollTo({left:0,behavior});
+        return;
+      }
+      if(direction<0&&atStart){
+        partnerViewport.scrollTo({left:maxScroll,behavior});
+        return;
+      }
       partnerViewport.scrollBy({
         left:partnerViewport.clientWidth*.8*direction,
-        behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'
+        behavior
       });
     };
     $('partnersPrev').addEventListener('click',()=>scrollPartners(-1));
