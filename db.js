@@ -77,6 +77,23 @@ FROM products
 WHERE btrim(cat) <> ''
 GROUP BY lower(btrim(cat))
 ON CONFLICT DO NOTHING;
+INSERT INTO categories (name)
+SELECT food.name
+FROM (VALUES
+  ('ผักและผลไม้','Fresh produce'),
+  ('เนื้อสัตว์','Meat'),
+  ('อาหารทะเล','Seafood'),
+  ('เครื่องดื่ม','Beverages'),
+  ('อาหารแห้ง','Grocery'),
+  ('ขนมอบ','Bakery'),
+  ('ผลิตภัณฑ์จากนม','Dairy'),
+  ('ขนมขบเคี้ยว','Snacks')
+) AS food(name, english_name)
+WHERE NOT EXISTS (
+  SELECT 1 FROM categories existing
+  WHERE lower(btrim(existing.name)) IN (lower(food.name),lower(food.english_name))
+)
+ON CONFLICT DO NOTHING;
 CREATE TABLE IF NOT EXISTS images (
   id TEXT PRIMARY KEY,
   data TEXT NOT NULL
