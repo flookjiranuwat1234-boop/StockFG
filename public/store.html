@@ -66,6 +66,7 @@
     .categoryTags{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
     .categoryTag{overflow:hidden;display:flex;flex-direction:column;gap:3px;padding:8px 8px 13px;border:1px solid #e3e5da;border-radius:16px;background:#fff;transition:transform .18s,box-shadow .18s}
     .categoryTag:hover{transform:translateY(-3px);box-shadow:0 10px 24px #203b3812}
+    .categoryTag:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
     .categoryTag img{display:block;width:100%;aspect-ratio:1.55;object-fit:cover;border-radius:11px;background:#e9f5fc;margin-bottom:5px}
     .categoryTag strong{color:var(--blue-deep);font-size:.9rem}
     .categoryTag small{color:var(--muted);font-size:.78rem;line-height:1.55}
@@ -263,14 +264,14 @@
           <h3 data-i18n="categoryTitle">เลือกชมสินค้าหลากหลายหมวด</h3>
           <p data-i18n="categoryDescription">หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้</p>
           <div class="categoryTags">
-            <div class="categoryTag"><img data-src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" loading="lazy"><strong data-i18n="produce">ผักและผลไม้</strong><small data-i18n="freshProduce">ผักสดและผลไม้สด</small></div>
-            <div class="categoryTag"><img data-src="images/category-meat.jpg" alt="เนื้อสัตว์" data-i18n-alt="meat" loading="lazy"><strong data-i18n="meat">เนื้อสัตว์</strong><small data-i18n="freshFrozenMeat">เนื้อสัตว์แช่เย็นและแช่แข็ง</small></div>
-            <div class="categoryTag"><img data-src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood" loading="lazy"><strong data-i18n="seafood">อาหารทะเล</strong><small data-i18n="freshFrozenSeafood">อาหารทะเลสดและแช่แข็ง</small></div>
-            <div class="categoryTag"><img data-src="images/category-beverage.jpg" alt="เครื่องดื่ม" data-i18n-alt="beverages" loading="lazy"><strong data-i18n="beverages">เครื่องดื่ม</strong><small data-i18n="beveragesDescription">น้ำผลไม้ น้ำดื่ม นม และชา</small></div>
-            <div class="categoryTag"><img data-src="images/category-grocery.jpg" alt="อาหารแห้ง" data-i18n-alt="grocery" loading="lazy"><strong data-i18n="grocery">อาหารแห้ง</strong><small data-i18n="groceryDescription">อาหารแห้งและธัญพืช</small></div>
-            <div class="categoryTag"><img data-src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery" loading="lazy"><strong data-i18n="bakery">ขนมอบ</strong><small data-i18n="bakeryDescription">เค้ก ขนมปัง และขนมปังแช่แข็ง</small></div>
-            <div class="categoryTag"><img data-src="images/category-dairy.jpg" alt="ผลิตภัณฑ์จากนม" data-i18n-alt="dairy" loading="lazy"><strong data-i18n="dairy">ผลิตภัณฑ์จากนม</strong><small data-i18n="dairyDescription">ไอศกรีม เนย ชีส และครีม</small></div>
-            <div class="categoryTag"><img data-src="images/category-snacks.jpg" alt="ขนมขบเคี้ยว" data-i18n-alt="snacks" loading="lazy"><strong data-i18n="snacks">ขนมขบเคี้ยว</strong><small data-i18n="snacksDescription">ลูกอม ช็อกโกแลต และขนมกรุบกรอบ</small></div>
+            <a class="categoryTag" href="store.html?page=products&amp;category=produce"><img data-src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" loading="lazy"><strong data-i18n="produce">ผักและผลไม้</strong><small data-i18n="freshProduce">ผักสดและผลไม้สด</small></a>
+            <a class="categoryTag" href="store.html?page=products&amp;category=meat"><img data-src="images/category-meat.jpg" alt="เนื้อสัตว์" data-i18n-alt="meat" loading="lazy"><strong data-i18n="meat">เนื้อสัตว์</strong><small data-i18n="freshFrozenMeat">เนื้อสัตว์แช่เย็นและแช่แข็ง</small></a>
+            <a class="categoryTag" href="store.html?page=products&amp;category=seafood"><img data-src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood" loading="lazy"><strong data-i18n="seafood">อาหารทะเล</strong><small data-i18n="freshFrozenSeafood">อาหารทะเลสดและแช่แข็ง</small></a>
+            <a class="categoryTag" href="store.html?page=products&amp;category=beverages"><img data-src="images/category-beverage.jpg" alt="เครื่องดื่ม" data-i18n-alt="beverages" loading="lazy"><strong data-i18n="beverages">เครื่องดื่ม</strong><small data-i18n="beveragesDescription">น้ำผลไม้ น้ำดื่ม นม และชา</small></a>
+            <a class="categoryTag" href="store.html?page=products&amp;category=grocery"><img data-src="images/category-grocery.jpg" alt="อาหารแห้ง" data-i18n-alt="grocery" loading="lazy"><strong data-i18n="grocery">อาหารแห้ง</strong><small data-i18n="groceryDescription">อาหารแห้งและธัญพืช</small></a>
+            <a class="categoryTag" href="store.html?page=products&amp;category=bakery"><img data-src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery" loading="lazy"><strong data-i18n="bakery">ขนมอบ</strong><small data-i18n="bakeryDescription">เค้ก ขนมปัง และขนมปังแช่แข็ง</small></a>
+            <a class="categoryTag" href="store.html?page=products&amp;category=dairy"><img data-src="images/category-dairy.jpg" alt="ผลิตภัณฑ์จากนม" data-i18n-alt="dairy" loading="lazy"><strong data-i18n="dairy">ผลิตภัณฑ์จากนม</strong><small data-i18n="dairyDescription">ไอศกรีม เนย ชีส และครีม</small></a>
+            <a class="categoryTag" href="store.html?page=products&amp;category=snacks"><img data-src="images/category-snacks.jpg" alt="ขนมขบเคี้ยว" data-i18n-alt="snacks" loading="lazy"><strong data-i18n="snacks">ขนมขบเคี้ยว</strong><small data-i18n="snacksDescription">ลูกอม ช็อกโกแลต และขนมกรุบกรอบ</small></a>
           </div>
         </aside>
         <div id="productsGrid" class="grid" aria-live="polite"></div>
@@ -635,6 +636,12 @@
           allProducts=Array.isArray(data.products)?data.products:[];
           currentContact=data.contact||{};
           for(const category of data.categories||[]){const option=document.createElement('option');option.value=category;option.textContent=translatedCategory(category);$('category').append(option)}
+          const categoryKey=new URLSearchParams(location.search).get('category');
+          if(categoryKey){
+            const categoryLabel=translate(categoryKey);
+            const categoryOption=Array.from($('category').options).find(option=>option.value&&translatedCategory(option.value)===categoryLabel);
+            if(categoryOption)$('category').value=categoryOption.value;
+          }
           productsLoaded=true;
           applyLanguage();
         }catch(error){
