@@ -1,4 +1,4 @@
-THIRD-PARTY SOFTWARE NOTICES
+THIRD-PARTY SOFTWARE AND ASSET NOTICES
 
 This website includes or loads the third-party components listed below.
 Keep this notice with copies or distributions of the website.
@@ -335,10 +335,13 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
 
 5. Brand and image assets (not software licenses)
    The project owner has confirmed that this project is authorized to use the
-   Food Gallery logo and category images in public/images. The category images
-   are sourced from the official Food Gallery website. This records the
-   project's stated authorization; it is not a license for others to reuse
-   these assets and does not replace permission records from the rights holder.
+   Food Gallery logo and category images in public/images, including the
+   higher-resolution about-food-gallery.jpg image sourced from the official
+   Food Gallery website. The project owner has also confirmed authorization to
+   display the partner brand logos in public/images/partners. Each partner mark
+   remains the property of its respective rights holder; this records the
+   project's stated authorization and does not grant others permission to reuse
+   any of these assets or replace permission records from the rights holders.
    Administrators publishing product images must ensure they have the rights
    or permissions needed for publication. The application does not verify
    image licenses.

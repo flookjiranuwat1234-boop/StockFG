@@ -93,8 +93,8 @@
     .partnerTrack{display:flex;align-items:center;gap:20px}
     .partnerLogo{display:grid;place-items:center;flex:0 0 clamp(130px,16vw,176px);height:100px;padding:12px;scroll-snap-align:start}
     .partnerLogo img{display:block;width:100%;max-width:150px;height:76px;object-fit:contain}
-    .partnerArrow{display:grid;place-items:center;width:48px;height:56px;padding:0;border:0;background:#88d4e2;color:#fff;cursor:pointer;transition:background .18s,opacity .18s}
-    .partnerArrow:hover:not(:disabled){background:#65bdcc}
+    .partnerArrow{display:grid;place-items:center;width:48px;height:56px;padding:0;border:0;background:var(--blue-deep);color:#fff;cursor:pointer;transition:background .18s,opacity .18s}
+    .partnerArrow:hover:not(:disabled){background:var(--blue)}
     .partnerArrow:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
     .partnerArrow:disabled{background:#f4f4f4;color:#566c67;cursor:default}
     .partnerArrow svg{width:24px;height:24px}
@@ -174,7 +174,7 @@
     .srOnly{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
     .drawerSearch{display:flex;align-items:center;gap:8px;padding:9px clamp(16px,6vw,36px);background:#e5e5e5}
     .drawerSearch input{width:100%;min-width:0;height:50px;padding:0 52px 0 14px;border:0;border-radius:0;background:#fff;color:var(--ink);font-size:1rem}
-    .drawerSearch button{display:grid;place-items:center;flex:none;width:48px;height:48px;margin-left:-56px;border:0;background:transparent;color:#999;cursor:pointer}
+    .drawerSearch button{display:grid;place-items:center;flex:none;width:48px;height:48px;margin-left:-56px;border:0;background:transparent;color:var(--muted);cursor:pointer}
     .drawerSearch button svg{width:24px;height:24px}
     .drawerLinks{display:flex;flex-direction:column}
     .drawerLinks a{display:flex;align-items:center;justify-content:space-between;min-height:76px;padding:0 clamp(20px,6vw,36px);border-bottom:1px solid #ddd;color:inherit;font-weight:600}
@@ -516,7 +516,7 @@
     <section class="section" id="about">
       <div class="wrap about">
         <div><span class="eyebrow">About Food Gallery Limited</span><h2 data-i18n="aboutTitle">เกี่ยวกับเรา</h2><p data-i18n="aboutDescription">Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ ผลิตภัณฑ์จากนม และขนมขบเคี้ยว</p><p data-i18n="aboutStorefront">หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง</p></div>
-        <div class="aboutArt" aria-hidden="true"><img src="images/about-food-gallery.jpg" alt="" decoding="async"></div>
+        <div class="aboutArt" aria-hidden="true"><img src="images/about-food-gallery.jpg" alt="" width="900" height="900" loading="lazy" decoding="async"></div>
       </div>
     </section>
 
@@ -563,7 +563,7 @@
     </section>
   </main>
 
-  <footer><div class="wrap foot"><span>© 2026 Food Gallery Limited. All rights reserved.</span><a href="THIRD_PARTY_NOTICES.txt" data-i18n="notices">ประกาศลิขสิทธิ์ซอฟต์แวร์</a></div></footer>
+  <footer><div class="wrap foot"><span>© 2026 Food Gallery Limited. All rights reserved.</span><a href="THIRD_PARTY_NOTICES.txt" data-i18n="notices">ประกาศสิทธิ์และใบอนุญาต</a></div></footer>
 
   <dialog id="productDialog" aria-labelledby="modalTitle">
     <button class="modalClose" id="modalClose" aria-label="ปิด" data-i18n-aria-label="close">×</button>
@@ -593,7 +593,7 @@
         activitiesTitle:'กิจกรรม',activitiesDescription:'ข่าวสารและกิจกรรมจาก Food Gallery',followActivities:'ติดตามกิจกรรมของเรา',noActivities:'ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้',seeYouSoon:'พบกันในโอกาสต่อไป',activitiesAnnounced:'รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ',
         newTitle:'สินค้าใหม่',newDescription:'รายการล่าสุดที่เผยแพร่บนหน้าร้าน',promotionsTitle:'โปรโมชั่น',promotionsDescription:'ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา',noPromotions:'ยังไม่มีโปรโมชั่นที่ประกาศ',promotionsUpdated:'เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้',
         aboutTitle:'เกี่ยวกับเรา',aboutDescription:'Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักและผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ผลิตภัณฑ์ขนมอบ นมและผลิตภัณฑ์จากนม และขนมขบเคี้ยว',aboutStorefront:'หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง',
-        contactTitle:'ติดต่อเรา',contactMessage:'สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง',contactDetailsTitle:'ช่องทางติดต่อ',contactMapTitle:'แผนที่สำนักงาน Food Gallery Limited',contactFormTitle:'ส่งข้อความถึงเรา',contactFormNote:'เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง',contactFirstName:'ชื่อ',contactLastName:'นามสกุล',contactSubjectField:'หัวข้อ',contactMessageField:'ข้อความ',contactSend:'ส่งข้อความทางอีเมล',contactMailSubject:'ติดต่อจากเว็บไซต์',contactNameLabel:'ชื่อ',notices:'ประกาศลิขสิทธิ์ซอฟต์แวร์',close:'ปิด',modalContactPrompt:'สอบถามรายละเอียดเพิ่มเติมได้ทาง',
+        contactTitle:'ติดต่อเรา',contactMessage:'สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง',contactDetailsTitle:'ช่องทางติดต่อ',contactMapTitle:'แผนที่สำนักงาน Food Gallery Limited',contactFormTitle:'ส่งข้อความถึงเรา',contactFormNote:'เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง',contactFirstName:'ชื่อ',contactLastName:'นามสกุล',contactSubjectField:'หัวข้อ',contactMessageField:'ข้อความ',contactSend:'ส่งข้อความทางอีเมล',contactMailSubject:'ติดต่อจากเว็บไซต์',contactNameLabel:'ชื่อ',notices:'ประกาศสิทธิ์และใบอนุญาต',close:'ปิด',modalContactPrompt:'สอบถามรายละเอียดเพิ่มเติมได้ทาง',
         homeTitle:'สินค้าและข่าวสาร | Food Gallery',loadingProducts:'กำลังโหลดสินค้า…',showingCount:'แสดง {count} รายการ',noMatchingProducts:'ยังไม่มีสินค้าที่ตรงกับการค้นหา',noCategoryProducts:'ยังไม่มีสินค้าที่เผยแพร่ในหมวดนี้',noPublishedProducts:'ยังไม่มีสินค้าที่เผยแพร่',noNewProducts:'ยังไม่มีสินค้าใหม่ที่เผยแพร่',loadFailed:'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง',unableProducts:'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้',imageUnavailable:'รูปภาพไม่พร้อมใช้งาน',product:'สินค้า',productDetails:'ดูรายละเอียด',productDescriptionLabel:'รายละเอียดสินค้า',noProductDescription:'ยังไม่มีรายละเอียดสินค้า',sku:'รหัส',skuLabel:'รหัสสินค้า',email:'อีเมล',phone:'โทร',officialSite:'เว็บไซต์ Food Gallery',metaDescription:'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
       },
       en:{
@@ -606,7 +606,7 @@
         activitiesTitle:'Activities',activitiesDescription:'News and activities from Food Gallery',followActivities:'Follow our activities',noActivities:'There are no new activity announcements yet. Please check back for updates.',seeYouSoon:'See you next time',activitiesAnnounced:'Activity details will be announced once officially confirmed.',
         newTitle:'New arrivals',newDescription:'The latest products published in our store',promotionsTitle:'Promotions',promotionsDescription:'Check our channels for promotion announcements',noPromotions:'No promotions have been announced yet',promotionsUpdated:'We will update this page when new promotions are available.',
         aboutTitle:'About us',aboutDescription:'Food Gallery Limited imports and distributes a wide range of food products, from fresh produce, meat and seafood to beverages, groceries, bakery products, dairy and snacks.',aboutStorefront:'This storefront features products selected for publication by our team. Inventory quantities, reorder points and warehouse locations are not shown.',
-        contactTitle:'Contact us',contactMessage:'For product enquiries and more information, please use the contact details below.',contactDetailsTitle:'Contact details',contactMapTitle:'Food Gallery Limited office map',contactFormTitle:'Send us a message',contactFormNote:'Submitting opens a draft in your email app. You will need to confirm sending it there.',contactFirstName:'First name',contactLastName:'Last name',contactSubjectField:'Subject',contactMessageField:'Message',contactSend:'Send by email',contactMailSubject:'Website enquiry',contactNameLabel:'Name',notices:'Software notices',close:'Close',modalContactPrompt:'For more information, contact us via',
+        contactTitle:'Contact us',contactMessage:'For product enquiries and more information, please use the contact details below.',contactDetailsTitle:'Contact details',contactMapTitle:'Food Gallery Limited office map',contactFormTitle:'Send us a message',contactFormNote:'Submitting opens a draft in your email app. You will need to confirm sending it there.',contactFirstName:'First name',contactLastName:'Last name',contactSubjectField:'Subject',contactMessageField:'Message',contactSend:'Send by email',contactMailSubject:'Website enquiry',contactNameLabel:'Name',notices:'Notices & licenses',close:'Close',modalContactPrompt:'For more information, contact us via',
         homeTitle:'Products and News | Food Gallery',loadingProducts:'Loading products…',showingCount:'Showing {count} items',noMatchingProducts:'No products match your search.',noCategoryProducts:'No published products in this category yet.',noPublishedProducts:'No products have been published.',noNewProducts:'No new products have been published.',loadFailed:'Could not load data. Please try again later.',unableProducts:'Unable to connect to product data.',imageUnavailable:'Image unavailable',product:'Product',productDetails:'View details',productDescriptionLabel:'Product details',noProductDescription:'No product details have been added yet.',sku:'SKU',skuLabel:'Product SKU',email:'Email',phone:'Phone',officialSite:'Food Gallery website',metaDescription:'Browse new products, activities and promotions from Food Gallery'
       }
     };
