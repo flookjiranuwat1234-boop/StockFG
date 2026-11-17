@@ -302,7 +302,7 @@ app.post('/api/users/:id/password', auth, superAdmin, h(async (req, res) => {
 
 app.get('/api/storefront', h(async (req, res) => {
   const { rows } = await pool.query(
-    `SELECT id,sku,name,cat,imgs,created_at AS created
+    `SELECT id,sku,name,cat,description,imgs,created_at AS created
      FROM products WHERE published=true AND demo=false
      ORDER BY created_at DESC,name`);
   const products = rows.map(({ imgs, ...product }) => ({
@@ -335,7 +335,7 @@ app.get('/api/storefront/images/:id', h(async (req, res) => {
 
 app.get('/api/state', auth, h(async (req, res) => {
   const [p, l, c] = await Promise.all([
-    pool.query(`SELECT id,sku,name,cat,qty,unit,min,loc,imgs,demo,published,version AS v,created_at AS created
+    pool.query(`SELECT id,sku,name,cat,description,qty,unit,min,loc,imgs,demo,published,version AS v,created_at AS created
                 FROM products ORDER BY created_at`),
     pool.query(`SELECT * FROM (
                   SELECT t,product_id AS id,sku,name,type,n,qty_after AS "after",note,by_name AS "by"
@@ -380,6 +380,7 @@ function cleanProduct(p) {
   const created = new Date(p.created);
   return {
     id: String(p.id), sku: str(p.sku, 80).trim(), name: str(p.name, 200).trim(), cat: str(p.cat, 80).trim(),
+    description: typeof p.description === 'string' ? str(p.description, 1000).trim() : null,
     qty: int(p.qty), unit: str(p.unit, 30) || 'ชิ้น', min: int(p.min), loc: str(p.loc, 80),
     imgs: (Array.isArray(p.imgs) ? p.imgs : []).filter(k => ID_RE.test(String(k))).map(String).slice(0, 6),
     demo: !!p.demo, published: p.published === true, ver: int(p.v), created: isNaN(created) ? new Date() : created,
@@ -408,20 +409,20 @@ app.post('/api/sync', auth, h(async (req, res) => {
     }
     if (dels.length) await c.query('DELETE FROM products WHERE id = ANY($1)', [dels]);
     for (const v of ups) {
-      const a = [v.id, v.sku, v.name, v.cat, v.qty, v.unit, v.min, v.loc, v.imgs, v.demo, v.published, req.user.name];
+      const a = [v.id, v.sku, v.name, v.cat, v.description, v.qty, v.unit, v.min, v.loc, v.imgs, v.demo, v.published, req.user.name];
       let r;
       if (v.ver > 0) {
         r = await c.query(
-          `UPDATE products SET sku=$2,name=$3,cat=$4,qty=$5,unit=$6,min=$7,loc=$8,imgs=$9,demo=$10,
-             published=$11,updated_by=$12,updated_at=now(),version=version+1
-           WHERE id=$1 AND version=$13 RETURNING version`, [...a, v.ver]);
+          `UPDATE products SET sku=$2,name=$3,cat=$4,description=COALESCE($5,description),qty=$6,unit=$7,min=$8,loc=$9,imgs=$10,demo=$11,
+             published=$12,updated_by=$13,updated_at=now(),version=version+1
+           WHERE id=$1 AND version=$14 RETURNING version`, [...a, v.ver]);
         if (!r.rowCount) throw fail(409, 'conflict');
       } else {
         r = await c.query(
-          `INSERT INTO products (id,sku,name,cat,qty,unit,min,loc,imgs,demo,published,updated_by,created_at)
-           VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
+          `INSERT INTO products (id,sku,name,cat,description,qty,unit,min,loc,imgs,demo,published,updated_by,created_at)
+           VALUES ($1,$2,$3,$4,COALESCE($5,''),$6,$7,$8,$9,$10,$11,$12,$13,$14)
            ON CONFLICT (id) DO UPDATE SET sku=EXCLUDED.sku,name=EXCLUDED.name,cat=EXCLUDED.cat,qty=EXCLUDED.qty,
-             unit=EXCLUDED.unit,min=EXCLUDED.min,loc=EXCLUDED.loc,imgs=EXCLUDED.imgs,
+             description=COALESCE($5,products.description),unit=EXCLUDED.unit,min=EXCLUDED.min,loc=EXCLUDED.loc,imgs=EXCLUDED.imgs,
              demo=EXCLUDED.demo,published=EXCLUDED.published,updated_by=EXCLUDED.updated_by,updated_at=now(),version=products.version+1
            RETURNING version`, [...a, v.created]);
       }

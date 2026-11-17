@@ -144,6 +144,8 @@
     dialog{width:min(580px,calc(100% - 28px));border:0;border-radius:22px;padding:24px;color:var(--ink);box-shadow:0 22px 80px #10304a40}
     dialog::backdrop{background:#102b40d0;backdrop-filter:blur(3px)}
     .modalPhoto{width:100%;max-height:320px;object-fit:cover;border-radius:14px;background:#edf4f8}
+    .modalDetailTitle{margin:18px 0 6px;font-size:1rem}
+    .modalDescription{margin:0 0 16px;color:var(--muted);line-height:1.75;white-space:pre-wrap}
     .modalClose{float:right;border:0;background:var(--blue-soft);color:var(--blue-deep);border-radius:50%;width:38px;height:38px;font-size:1.2rem;cursor:pointer}
     .status{min-height:24px;color:var(--muted);margin:18px 0}
     .mobileMenuToggle{display:none;place-items:center;width:48px;height:48px;padding:0;border:0;border-radius:12px;background:transparent;color:var(--ink);cursor:pointer}
@@ -376,6 +378,8 @@
     <button class="modalClose" id="modalClose" aria-label="ปิด" data-i18n-aria-label="close">×</button>
     <img id="modalImage" class="modalPhoto" alt="" hidden>
     <p id="modalCategory" class="tag"></p><h2 id="modalTitle"></h2><p id="modalSku" class="muted"></p>
+    <h3 class="modalDetailTitle" data-i18n="productDescriptionLabel">รายละเอียดสินค้า</h3>
+    <p id="modalDescription" class="modalDescription"></p>
     <p class="muted"><span data-i18n="modalContactPrompt">สอบถามรายละเอียดเพิ่มเติมได้ทาง</span> <a href="store.html?page=contact" id="modalContact" data-i18n="navContact">ติดต่อเรา</a></p>
   </dialog>
 
@@ -397,7 +401,7 @@
         newTitle:'สินค้าใหม่',newDescription:'รายการล่าสุดที่เผยแพร่บนหน้าร้าน',promotionsTitle:'โปรโมชั่น',promotionsDescription:'ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา',noPromotions:'ยังไม่มีโปรโมชั่นที่ประกาศ',promotionsUpdated:'เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้',
         aboutTitle:'เกี่ยวกับเรา',aboutDescription:'Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ ผลิตภัณฑ์จากนม และขนมขบเคี้ยว',aboutStorefront:'หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง',
         contactTitle:'ติดต่อเรา',contactMessage:'สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง',contactDetailsTitle:'ช่องทางติดต่อ',contactMapTitle:'แผนที่สำนักงาน Food Gallery Limited',contactFormTitle:'ส่งข้อความถึงเรา',contactFormNote:'เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง',contactFirstName:'ชื่อ',contactLastName:'นามสกุล',contactSubjectField:'หัวข้อ',contactMessageField:'ข้อความ',contactSend:'ส่งข้อความทางอีเมล',contactMailSubject:'ติดต่อจากเว็บไซต์',contactNameLabel:'ชื่อ',notices:'ประกาศลิขสิทธิ์ซอฟต์แวร์',close:'ปิด',modalContactPrompt:'สอบถามรายละเอียดเพิ่มเติมได้ทาง',
-        homeTitle:'สินค้าและข่าวสาร | Food Gallery',loadingProducts:'กำลังโหลดสินค้า…',showingCount:'แสดง {count} รายการ',noMatchingProducts:'ยังไม่มีสินค้าที่ตรงกับการค้นหา',noCategoryProducts:'ยังไม่มีสินค้าที่เผยแพร่ในหมวดนี้',noPublishedProducts:'ยังไม่มีสินค้าที่เผยแพร่',noNewProducts:'ยังไม่มีสินค้าใหม่ที่เผยแพร่',loadFailed:'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง',unableProducts:'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้',imageUnavailable:'รูปภาพไม่พร้อมใช้งาน',product:'สินค้า',productDetails:'ดูรายละเอียด',sku:'รหัส',skuLabel:'รหัสสินค้า',email:'อีเมล',phone:'โทร',officialSite:'เว็บไซต์ Food Gallery',metaDescription:'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
+        homeTitle:'สินค้าและข่าวสาร | Food Gallery',loadingProducts:'กำลังโหลดสินค้า…',showingCount:'แสดง {count} รายการ',noMatchingProducts:'ยังไม่มีสินค้าที่ตรงกับการค้นหา',noCategoryProducts:'ยังไม่มีสินค้าที่เผยแพร่ในหมวดนี้',noPublishedProducts:'ยังไม่มีสินค้าที่เผยแพร่',noNewProducts:'ยังไม่มีสินค้าใหม่ที่เผยแพร่',loadFailed:'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง',unableProducts:'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้',imageUnavailable:'รูปภาพไม่พร้อมใช้งาน',product:'สินค้า',productDetails:'ดูรายละเอียด',productDescriptionLabel:'รายละเอียดสินค้า',noProductDescription:'ยังไม่มีรายละเอียดสินค้า',sku:'รหัส',skuLabel:'รหัสสินค้า',email:'อีเมล',phone:'โทร',officialSite:'เว็บไซต์ Food Gallery',metaDescription:'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
       },
       en:{
         mainMenu:'Main menu',chooseLanguage:'Choose language',openMenu:'Open menu',closeMenu:'Close menu',drawerSearchPlaceholder:'Search',submitSearch:'Search',socialMedia:'Social media',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
@@ -408,7 +412,7 @@
         newTitle:'New arrivals',newDescription:'The latest products published in our store',promotionsTitle:'Promotions',promotionsDescription:'Check our channels for promotion announcements',noPromotions:'No promotions have been announced yet',promotionsUpdated:'We will update this page when new promotions are available.',
         aboutTitle:'About us',aboutDescription:'Food Gallery Limited imports and distributes a wide range of food products, from fresh produce, meat and seafood to beverages, groceries, bakery products, dairy and snacks.',aboutStorefront:'This storefront features products selected for publication by our team. Inventory quantities, reorder points and warehouse locations are not shown.',
         contactTitle:'Contact us',contactMessage:'For product enquiries and more information, please use the contact details below.',contactDetailsTitle:'Contact details',contactMapTitle:'Food Gallery Limited office map',contactFormTitle:'Send us a message',contactFormNote:'Submitting opens a draft in your email app. You will need to confirm sending it there.',contactFirstName:'First name',contactLastName:'Last name',contactSubjectField:'Subject',contactMessageField:'Message',contactSend:'Send by email',contactMailSubject:'Website enquiry',contactNameLabel:'Name',notices:'Software notices',close:'Close',modalContactPrompt:'For more information, contact us via',
-        homeTitle:'Products and News | Food Gallery',loadingProducts:'Loading products…',showingCount:'Showing {count} items',noMatchingProducts:'No products match your search.',noCategoryProducts:'No published products in this category yet.',noPublishedProducts:'No products have been published.',noNewProducts:'No new products have been published.',loadFailed:'Could not load data. Please try again later.',unableProducts:'Unable to connect to product data.',imageUnavailable:'Image unavailable',product:'Product',productDetails:'View details',sku:'SKU',skuLabel:'Product SKU',email:'Email',phone:'Phone',officialSite:'Food Gallery website',metaDescription:'Browse new products, activities and promotions from Food Gallery'
+        homeTitle:'Products and News | Food Gallery',loadingProducts:'Loading products…',showingCount:'Showing {count} items',noMatchingProducts:'No products match your search.',noCategoryProducts:'No published products in this category yet.',noPublishedProducts:'No products have been published.',noNewProducts:'No new products have been published.',loadFailed:'Could not load data. Please try again later.',unableProducts:'Unable to connect to product data.',imageUnavailable:'Image unavailable',product:'Product',productDetails:'View details',productDescriptionLabel:'Product details',noProductDescription:'No product details have been added yet.',sku:'SKU',skuLabel:'Product SKU',email:'Email',phone:'Phone',officialSite:'Food Gallery website',metaDescription:'Browse new products, activities and promotions from Food Gallery'
       }
     };
     const categoryTranslations={
@@ -671,6 +675,7 @@
       $('modalTitle').textContent=productName(product);
       $('modalCategory').textContent=translatedCategory(product.cat);
       $('modalSku').textContent=`${translate('skuLabel')} ${product.sku}`;
+      $('modalDescription').textContent=String(product.description||'').trim()||translate('noProductDescription');
       const image=$('modalImage');image.hidden=true;image.removeAttribute('src');
       if(product.image)try{image.src=await productImage(product.image);image.hidden=false}catch(e){}
       $('productDialog').showModal();

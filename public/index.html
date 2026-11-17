@@ -2286,6 +2286,18 @@
       width: 100%
     }
 
+    textarea {
+      width: 100%;
+      min-height: 110px;
+      padding: 8px 10px;
+      border: 1px solid var(--bd);
+      border-radius: 6px;
+      background: var(--card);
+      color: var(--tx);
+      font: inherit;
+      resize: vertical
+    }
+
     button {
       min-height: 44px;
       padding: 6px 14px;
@@ -4316,6 +4328,8 @@
           <div class="err" id="e_min"></div>
         </div>
       </div>
+      <label for="description">รายละเอียดสินค้า (แสดงบนหน้าร้านเมื่อเผยแพร่)</label>
+      <textarea id="description" rows="4" maxlength="1000" placeholder="เช่น ประเภทสินค้า ลักษณะ หรือวิธีใช้งาน"></textarea>
       <label for="imgs">รูปภาพ (สูงสุด 6 รูปต่อรายการ)</label>
       <input type="file" id="imgs" accept="image/*" multiple>
       <div class="thumbs" id="thumbs"></div>
@@ -4476,7 +4490,7 @@
 
   <script>
     const KEY = 'stock_items_v1';
-    const F = [['sku', 'รหัสสินค้า'], ['name', 'ชื่อสินค้า'], ['cat', 'หมวดหมู่'], ['qty', 'จำนวน'], ['unit', 'หน่วย'], ['min', 'จุดสั่งซื้อ'], ['loc', 'ที่เก็บ']];
+    const F = [['sku', 'รหัสสินค้า'], ['name', 'ชื่อสินค้า'], ['cat', 'หมวดหมู่'], ['description', 'รายละเอียดสินค้า'], ['qty', 'จำนวน'], ['unit', 'หน่วย'], ['min', 'จุดสั่งซื้อ'], ['loc', 'ที่เก็บ']];
     let items = [], categories = [], sel = new Set(), sk = 'created', sd = -1, pg = 1, q = '', editId = null, busy = false, qrCur = null, db = null, fImgs = [], fAdded = new Set(), flt = 'all', catF = '', log = [], adjId = null;
     const $ = i => document.getElementById(i);
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -4484,7 +4498,7 @@
     const newId = () => 'P' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 4).toUpperCase();
     function toast(m, bad) { const t = $('toast'); t.textContent = m; t.className = 'show' + (bad ? ' bad' : ''); clearTimeout(toast.t); toast.t = setTimeout(() => t.className = '', 3500) }
 
-    const cleanItem = i => i && i.sku && i.name ? { id: String(i.id || newId()), created: i.created || new Date().toISOString(), sku: String(i.sku), name: String(i.name), cat: String(i.cat || ''), qty: Math.max(0, parseInt(i.qty) || 0), unit: String(i.unit || 'ชิ้น'), min: Math.max(0, parseInt(i.min) || 0), loc: String(i.loc || ''), demo: !!i.demo, published: !!i.published, v: parseInt(i.v) || 0, imgs: Array.isArray(i.imgs) ? i.imgs.map(String) : [] } : null;
+    const cleanItem = i => i && i.sku && i.name ? { id: String(i.id || newId()), created: i.created || new Date().toISOString(), sku: String(i.sku), name: String(i.name), cat: String(i.cat || ''), description: String(i.description || '').slice(0, 1000), qty: Math.max(0, parseInt(i.qty) || 0), unit: String(i.unit || 'ชิ้น'), min: Math.max(0, parseInt(i.min) || 0), loc: String(i.loc || ''), demo: !!i.demo, published: !!i.published, v: parseInt(i.v) || 0, imgs: Array.isArray(i.imgs) ? i.imgs.map(String) : [] } : null;
     function categoryNames() {
       const names = new Set([...categories, ...items.map(i => i.cat)].map(value => String(value || '').trim()).filter(Boolean));
       return [...names].sort((a, b) => a.localeCompare(b, 'th'))
@@ -4503,7 +4517,7 @@
       return r.json()
     }
     let snap = new Map(), chain = Promise.resolve(), lastState = '', pollOn = false;
-    const ser = i => JSON.stringify([i.sku, i.name, i.cat, i.qty, i.unit, i.min, i.loc, i.imgs, i.demo, i.published]);
+    const ser = i => JSON.stringify([i.sku, i.name, i.cat, i.description, i.qty, i.unit, i.min, i.loc, i.imgs, i.demo, i.published]);
     function load() { snap = new Map(items.map(i => [i.id, ser(i)])) }
     const pending = () => items.some(i => snap.get(i.id) !== ser(i)) || [...snap.keys()].some(id => !items.some(i => i.id === id));
     async function pushNow() {
@@ -4594,7 +4608,7 @@
       const v = k => $(k).value.trim();
       const existing = editId ? items.find(x => x.id === editId) : null;
       const d = {
-        sku: v('sku'), name: v('name'), cat: v('cat'), qty: parseInt(v('qty')), unit: v('unit') || 'ชิ้น', min: parseInt(v('min')) || 0, loc: v('loc'),
+        sku: v('sku'), name: v('name'), cat: v('cat'), description: v('description').slice(0, 1000), qty: parseInt(v('qty')), unit: v('unit') || 'ชิ้น', min: parseInt(v('min')) || 0, loc: v('loc'),
         published: ME_ROLE === 'super_admin' ? $('published').checked : !!(existing && existing.published)
       };
       try {
@@ -4684,6 +4698,7 @@
       const details = [
         ['รหัสสินค้า', i.sku],
         ['หมวดหมู่', i.cat || 'ไม่ระบุ'],
+        ['รายละเอียดสินค้า', i.description || 'ไม่ระบุ'],
         ['จำนวนคงเหลือ', `${Number(i.qty || 0).toLocaleString('th-TH')} ${i.unit || 'ชิ้น'}`],
         ['จุดสั่งซื้อ', i.min ? `${Number(i.min).toLocaleString('th-TH')} ${i.unit || 'ชิ้น'}` : 'ไม่ได้กำหนด'],
         ['ที่เก็บ', i.loc || 'ไม่ระบุ'],
@@ -4808,7 +4823,7 @@
       if (c !== '' || r.length) { r.push(c); o.push(r) }
       return o.filter(r => r.some(x => x.trim()))
     }
-    const AL = { sku: ['รหัสสินค้า', 'รหัส', 'sku', 'code', 'itemcode', 'productcode'], name: ['ชื่อสินค้า', 'ชื่อ', 'สินค้า', 'name', 'product', 'productname', 'item'], cat: ['หมวดหมู่', 'หมวด', 'ประเภท', 'category', 'cat'], qty: ['จำนวน', 'จำนวนคงเหลือ', 'คงเหลือ', 'สต็อก', 'stock', 'qty', 'quantity'], unit: ['หน่วย', 'unit'], min: ['จุดสั่งซื้อ', 'จุดสั่งซื้อซ้ำ', 'ขั้นต่ำ', 'min', 'reorder', 'reorderpoint'], loc: ['ที่เก็บ', 'ที่จัดเก็บ', 'ตำแหน่ง', 'location', 'loc'] };
+    const AL = { sku: ['รหัสสินค้า', 'รหัส', 'sku', 'code', 'itemcode', 'productcode'], name: ['ชื่อสินค้า', 'ชื่อ', 'สินค้า', 'name', 'product', 'productname', 'item'], cat: ['หมวดหมู่', 'หมวด', 'ประเภท', 'category', 'cat'], description: ['รายละเอียดสินค้า', 'รายละเอียด', 'คำอธิบาย', 'description'], qty: ['จำนวน', 'จำนวนคงเหลือ', 'คงเหลือ', 'สต็อก', 'stock', 'qty', 'quantity'], unit: ['หน่วย', 'unit'], min: ['จุดสั่งซื้อ', 'จุดสั่งซื้อซ้ำ', 'ขั้นต่ำ', 'min', 'reorder', 'reorderpoint'], loc: ['ที่เก็บ', 'ที่จัดเก็บ', 'ตำแหน่ง', 'location', 'loc'] };
     const norm = h => String(h).toLowerCase().replace(/[\s_\-().]/g, '');
     let impRows = [];
     const mapIdx = () => { const o = {}; F.forEach(([k]) => o[k] = +$('m_' + k).value); return o };
@@ -4844,7 +4859,7 @@
       impRows.slice(1).forEach(r => {
         const sku = g(r, 'sku'), name = g(r, 'name');
         if (!sku || !name) { miss++; return } if (skus.has(sku.toLowerCase())) { dup++; return } skus.add(sku.toLowerCase());
-        const it = { id: newId(), created: new Date().toISOString(), sku, name, cat: g(r, 'cat'), qty: nn(r, 'qty', 1), unit: g(r, 'unit') || 'ชิ้น', min: nn(r, 'min', 1), loc: g(r, 'loc') };
+        const it = { id: newId(), created: new Date().toISOString(), sku, name, cat: g(r, 'cat'), description: g(r, 'description').slice(0, 1000), qty: nn(r, 'qty', 1), unit: g(r, 'unit') || 'ชิ้น', min: nn(r, 'min', 1), loc: g(r, 'loc') };
         items.push(it); if (it.qty > 0) log.push({ t: it.created, id: it.id, sku, name, type: 'in', n: it.qty, after: it.qty, note: 'นำเข้า CSV' }); add++
       });
       if (add) { log = log.slice(-LOGMAX); saveLog() }
@@ -4873,7 +4888,7 @@
           const d = JSON.parse(String(r.result)); const a = Array.isArray(d) ? d : d.items; const imgs0 = (!Array.isArray(d) && d.images) || {};
           const log0 = (!Array.isArray(d) && Array.isArray(d.log)) ? d.log.filter(e => e && e.t && TY[e.type]).slice(-LOGMAX) : [];
           if (!Array.isArray(a) || a.some(i => !i || !i.sku || !i.name)) throw 0;
-          const seen = new Set(), clean = a.map(i => ({ id: String(i.id || newId()), created: i.created || new Date().toISOString(), sku: String(i.sku), name: String(i.name), cat: String(i.cat || ''), qty: Math.max(0, parseInt(i.qty) || 0), unit: String(i.unit || 'ชิ้น'), min: Math.max(0, parseInt(i.min) || 0), loc: String(i.loc || ''), demo: !!i.demo, published: !!i.published, imgs: Array.isArray(i.imgs) ? i.imgs.map(String).filter(k => /^data:image\//.test(imgs0[k] || '')).slice(0, MAX_IMG) : [] })).filter(i => { const k = i.sku.toLowerCase(); return seen.has(k) ? false : (seen.add(k), true) });
+          const seen = new Set(), clean = a.map(i => ({ id: String(i.id || newId()), created: i.created || new Date().toISOString(), sku: String(i.sku), name: String(i.name), cat: String(i.cat || ''), description: String(i.description || '').slice(0, 1000), qty: Math.max(0, parseInt(i.qty) || 0), unit: String(i.unit || 'ชิ้น'), min: Math.max(0, parseInt(i.min) || 0), loc: String(i.loc || ''), demo: !!i.demo, published: !!i.published, imgs: Array.isArray(i.imgs) ? i.imgs.map(String).filter(k => /^data:image\//.test(imgs0[k] || '')).slice(0, MAX_IMG) : [] })).filter(i => { const k = i.sku.toLowerCase(); return seen.has(k) ? false : (seen.add(k), true) });
           confirmBox(`กู้คืน ${clean.length} รายการ? ข้อมูลปัจจุบัน ${items.length} รายการจะถูกแทนที่`, 'กู้คืน', async () => {
             try { if (db) { await api('/log/clear', { method: 'POST' }); await imgClear(); const all = []; clean.forEach(i => i.imgs.forEach(k => all.push([k, imgs0[k]]))); await imgPut(all); imgCache.clear(); all.forEach(([k, v]) => imgCache.set(k, v)) } }
             catch (e) { toast('กู้คืนรูปภาพไม่สำเร็จ', 1) }
