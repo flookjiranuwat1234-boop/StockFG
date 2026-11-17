@@ -192,9 +192,6 @@
     .introScreen.is-leaving{visibility:hidden;opacity:0;pointer-events:none}
     .introHeader,.introFooter{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;width:min(1240px,100%);margin:0 auto}
     .introBrand{color:var(--muted);font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-    .introSkip{min-height:42px;padding:0 17px;border:1px solid #203b3820;border-radius:999px;background:#ffffffa8;color:var(--ink);font-size:.88rem;font-weight:700;cursor:pointer;transition:background .2s,transform .2s}
-    .introSkip:hover,.introSkip:focus-visible{transform:translateY(-1px);background:#fff}
-    .introSkip:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
     .introStage{position:relative;display:grid;place-items:center;width:min(1240px,100%);height:clamp(400px,68vh,680px);max-height:100%;margin:auto}
     .introHalo{position:absolute;width:min(65vw,620px);aspect-ratio:1;border:1px solid #0878be18;border-radius:50%;animation:introOrbit 22s linear infinite}
     .introHalo::before,.introHalo::after{position:absolute;inset:8%;border:1px dashed #0878be18;border-radius:50%;content:""}
@@ -228,7 +225,6 @@
       .top{background:rgba(255,250,235,.98);border-bottom-color:#ece5d4}
       .introScreen{gap:12px;padding:14px}
       .introBrand{font-size:.68rem}
-      .introSkip{min-height:38px;padding:0 13px;font-size:.8rem}
       .introStage{height:min(70vh,620px);min-height:340px}
       .introHalo{width:min(84vw,440px)}
       .introFoodSeafood{top:12%;left:3%;width:42%;height:30%}
@@ -287,10 +283,9 @@
   </script>
 </head>
 <body>
-  <div class="introScreen" id="introScreen" role="dialog" aria-modal="true" aria-labelledby="introTitle" aria-describedby="introMessage">
+  <div class="introScreen" id="introScreen" role="dialog" aria-modal="true" aria-labelledby="introTitle" aria-describedby="introMessage" tabindex="-1">
     <header class="introHeader">
       <span class="introBrand" data-i18n="introBrand">Food Gallery · The Gallery of Fine Food</span>
-      <button class="introSkip" id="introSkip" type="button" data-i18n="introSkip">ข้ามแอนิเมชัน</button>
     </header>
     <div class="introStage">
       <div class="introHalo" aria-hidden="true"></div>
@@ -321,7 +316,6 @@
   <script>
     const introScreen=document.getElementById('introScreen');
     if(!document.documentElement.classList.contains('intro-seen')){
-      const introSkip=document.getElementById('introSkip');
       const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let introTimer;
       const closeIntro=()=>{
@@ -336,11 +330,10 @@
       };
       const handleIntroKeys=event=>{
         if(event.key==='Escape')closeIntro();
-        if(event.key==='Tab'){event.preventDefault();introSkip.focus()}
+        if(event.key==='Tab'){event.preventDefault();introScreen.focus()}
       };
-      introSkip.addEventListener('click',closeIntro);
       document.addEventListener('keydown',handleIntroKeys);
-      introSkip.focus({preventScroll:true});
+      introScreen.focus({preventScroll:true});
       introTimer=setTimeout(closeIntro,reducedMotion?700:2800);
     }
   </script>
@@ -591,7 +584,7 @@
     let productsLoadFailed=false;
     const translations={
       th:{
-        introBrand:'Food Gallery · The Gallery of Fine Food',introSkip:'ข้ามแอนิเมชัน',introEyebrow:'THE GALLERY OF FINE FOOD',introTitle:'เปิดโลกวัตถุดิบคุณภาพ',introMessage:'คัดสรรวัตถุดิบและสินค้าอาหารคุณภาพ เพื่อเติมเต็มทุกไอเดียในครัว',introLoading:'กำลังเปิดโลกแห่งรสชาติ',
+        introBrand:'Food Gallery · The Gallery of Fine Food',introEyebrow:'THE GALLERY OF FINE FOOD',introTitle:'เปิดโลกวัตถุดิบคุณภาพ',introMessage:'คัดสรรวัตถุดิบและสินค้าอาหารคุณภาพ เพื่อเติมเต็มทุกไอเดียในครัว',introLoading:'กำลังเปิดโลกแห่งรสชาติ',
         mainMenu:'เมนูหลัก',chooseLanguage:'เลือกภาษา',openMenu:'เปิดเมนู',closeMenu:'ปิดเมนู',drawerSearchPlaceholder:'ค้นหาสินค้า',submitSearch:'ค้นหา',socialMedia:'โซเชียลมีเดีย',navProducts:'สินค้า',navActivities:'กิจกรรม',navNew:'สินค้าใหม่',navPromotions:'โปรโมชั่น',navAbout:'เกี่ยวกับเรา',navContact:'ติดต่อเรา',navCta:'เลือกชมสินค้า',
         partnersEyebrow:'Company Partners',partnersTitle:'แบรนด์และพาร์ตเนอร์',partnersDescription:'แบรนด์ที่ปรากฏในส่วน Company Partners บนเว็บไซต์ Food Gallery',partnersPrevious:'ดูแบรนด์ก่อนหน้า',partnersNext:'ดูแบรนด์ถัดไป',partnersList:'รายชื่อแบรนด์และพาร์ตเนอร์',
         heroEyebrow:'รวมวัตถุดิบหลากหลายหมวด',heroVisual:'ตัวอย่างหมวดหมู่อาหาร',heroTitle:'วัตถุดิบหลากหลาย\nเพื่อทุกไอเดียอาหาร',heroDescription:'สำรวจสินค้าอาหารจากหลากหลายหมวดหมู่ เลือกชมรายการที่ทีมงานเผยแพร่ และติดต่อเราเพื่อสอบถามรายละเอียดเพิ่มเติม',heroBrowse:'ดูสินค้าทั้งหมด',heroAbout:'รู้จักเรา',
@@ -604,7 +597,7 @@
         homeTitle:'สินค้าและข่าวสาร | Food Gallery',loadingProducts:'กำลังโหลดสินค้า…',showingCount:'แสดง {count} รายการ',noMatchingProducts:'ยังไม่มีสินค้าที่ตรงกับการค้นหา',noCategoryProducts:'ยังไม่มีสินค้าที่เผยแพร่ในหมวดนี้',noPublishedProducts:'ยังไม่มีสินค้าที่เผยแพร่',noNewProducts:'ยังไม่มีสินค้าใหม่ที่เผยแพร่',loadFailed:'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง',unableProducts:'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้',imageUnavailable:'รูปภาพไม่พร้อมใช้งาน',product:'สินค้า',productDetails:'ดูรายละเอียด',productDescriptionLabel:'รายละเอียดสินค้า',noProductDescription:'ยังไม่มีรายละเอียดสินค้า',sku:'รหัส',skuLabel:'รหัสสินค้า',email:'อีเมล',phone:'โทร',officialSite:'เว็บไซต์ Food Gallery',metaDescription:'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
       },
       en:{
-        introBrand:'Food Gallery · The Gallery of Fine Food',introSkip:'Skip animation',introEyebrow:'THE GALLERY OF FINE FOOD',introTitle:'A world of fine ingredients',introMessage:'Carefully selected food products to inspire every idea in your kitchen.',introLoading:'Discover a world of fine food',
+        introBrand:'Food Gallery · The Gallery of Fine Food',introEyebrow:'THE GALLERY OF FINE FOOD',introTitle:'A world of fine ingredients',introMessage:'Carefully selected food products to inspire every idea in your kitchen.',introLoading:'Discover a world of fine food',
         mainMenu:'Main menu',chooseLanguage:'Choose language',openMenu:'Open menu',closeMenu:'Close menu',drawerSearchPlaceholder:'Search',submitSearch:'Search',socialMedia:'Social media',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
         partnersEyebrow:'Company Partners',partnersTitle:'Brands and partners',partnersDescription:'Brands featured in the Company Partners section on the Food Gallery website.',partnersPrevious:'View previous brands',partnersNext:'View next brands',partnersList:'Brand and partner logos',partnersSource:'Listed in the Company Partners section on the',partnersSourceLink:'Food Gallery website',
         heroEyebrow:'A curated food collection',heroVisual:'Featured food categories',heroTitle:'A world of ingredients\nfor every food idea',heroDescription:'Explore food products across a range of categories. Browse items published by our team, then contact us for more information.',heroBrowse:'Browse all products',heroAbout:'About us',
