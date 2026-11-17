@@ -83,6 +83,22 @@
     .categoryTag img{display:block;width:100%;aspect-ratio:1.55;object-fit:cover;border-radius:11px;background:#e9f5fc;margin-bottom:5px}
     .categoryTag strong{color:var(--blue-deep);font-size:.9rem}
     .categoryTag small{color:var(--muted);font-size:.78rem;line-height:1.55}
+    .partnerSection{background:#fff}
+    .partnerHead{justify-content:center;text-align:center}
+    .partnerHead>div{max-width:760px}
+    .partnerCarousel{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;gap:14px}
+    .partnerViewport{overflow:auto;scrollbar-width:none;scroll-snap-type:x mandatory;overscroll-behavior-inline:contain}
+    .partnerViewport::-webkit-scrollbar{display:none}
+    .partnerTrack{display:flex;align-items:center;gap:20px}
+    .partnerLogo{display:grid;place-items:center;flex:0 0 clamp(130px,16vw,176px);height:100px;padding:12px;scroll-snap-align:start}
+    .partnerLogo img{display:block;width:100%;max-width:150px;height:76px;object-fit:contain}
+    .partnerArrow{display:grid;place-items:center;width:48px;height:56px;padding:0;border:0;background:#88d4e2;color:#fff;cursor:pointer;transition:background .18s,opacity .18s}
+    .partnerArrow:hover:not(:disabled){background:#65bdcc}
+    .partnerArrow:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+    .partnerArrow:disabled{background:#f4f4f4;color:#566c67;cursor:default}
+    .partnerArrow svg{width:24px;height:24px}
+    .partnerSource{margin:18px 0 0;color:var(--muted);font-size:.8rem;text-align:center}
+    .partnerSource a{color:var(--blue-deep);font-weight:700;text-decoration:underline;text-underline-offset:3px}
     .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
     .product{overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:18px;transition:transform .18s,box-shadow .18s;cursor:pointer}
     .product:hover{transform:translateY(-3px);box-shadow:0 12px 28px #163c5612}
@@ -195,6 +211,11 @@
       .newGrid,.infoGrid{grid-template-columns:1fr}
       .categoryTags{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
       .categoryTag{padding:7px 7px 11px}
+      .partnerCarousel{grid-template-columns:38px minmax(0,1fr) 38px;gap:6px}
+      .partnerArrow{width:38px;height:48px}
+      .partnerTrack{gap:8px}
+      .partnerLogo{flex-basis:clamp(112px,38vw,150px);height:88px;padding:8px}
+      .partnerLogo img{height:68px}
       .categoryDetail{grid-template-columns:1fr;gap:14px;padding:12px}
       .categoryDetail img{height:180px}
       .about{grid-template-columns:1fr;gap:16px}
@@ -263,7 +284,7 @@
           <div class="heroVisual" role="group" aria-label="ตัวอย่างหมวดหมู่อาหาร" data-i18n-aria-label="heroVisual">
             <div class="heroPhoto heroPhotoMain"><img data-src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" fetchpriority="high"><span aria-hidden="true" data-i18n="produce">ผักและผลไม้</span></div>
             <div class="heroPhoto heroPhotoTop"><img data-src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood"><span aria-hidden="true" data-i18n="seafood">อาหารทะเล</span></div>
-            <div class="heroPhoto heroPhotoBottom"><img data-src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery"><span aria-hidden="true" data-i18n="bakery">ขนมอบ</span></div>
+            <div class="heroPhoto heroPhotoBottom"><img data-src="images/category-bakery.jpg" alt="ผลิตภัณฑ์ขนมอบ" data-i18n-alt="bakery"><span aria-hidden="true" data-i18n="bakery">ผลิตภัณฑ์ขนมอบ</span></div>
           </div>
         </div>
       </div>
@@ -292,6 +313,71 @@
         </section>
         <div id="productsGrid" class="grid" aria-live="polite"></div>
         <p id="loadStatus" class="status" role="status">กำลังโหลดสินค้า…</p>
+      </div>
+    </section>
+
+    <section class="section partnerSection" id="partners">
+      <div class="wrap">
+        <div class="sectionHead partnerHead">
+          <div><span class="eyebrow" data-i18n="partnersEyebrow">Company Partners</span><h2 data-i18n="partnersTitle">แบรนด์และพาร์ตเนอร์</h2><p data-i18n="partnersDescription">แบรนด์ที่ปรากฏในส่วน Company Partners บนเว็บไซต์ Food Gallery</p></div>
+        </div>
+        <div class="partnerCarousel">
+          <button class="partnerArrow" id="partnersPrev" type="button" aria-label="ดูแบรนด์ก่อนหน้า" data-i18n-aria-label="partnersPrevious" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 4-8 8 8 8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+          </button>
+          <div class="partnerViewport" id="partnerViewport" role="region" aria-label="รายชื่อแบรนด์และพาร์ตเนอร์" data-i18n-aria-label="partnersList" tabindex="0">
+            <div class="partnerTrack">
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Coolibah.png" alt="Coolibah" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_citterio.png" alt="Citterio" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_chocolatelove.png" alt="Chocolate and Love" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Blackswan.png" alt="Black Swan" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_BlackSalmon.png" alt="Black Salmon" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Basilur.png" alt="Basilur" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_ballantyne.png" alt="Ballantyne" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Avanza.png" alt="Avanza" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_zespri.png" alt="Zespri" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Zanetti.png" alt="Zanetti" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Wildalp.png" alt="Wildalp" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Washington.png" alt="Washington" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_TropicalMaria.png" alt="Tropical Maria" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_ThinChispy.png" alt="Thin Chispy" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Sunnydale.png" alt="Sunnydale" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Simpsonfarms.png" alt="Simpson Farms" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_ScottishSeafarm.png" alt="Scottish Sea Farms" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Rutherford.png" alt="Rutherford" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Prestige.png" alt="Prestige" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Piacelli.png" alt="Piacelli" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_petzel.png" alt="Petzel" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Pema.png" alt="Pema" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_pacificcheese.png" alt="Pacific Cheese" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Oyster.png" alt="Oyster" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Omega.png" alt="Omega" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_OKF.png" alt="OKF" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_NorwaySalmon.png" alt="Norway Salmon" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_NorthBeach.png" alt="North Beach" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_NorQuin-300x70.png" alt="NorQuin" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Natura.png" alt="Natura" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_MountainMist.png" alt="Mountain Mist" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Monvillage.png" alt="Monvillage" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Loison.png" alt="Loison" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Lambertz.png" alt="Lambertz" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Kizandy.png" alt="Kizandy" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Jasberry.png" alt="Jasberry" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_huontasmania.png" alt="Huon Tasmania" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Granralo.png" alt="Granarolo" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_florida.png" alt="Florida" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Fattorie-Giacobazzi.png" alt="Fattorie Giacobazzi" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_elsabroso.png" alt="El Sabroso" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Eatreal.png" alt="Eat Real" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_driscoll.png" alt="Driscoll's" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="https://www.foodgallery.co.th/wp-content/uploads/2018/01/Brand_logo_Delifrance.png" alt="Délifrance" loading="lazy" decoding="async"></div>
+            </div>
+          </div>
+          <button class="partnerArrow" id="partnersNext" type="button" aria-label="ดูแบรนด์ถัดไป" data-i18n-aria-label="partnersNext">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+          </button>
+        </div>
+        <p class="partnerSource"><span data-i18n="partnersSource">อ้างอิงจากส่วน Company Partners บน</span> <a href="https://www.foodgallery.co.th/" target="_blank" rel="noopener noreferrer" data-i18n="partnersSourceLink">เว็บไซต์ Food Gallery</a></p>
       </div>
     </section>
 
@@ -391,20 +477,22 @@
     const translations={
       th:{
         mainMenu:'เมนูหลัก',chooseLanguage:'เลือกภาษา',openMenu:'เปิดเมนู',closeMenu:'ปิดเมนู',drawerSearchPlaceholder:'ค้นหาสินค้า',submitSearch:'ค้นหา',socialMedia:'โซเชียลมีเดีย',navProducts:'สินค้า',navActivities:'กิจกรรม',navNew:'สินค้าใหม่',navPromotions:'โปรโมชั่น',navAbout:'เกี่ยวกับเรา',navContact:'ติดต่อเรา',navCta:'เลือกชมสินค้า',
+        partnersEyebrow:'Company Partners',partnersTitle:'แบรนด์และพาร์ตเนอร์',partnersDescription:'แบรนด์ที่ปรากฏในส่วน Company Partners บนเว็บไซต์ Food Gallery',partnersPrevious:'ดูแบรนด์ก่อนหน้า',partnersNext:'ดูแบรนด์ถัดไป',partnersList:'รายชื่อแบรนด์และพาร์ตเนอร์',partnersSource:'อ้างอิงจากส่วน Company Partners บน',partnersSourceLink:'เว็บไซต์ Food Gallery',
         heroEyebrow:'รวมวัตถุดิบหลากหลายหมวด',heroVisual:'ตัวอย่างหมวดหมู่อาหาร',heroTitle:'วัตถุดิบหลากหลาย\nเพื่อทุกไอเดียอาหาร',heroDescription:'สำรวจสินค้าอาหารจากหลากหลายหมวดหมู่ เลือกชมรายการที่ทีมงานเผยแพร่ และติดต่อเราเพื่อสอบถามรายละเอียดเพิ่มเติม',heroBrowse:'ดูสินค้าทั้งหมด',heroAbout:'รู้จักเรา',
         productsTitle:'เลือกชมสินค้า',productsDescription:'แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้',categoryPageTitle:'หมวดสินค้า',categoryPageDescription:'เลือกชมสินค้าทั้งหมดในหมวดนี้',categoryItemCount:'สินค้าหมวดนี้ {count} รายการ',categoryItemCountWithDemo:'สินค้าจริงที่เผยแพร่ {published} รายการ · Demo {demo} รายการ',categoryShowingCount:'แสดงสินค้าจริง {published} รายการ และ Demo {demo} รายการ',categoryGenericDescription:'เลือกชมสินค้าที่เผยแพร่ในหมวดนี้',categoryExamplesTitle:'รายการ Demo ในหมวดนี้',categoryExamplesNote:'รายการ Demo จะแสดงร่วมกับสินค้าในหมวดเพื่อเป็นตัวอย่างเท่านั้น ไม่ใช่สินค้าจริงหรือข้อมูลสต็อก และไม่นับเป็นสินค้าที่เผยแพร่',categoryDemoBadge:'ตัวอย่าง · Demo',noCategories:'ยังไม่มีหมวดหมู่สินค้าที่เผยแพร่',searchPlaceholder:'ค้นหาชื่อหรือรหัสสินค้า',searchProducts:'ค้นหาสินค้า',filterCategory:'กรองตามหมวดหมู่',allCategories:'ทุกหมวดหมู่',mainCategories:'กลุ่มสินค้าหลัก',categoryTitle:'เลือกชมสินค้าหลากหลายหมวด',categoryDescription:'หมวดหมู่อาหารและประเภทสินค้าที่เผยแพร่ในหน้าร้าน',
-        produce:'ผักและผลไม้',freshProduce:'รวมผักสดและผลไม้สดหลากหลายชนิด สำหรับเลือกชมเป็นวัตถุดิบในเมนูต่าง ๆ',meat:'เนื้อสัตว์',freshFrozenMeat:'เนื้อสัตว์แช่เย็นและแช่แข็ง สำหรับเมนูอาหารหลากหลาย',seafood:'อาหารทะเล',freshFrozenSeafood:'อาหารทะเลสดและแช่แข็ง สำหรับเมนูคาวและเมนูพิเศษ',beverages:'เครื่องดื่ม',beveragesDescription:'เครื่องดื่มหลากหลายประเภท ตั้งแต่น้ำผลไม้ น้ำดื่ม นม ไปจนถึงชา',grocery:'อาหารแห้ง',groceryDescription:'อาหารแห้งและธัญพืช สำหรับจัดเก็บและใช้ประกอบอาหาร',bakery:'ขนมอบ',bakeryDescription:'ขนมอบหลากหลาย เช่น เค้ก ขนมปัง และขนมปังแช่แข็ง',dairy:'ผลิตภัณฑ์จากนม',dairyDescription:'ผลิตภัณฑ์จากนม เช่น ไอศกรีม เนย ชีส และครีม',snacks:'ขนมขบเคี้ยว',snacksDescription:'ขนมขบเคี้ยวและของหวาน เช่น ลูกอม ช็อกโกแลต และขนมกรุบกรอบ',
+        produce:'ผักและผลไม้',freshProduce:'รวมผักสดและผลไม้สดหลากหลายชนิด สำหรับเลือกชมเป็นวัตถุดิบในเมนูต่าง ๆ',meat:'เนื้อสัตว์',freshFrozenMeat:'เนื้อสัตว์แช่เย็นและแช่แข็ง สำหรับเมนูอาหารหลากหลาย',seafood:'อาหารทะเล',freshFrozenSeafood:'อาหารทะเลสดและแช่แข็ง สำหรับเมนูคาวและเมนูพิเศษ',beverages:'เครื่องดื่ม',beveragesDescription:'เครื่องดื่มหลากหลายประเภท ตั้งแต่น้ำผลไม้ น้ำดื่ม นม ไปจนถึงชา',grocery:'อาหารแห้ง',groceryDescription:'อาหารแห้งและธัญพืช สำหรับจัดเก็บและใช้ประกอบอาหาร',bakery:'ผลิตภัณฑ์ขนมอบ',bakeryDescription:'ขนมอบหลากหลาย เช่น เค้ก ขนมปัง และขนมปังแช่แข็ง',dairy:'นมและผลิตภัณฑ์จากนม',dairyDescription:'ผลิตภัณฑ์จากนม เช่น ไอศกรีม เนย ชีส และครีม',snacks:'ขนมขบเคี้ยว',snacksDescription:'ขนมขบเคี้ยวและของหวาน เช่น ลูกอม ช็อกโกแลต และขนมกรุบกรอบ',
         activitiesTitle:'กิจกรรม',activitiesDescription:'ข่าวสารและกิจกรรมจาก Food Gallery',followActivities:'ติดตามกิจกรรมของเรา',noActivities:'ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้',seeYouSoon:'พบกันในโอกาสต่อไป',activitiesAnnounced:'รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ',
         newTitle:'สินค้าใหม่',newDescription:'รายการล่าสุดที่เผยแพร่บนหน้าร้าน',promotionsTitle:'โปรโมชั่น',promotionsDescription:'ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา',noPromotions:'ยังไม่มีโปรโมชั่นที่ประกาศ',promotionsUpdated:'เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้',
-        aboutTitle:'เกี่ยวกับเรา',aboutDescription:'Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ ผลิตภัณฑ์จากนม และขนมขบเคี้ยว',aboutStorefront:'หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง',
+        aboutTitle:'เกี่ยวกับเรา',aboutDescription:'Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักและผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ผลิตภัณฑ์ขนมอบ นมและผลิตภัณฑ์จากนม และขนมขบเคี้ยว',aboutStorefront:'หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง',
         contactTitle:'ติดต่อเรา',contactMessage:'สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง',contactDetailsTitle:'ช่องทางติดต่อ',contactMapTitle:'แผนที่สำนักงาน Food Gallery Limited',contactFormTitle:'ส่งข้อความถึงเรา',contactFormNote:'เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง',contactFirstName:'ชื่อ',contactLastName:'นามสกุล',contactSubjectField:'หัวข้อ',contactMessageField:'ข้อความ',contactSend:'ส่งข้อความทางอีเมล',contactMailSubject:'ติดต่อจากเว็บไซต์',contactNameLabel:'ชื่อ',notices:'ประกาศลิขสิทธิ์ซอฟต์แวร์',close:'ปิด',modalContactPrompt:'สอบถามรายละเอียดเพิ่มเติมได้ทาง',
         homeTitle:'สินค้าและข่าวสาร | Food Gallery',loadingProducts:'กำลังโหลดสินค้า…',showingCount:'แสดง {count} รายการ',noMatchingProducts:'ยังไม่มีสินค้าที่ตรงกับการค้นหา',noCategoryProducts:'ยังไม่มีสินค้าที่เผยแพร่ในหมวดนี้',noPublishedProducts:'ยังไม่มีสินค้าที่เผยแพร่',noNewProducts:'ยังไม่มีสินค้าใหม่ที่เผยแพร่',loadFailed:'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง',unableProducts:'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้',imageUnavailable:'รูปภาพไม่พร้อมใช้งาน',product:'สินค้า',productDetails:'ดูรายละเอียด',productDescriptionLabel:'รายละเอียดสินค้า',noProductDescription:'ยังไม่มีรายละเอียดสินค้า',sku:'รหัส',skuLabel:'รหัสสินค้า',email:'อีเมล',phone:'โทร',officialSite:'เว็บไซต์ Food Gallery',metaDescription:'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
       },
       en:{
         mainMenu:'Main menu',chooseLanguage:'Choose language',openMenu:'Open menu',closeMenu:'Close menu',drawerSearchPlaceholder:'Search',submitSearch:'Search',socialMedia:'Social media',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
+        partnersEyebrow:'Company Partners',partnersTitle:'Brands and partners',partnersDescription:'Brands featured in the Company Partners section on the Food Gallery website.',partnersPrevious:'View previous brands',partnersNext:'View next brands',partnersList:'Brand and partner logos',partnersSource:'Listed in the Company Partners section on the',partnersSourceLink:'Food Gallery website',
         heroEyebrow:'A curated food collection',heroVisual:'Featured food categories',heroTitle:'A world of ingredients\nfor every food idea',heroDescription:'Explore food products across a range of categories. Browse items published by our team, then contact us for more information.',heroBrowse:'Browse all products',heroAbout:'About us',
         productsTitle:'Browse products',productsDescription:'Showing products published by our team.',categoryPageTitle:'Product category',categoryPageDescription:'Browse all products in this category.',categoryItemCount:'{count} products in this category',categoryItemCountWithDemo:'{published} published products · {demo} Demo examples',categoryShowingCount:'Showing {published} published products and {demo} Demo examples',categoryGenericDescription:'Browse published products in this category.',categoryExamplesTitle:'Demo items in this category',categoryExamplesNote:'Demo items appear with this category as examples only. They are not real products or inventory and are not counted as published products.',categoryDemoBadge:'Sample · Demo',noCategories:'No published product categories yet.',searchPlaceholder:'Search by product name or SKU',searchProducts:'Search products',filterCategory:'Filter by category',allCategories:'All categories',mainCategories:'Main categories',categoryTitle:'Explore our product range',categoryDescription:'Food categories and other categories with published products.',
-        produce:'Fresh produce',freshProduce:'A selection of fresh vegetables and fruit for a range of dishes.',meat:'Meat',freshFrozenMeat:'Chilled and frozen meat for a variety of meals.',seafood:'Seafood',freshFrozenSeafood:'Fresh and frozen seafood for everyday dishes and special meals.',beverages:'Beverages',beveragesDescription:'Drinks including juice, water, milk and tea.',grocery:'Grocery',groceryDescription:'Pantry goods and grains for convenient storage and cooking.',bakery:'Bakery',bakeryDescription:'Baked goods including cakes, bread and frozen bakery.',dairy:'Dairy',dairyDescription:'Dairy products including ice cream, butter, cheese and cream.',snacks:'Snacks',snacksDescription:'Snacks and sweets including candy, chocolate and savory bites.',
+        produce:'Produce',freshProduce:'A selection of fresh vegetables and fruit for a range of dishes.',meat:'Meat',freshFrozenMeat:'Chilled and frozen meat for a variety of meals.',seafood:'Seafood',freshFrozenSeafood:'Fresh and frozen seafood for everyday dishes and special meals.',beverages:'Beverage',beveragesDescription:'Drinks including juice, water, milk and tea.',grocery:'Grocery',groceryDescription:'Pantry goods and grains for convenient storage and cooking.',bakery:'Bakery',bakeryDescription:'Baked goods including cakes, bread and frozen bakery.',dairy:'Dairy',dairyDescription:'Dairy products including ice cream, butter, cheese and cream.',snacks:'Snacks',snacksDescription:'Snacks and sweets including candy, chocolate and savory bites.',
         activitiesTitle:'Activities',activitiesDescription:'News and activities from Food Gallery',followActivities:'Follow our activities',noActivities:'There are no new activity announcements yet. Please check back for updates.',seeYouSoon:'See you next time',activitiesAnnounced:'Activity details will be announced once officially confirmed.',
         newTitle:'New arrivals',newDescription:'The latest products published in our store',promotionsTitle:'Promotions',promotionsDescription:'Check our channels for promotion announcements',noPromotions:'No promotions have been announced yet',promotionsUpdated:'We will update this page when new promotions are available.',
         aboutTitle:'About us',aboutDescription:'Food Gallery Limited imports and distributes a wide range of food products, from fresh produce, meat and seafood to beverages, groceries, bakery products, dairy and snacks.',aboutStorefront:'This storefront features products selected for publication by our team. Inventory quantities, reorder points and warehouse locations are not shown.',
@@ -413,8 +501,8 @@
       }
     };
     const categoryTranslations={
-      'ผักและผลไม้':'Fresh produce','เนื้อสัตว์':'Meat','อาหารทะเล':'Seafood','เครื่องดื่ม':'Beverages','อาหารแห้ง':'Grocery','ขนมอบ':'Bakery','ผลิตภัณฑ์จากนม':'Dairy','ขนมขบเคี้ยว':'Snacks',
-      'Fresh produce':'ผักและผลไม้','Meat':'เนื้อสัตว์','Seafood':'อาหารทะเล','Beverages':'เครื่องดื่ม','Grocery':'อาหารแห้ง','Bakery':'ขนมอบ','Dairy':'ผลิตภัณฑ์จากนม','Snacks':'ขนมขบเคี้ยว'
+      'ผักและผลไม้':'Produce','เนื้อสัตว์':'Meat','อาหารทะเล':'Seafood','เครื่องดื่ม':'Beverage','อาหารแห้ง':'Grocery','ผลิตภัณฑ์ขนมอบ':'Bakery','นมและผลิตภัณฑ์จากนม':'Dairy','ขนมขบเคี้ยว':'Snacks',
+      'Fresh produce':'ผักและผลไม้','Produce':'ผักและผลไม้','Meat':'เนื้อสัตว์','Seafood':'อาหารทะเล','Beverages':'เครื่องดื่ม','Beverage':'เครื่องดื่ม','Grocery':'อาหารแห้ง','ขนมอบ':'ผลิตภัณฑ์ขนมอบ','Bakery':'ผลิตภัณฑ์ขนมอบ','ผลิตภัณฑ์จากนม':'นมและผลิตภัณฑ์จากนม','Dairy':'นมและผลิตภัณฑ์จากนม','Snacks':'ขนมขบเคี้ยว'
     };
     const categoryDetails={
       produce:{image:'images/category-produce.jpg',description:'freshProduce',examples:[
@@ -485,15 +573,9 @@
       return Object.keys(categoryDetails).find(key=>categoriesMatch(value,key))||'';
     }
     function selectableCategories(){
-      const categories=[],knownCategories=new Set();
-      for(const key of Object.keys(categoryDetails)){
-        const matches=allCategories.filter(category=>categoryKeyForValue(category)===key);
-        if(matches.length){
-          categories.push(...matches);
-          matches.forEach(category=>knownCategories.add(category));
-        }else categories.push(translations.th[key]);
-      }
-      categories.push(...allCategories.filter(category=>!knownCategories.has(category)&&!categoryKeyForValue(category)));
+      const categories=[];
+      for(const key of Object.keys(categoryDetails))categories.push(translations.th[key]);
+      categories.push(...allCategories.filter(category=>!categoryKeyForValue(category)));
       return categories;
     }
     function currentCategoryKey(){
@@ -685,7 +767,7 @@
       const query=$('search').value.trim().toLocaleLowerCase(currentLanguage);
       const category=$('category').value;
       const categoryRequired=new URLSearchParams(location.search).get('page')==='category';
-      return allProducts.filter(product=>(category?product.cat===category:!categoryRequired)&&
+      return allProducts.filter(product=>(category?categoriesMatch(product.cat,category):!categoryRequired)&&
         (!query||`${productName(product)} ${product.sku} ${translatedCategory(product.cat)}`.toLocaleLowerCase(currentLanguage).includes(query)));
     }
     function renderProducts(){
@@ -704,7 +786,7 @@
         grid.innerHTML=`<div class="empty">${translate(emptyKey)}</div>`;
       }
       if(!$('categoryDetail').hidden){
-        const categoryProducts=productsLoaded&&!productsLoadFailed?allProducts.filter(product=>product.cat===$('category').value):[];
+        const categoryProducts=productsLoaded&&!productsLoadFailed?allProducts.filter(product=>categoriesMatch(product.cat,$('category').value)):[];
         const locale=currentLanguage==='th'?'th-TH':'en-US';
         const demoCount=categoryDetails[detailKey]?.examples?.length||0;
         $('categoryProductCount').textContent=demoCount?
@@ -767,6 +849,21 @@
     }
     $('mobileMenuToggle').addEventListener('click',()=>setMobileMenuOpen($('mobileMenuToggle').getAttribute('aria-expanded')!=='true'));
     $('mobileMenuBackdrop').addEventListener('click',()=>setMobileMenuOpen(false));
+    const partnerViewport=$('partnerViewport');
+    const updatePartnerArrows=()=>{
+      const maxScroll=partnerViewport.scrollWidth-partnerViewport.clientWidth;
+      $('partnersPrev').disabled=partnerViewport.scrollLeft<=1;
+      $('partnersNext').disabled=partnerViewport.scrollLeft>=maxScroll-1;
+    };
+    const scrollPartners=direction=>{
+      partnerViewport.scrollBy({left:partnerViewport.clientWidth*.8*direction,behavior:'auto'});
+      updatePartnerArrows();
+    };
+    $('partnersPrev').addEventListener('click',()=>scrollPartners(-1));
+    $('partnersNext').addEventListener('click',()=>scrollPartners(1));
+    partnerViewport.addEventListener('scroll',updatePartnerArrows,{passive:true});
+    window.addEventListener('resize',updatePartnerArrows);
+    updatePartnerArrows();
     $('mobileSearchForm').addEventListener('submit',event=>{
       event.preventDefault();
       const params=new URLSearchParams({page:'products'});
