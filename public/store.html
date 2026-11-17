@@ -67,7 +67,9 @@
     .categoryDetail img{display:block;width:100%;height:230px;object-fit:cover;border-radius:15px}
     .categoryDetail p{color:var(--muted);line-height:1.75;margin:0}
     .categoryDetail .count{margin-top:12px;color:var(--blue-deep);font-weight:700}
+    .categoryDetail.noImage{grid-template-columns:1fr}
     .categoryTags{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+    .categoryEmpty{grid-column:1/-1;margin:0;padding:14px;color:var(--muted);text-align:center}
     .categoryTag{overflow:hidden;display:flex;flex-direction:column;gap:3px;padding:8px 8px 13px;border:1px solid #e3e5da;border-radius:16px;background:#fff;transition:transform .18s,box-shadow .18s}
     .categoryTag:hover{transform:translateY(-3px);box-shadow:0 10px 24px #203b3812}
     .categoryTag:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
@@ -272,17 +274,8 @@
         <aside class="categoryOverview" id="categoryOverview" aria-label="กลุ่มสินค้าหลัก" data-i18n-aria-label="mainCategories">
           <span class="eyebrow">Food Gallery · Categories</span>
           <h3 data-i18n="categoryTitle">เลือกชมสินค้าหลากหลายหมวด</h3>
-          <p data-i18n="categoryDescription">หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้</p>
-          <div class="categoryTags">
-            <a class="categoryTag" href="store.html?page=category&amp;category=produce"><img data-src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" loading="lazy"><strong data-i18n="produce">ผักและผลไม้</strong><small data-i18n="freshProduce">ผักสดและผลไม้สด</small></a>
-            <a class="categoryTag" href="store.html?page=category&amp;category=meat"><img data-src="images/category-meat.jpg" alt="เนื้อสัตว์" data-i18n-alt="meat" loading="lazy"><strong data-i18n="meat">เนื้อสัตว์</strong><small data-i18n="freshFrozenMeat">เนื้อสัตว์แช่เย็นและแช่แข็ง</small></a>
-            <a class="categoryTag" href="store.html?page=category&amp;category=seafood"><img data-src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood" loading="lazy"><strong data-i18n="seafood">อาหารทะเล</strong><small data-i18n="freshFrozenSeafood">อาหารทะเลสดและแช่แข็ง</small></a>
-            <a class="categoryTag" href="store.html?page=category&amp;category=beverages"><img data-src="images/category-beverage.jpg" alt="เครื่องดื่ม" data-i18n-alt="beverages" loading="lazy"><strong data-i18n="beverages">เครื่องดื่ม</strong><small data-i18n="beveragesDescription">น้ำผลไม้ น้ำดื่ม นม และชา</small></a>
-            <a class="categoryTag" href="store.html?page=category&amp;category=grocery"><img data-src="images/category-grocery.jpg" alt="อาหารแห้ง" data-i18n-alt="grocery" loading="lazy"><strong data-i18n="grocery">อาหารแห้ง</strong><small data-i18n="groceryDescription">อาหารแห้งและธัญพืช</small></a>
-            <a class="categoryTag" href="store.html?page=category&amp;category=bakery"><img data-src="images/category-bakery.jpg" alt="ขนมอบ" data-i18n-alt="bakery" loading="lazy"><strong data-i18n="bakery">ขนมอบ</strong><small data-i18n="bakeryDescription">เค้ก ขนมปัง และขนมปังแช่แข็ง</small></a>
-            <a class="categoryTag" href="store.html?page=category&amp;category=dairy"><img data-src="images/category-dairy.jpg" alt="ผลิตภัณฑ์จากนม" data-i18n-alt="dairy" loading="lazy"><strong data-i18n="dairy">ผลิตภัณฑ์จากนม</strong><small data-i18n="dairyDescription">ไอศกรีม เนย ชีส และครีม</small></a>
-            <a class="categoryTag" href="store.html?page=category&amp;category=snacks"><img data-src="images/category-snacks.jpg" alt="ขนมขบเคี้ยว" data-i18n-alt="snacks" loading="lazy"><strong data-i18n="snacks">ขนมขบเคี้ยว</strong><small data-i18n="snacksDescription">ลูกอม ช็อกโกแลต และขนมกรุบกรอบ</small></a>
-          </div>
+          <p data-i18n="categoryDescription">หมวดหมู่สินค้าจากรายการที่เผยแพร่ในหน้าร้าน</p>
+          <div class="categoryTags" id="categoryTags"></div>
         </aside>
         <div id="productsGrid" class="grid" aria-live="polite"></div>
         <p id="loadStatus" class="status" role="status">กำลังโหลดสินค้า…</p>
@@ -376,6 +369,8 @@
     const $=id=>document.getElementById(id);
     const imageCache=new Map();
     let allProducts=[];
+    let allCategories=[];
+    let categoriesLoaded=false;
     let currentContact={};
     let productsLoaded=false;
     let productsLoadFailed=false;
@@ -383,7 +378,7 @@
       th:{
         mainMenu:'เมนูหลัก',chooseLanguage:'เลือกภาษา',openMenu:'เปิดเมนู',closeMenu:'ปิดเมนู',drawerSearchPlaceholder:'ค้นหาสินค้า',submitSearch:'ค้นหา',socialMedia:'โซเชียลมีเดีย',navProducts:'สินค้า',navActivities:'กิจกรรม',navNew:'สินค้าใหม่',navPromotions:'โปรโมชั่น',navAbout:'เกี่ยวกับเรา',navContact:'ติดต่อเรา',navCta:'เลือกชมสินค้า',
         heroEyebrow:'รวมวัตถุดิบหลากหลายหมวด',heroVisual:'ตัวอย่างหมวดหมู่อาหาร',heroTitle:'วัตถุดิบหลากหลาย\nเพื่อทุกไอเดียอาหาร',heroDescription:'สำรวจสินค้าอาหารจากหลากหลายหมวดหมู่ เลือกชมรายการที่ทีมงานเผยแพร่ และติดต่อเราเพื่อสอบถามรายละเอียดเพิ่มเติม',heroBrowse:'ดูสินค้าทั้งหมด',heroAbout:'รู้จักเรา',
-        productsTitle:'เลือกชมสินค้า',productsDescription:'แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้',categoryPageTitle:'หมวดสินค้า',categoryPageDescription:'เลือกชมสินค้าทั้งหมดในหมวดนี้',categoryItemCount:'สินค้าหมวดนี้ {count} รายการ',searchPlaceholder:'ค้นหาชื่อหรือรหัสสินค้า',searchProducts:'ค้นหาสินค้า',filterCategory:'กรองตามหมวดหมู่',allCategories:'ทุกหมวดหมู่',mainCategories:'กลุ่มสินค้าหลัก',categoryTitle:'เลือกชมสินค้าหลากหลายหมวด',categoryDescription:'หมวดหมู่และประเภทสินค้าที่พบในเว็บไซต์ทางการ มีตัวอย่างดังนี้',
+        productsTitle:'เลือกชมสินค้า',productsDescription:'แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้',categoryPageTitle:'หมวดสินค้า',categoryPageDescription:'เลือกชมสินค้าทั้งหมดในหมวดนี้',categoryItemCount:'สินค้าหมวดนี้ {count} รายการ',categoryGenericDescription:'เลือกชมสินค้าที่เผยแพร่ในหมวดนี้',noCategories:'ยังไม่มีหมวดหมู่สินค้าที่เผยแพร่',searchPlaceholder:'ค้นหาชื่อหรือรหัสสินค้า',searchProducts:'ค้นหาสินค้า',filterCategory:'กรองตามหมวดหมู่',allCategories:'ทุกหมวดหมู่',mainCategories:'กลุ่มสินค้าหลัก',categoryTitle:'เลือกชมสินค้าหลากหลายหมวด',categoryDescription:'หมวดหมู่สินค้าจากรายการที่เผยแพร่ในหน้าร้าน',
         produce:'ผักและผลไม้',freshProduce:'ผักสดและผลไม้สด',meat:'เนื้อสัตว์',freshFrozenMeat:'เนื้อสัตว์แช่เย็นและแช่แข็ง',seafood:'อาหารทะเล',freshFrozenSeafood:'อาหารทะเลสดและแช่แข็ง',beverages:'เครื่องดื่ม',beveragesDescription:'น้ำผลไม้ น้ำดื่ม นม และชา',grocery:'อาหารแห้ง',groceryDescription:'อาหารแห้งและธัญพืช',bakery:'ขนมอบ',bakeryDescription:'เค้ก ขนมปัง และขนมปังแช่แข็ง',dairy:'ผลิตภัณฑ์จากนม',dairyDescription:'ไอศกรีม เนย ชีส และครีม',snacks:'ขนมขบเคี้ยว',snacksDescription:'ลูกอม ช็อกโกแลต และขนมกรุบกรอบ',
         activitiesTitle:'กิจกรรม',activitiesDescription:'ข่าวสารและกิจกรรมจาก Food Gallery',followActivities:'ติดตามกิจกรรมของเรา',noActivities:'ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้',seeYouSoon:'พบกันในโอกาสต่อไป',activitiesAnnounced:'รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ',
         newTitle:'สินค้าใหม่',newDescription:'รายการล่าสุดที่เผยแพร่บนหน้าร้าน',promotionsTitle:'โปรโมชั่น',promotionsDescription:'ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา',noPromotions:'ยังไม่มีโปรโมชั่นที่ประกาศ',promotionsUpdated:'เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้',
@@ -394,7 +389,7 @@
       en:{
         mainMenu:'Main menu',chooseLanguage:'Choose language',openMenu:'Open menu',closeMenu:'Close menu',drawerSearchPlaceholder:'Search',submitSearch:'Search',socialMedia:'Social media',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
         heroEyebrow:'A curated food collection',heroVisual:'Featured food categories',heroTitle:'A world of ingredients\nfor every food idea',heroDescription:'Explore food products across a range of categories. Browse items published by our team, then contact us for more information.',heroBrowse:'Browse all products',heroAbout:'About us',
-        productsTitle:'Browse products',productsDescription:'Showing products published by our team.',categoryPageTitle:'Product category',categoryPageDescription:'Browse all products in this category.',categoryItemCount:'{count} products in this category',searchPlaceholder:'Search by product name or SKU',searchProducts:'Search products',filterCategory:'Filter by category',allCategories:'All categories',mainCategories:'Main categories',categoryTitle:'Explore our product range',categoryDescription:'Here are some of the product categories featured on our website.',
+        productsTitle:'Browse products',productsDescription:'Showing products published by our team.',categoryPageTitle:'Product category',categoryPageDescription:'Browse all products in this category.',categoryItemCount:'{count} products in this category',categoryGenericDescription:'Browse published products in this category.',noCategories:'No published product categories yet.',searchPlaceholder:'Search by product name or SKU',searchProducts:'Search products',filterCategory:'Filter by category',allCategories:'All categories',mainCategories:'Main categories',categoryTitle:'Explore our product range',categoryDescription:'Categories from products published in the store.',
         produce:'Fresh produce',freshProduce:'Fresh vegetables and fruit',meat:'Meat',freshFrozenMeat:'Chilled and frozen meat',seafood:'Seafood',freshFrozenSeafood:'Fresh and frozen seafood',beverages:'Beverages',beveragesDescription:'Juice, water, milk and tea',grocery:'Grocery',groceryDescription:'Pantry goods and grains',bakery:'Bakery',bakeryDescription:'Cakes, bread and frozen bakery',dairy:'Dairy',dairyDescription:'Ice cream, butter, cheese and cream',snacks:'Snacks',snacksDescription:'Candy, chocolate and snack foods',
         activitiesTitle:'Activities',activitiesDescription:'News and activities from Food Gallery',followActivities:'Follow our activities',noActivities:'There are no new activity announcements yet. Please check back for updates.',seeYouSoon:'See you next time',activitiesAnnounced:'Activity details will be announced once officially confirmed.',
         newTitle:'New arrivals',newDescription:'The latest products published in our store',promotionsTitle:'Promotions',promotionsDescription:'Check our channels for promotion announcements',noPromotions:'No promotions have been announced yet',promotionsUpdated:'We will update this page when new promotions are available.',
@@ -417,17 +412,64 @@
       dairy:{image:'images/category-dairy.jpg',description:'dairyDescription'},
       snacks:{image:'images/category-snacks.jpg',description:'snacksDescription'}
     };
+    const normalizeCategory=value=>String(value||'').trim().toLocaleLowerCase();
+    function categoryAliases(value){
+      const normalized=normalizeCategory(value),aliases=new Set([normalized]);
+      for(const [source,translated] of Object.entries(categoryTranslations)){
+        if(normalizeCategory(source)===normalized||normalizeCategory(translated)===normalized){
+          aliases.add(normalizeCategory(source));aliases.add(normalizeCategory(translated));
+        }
+      }
+      for(const [key] of Object.entries(categoryDetails)){
+        const labels=[key,translations.th[key],translations.en[key]];
+        if(labels.some(label=>normalizeCategory(label)===normalized)){
+          labels.forEach(label=>aliases.add(normalizeCategory(label)));
+        }
+      }
+      return aliases;
+    }
+    function categoriesMatch(left,right){
+      const leftAliases=categoryAliases(left);
+      return [...categoryAliases(right)].some(alias=>leftAliases.has(alias));
+    }
+    function findCategoryOption(value){
+      return Array.from($('category').options).find(option=>option.value&&categoriesMatch(option.value,value));
+    }
+    function categoryKeyForValue(value){
+      return Object.keys(categoryDetails).find(key=>categoriesMatch(value,key))||'';
+    }
     function currentCategoryKey(){
       const requested=new URLSearchParams(location.search).get('category');
-      if(requested&&Object.prototype.hasOwnProperty.call(categoryDetails,requested))return requested;
-      const category=$('category').value;
-      return Object.keys(categoryDetails).find(key=>translations.th[key]===category||translations.en[key]===category)||'';
+      return categoryKeyForValue(requested)||categoryKeyForValue($('category').value);
     }
     function translate(key){return translations[currentLanguage][key]||translations.th[key]||key}
     function translatedCategory(category){
       if(!category)return translate('product');
-      if(currentLanguage==='en')return categoryTranslations[category]||category;
-      return Object.keys(categoryTranslations).find(key=>categoryTranslations[key]===category)||category;
+      const value=String(category).trim(),key=categoryKeyForValue(value);
+      return key?translate(key):value;
+    }
+    function renderCategoryTags(){
+      const container=$('categoryTags');
+      container.replaceChildren();
+      if(!allCategories.length){
+        if(categoriesLoaded){
+          const empty=document.createElement('p');empty.className='categoryEmpty';empty.textContent=translate('noCategories');container.append(empty);
+        }
+        return;
+      }
+      for(const category of allCategories){
+        const key=categoryKeyForValue(category),link=document.createElement('a');
+        link.className='categoryTag';
+        link.href=`store.html?${new URLSearchParams({page:'category',category})}`;
+        if(key){
+          const image=document.createElement('img');image.dataset.src=categoryDetails[key].image;
+          image.alt=translatedCategory(category);image.loading='lazy';link.append(image);
+        }
+        const title=document.createElement('strong');title.textContent=translatedCategory(category);
+        const description=document.createElement('small');
+        description.textContent=translate(key?categoryDetails[key].description:'categoryGenericDescription');
+        link.append(title,description);container.append(link);
+      }
     }
     function productName(product){
       return currentLanguage==='en'?(product.name_en||product.name): (product.name_th||product.name);
@@ -453,6 +495,7 @@
       $('category').querySelectorAll('option').forEach(option=>{
         if(option.value)option.textContent=translatedCategory(option.value);
       });
+      renderCategoryTags();
       document.querySelector('meta[name="description"]').content=translate('metaDescription');
       selectPage();
       if(productsLoaded||productsLoadFailed)renderProducts();
@@ -465,10 +508,11 @@
     function selectPage(){
       const requested=new URLSearchParams(location.search).get('page')||'home';
       const categoryKey=new URLSearchParams(location.search).get('category');
-      const categoryName=$('category').value?translatedCategory($('category').value):categoryKey?translate(categoryKey):'';
+      const categoryName=$('category').value?translatedCategory($('category').value):categoryKey?translatedCategory(categoryKey):'';
       const pageNames={products:translate('navProducts'),category:categoryName||translate('categoryPageTitle'),activities:translate('navActivities'),new:translate('navNew'),promotions:translate('navPromotions'),about:translate('navAbout'),contact:translate('navContact')};
       const page=requested==='home'||Object.prototype.hasOwnProperty.call(pageNames,requested)?requested:'home';
-      const categoryDetail=page==='category'?categoryDetails[currentCategoryKey()]:null;
+      const detailKey=currentCategoryKey();
+      const categoryDetail=page==='category'?(categoryDetails[detailKey]||{description:'categoryGenericDescription'}):null;
       const sectionPage=page==='category'?'products':page;
       document.querySelector('.hero').hidden=page!=='home';
       document.querySelectorAll('main>section[id]').forEach(section=>{
@@ -476,9 +520,11 @@
       });
       $('categoryOverview').hidden=page==='category';
       $('categoryDetail').hidden=!categoryDetail;
+      $('categoryDetail').classList.toggle('noImage',!categoryDetail||!categoryDetail.image);
+      $('categoryDetailImage').hidden=!categoryDetail||!categoryDetail.image;
       if(categoryDetail){
-        $('categoryDetailImage').src=categoryDetail.image;
-        $('categoryDetailImage').alt=categoryName||translate(currentCategoryKey());
+        if(categoryDetail.image)$('categoryDetailImage').src=categoryDetail.image;
+        $('categoryDetailImage').alt=categoryName||translate(detailKey);
         $('categoryDetailDescription').textContent=translate(categoryDetail.description);
       }
       $('productsTitle').textContent=page==='category'?(categoryName||translate('categoryPageTitle')):translate('productsTitle');
@@ -645,9 +691,10 @@
     });
     $('search').addEventListener('input',renderProducts);
     $('category').addEventListener('change',()=>{
-      if(new URLSearchParams(location.search).get('page')==='category'&&$('category').value){
-        const params=new URLSearchParams(location.search);
-        params.set('category',$('category').value);
+      const params=new URLSearchParams(location.search);
+      if(params.get('page')==='category'){
+        if($('category').value)params.set('category',$('category').value);
+        else{params.set('page','products');params.delete('category')}
         history.replaceState(null,'',`${location.pathname}?${params}`);
       }
       selectPage();renderProducts();
@@ -691,17 +738,19 @@
           const data=await response.json();
           allProducts=Array.isArray(data.products)?data.products:[];
           currentContact=data.contact||{};
-          for(const category of data.categories||[]){const option=document.createElement('option');option.value=category;option.textContent=translatedCategory(category);$('category').append(option)}
+          allCategories=Array.isArray(data.categories)?data.categories.filter(category=>typeof category==='string'&&category.trim()):[];
+          categoriesLoaded=true;
+          for(const category of allCategories){const option=document.createElement('option');option.value=category;option.textContent=translatedCategory(category);$('category').append(option)}
           const categoryKey=new URLSearchParams(location.search).get('category');
           if(categoryKey){
-            const categoryLabel=translate(categoryKey);
-            const categoryOption=Array.from($('category').options).find(option=>option.value&&(option.value===categoryKey||translatedCategory(option.value)===categoryLabel));
+            const categoryOption=findCategoryOption(categoryKey);
             if(categoryOption)$('category').value=categoryOption.value;
           }
           productsLoaded=true;
           applyLanguage();
         }catch(error){
           console.error('Could not load storefront data.',error);
+          categoriesLoaded=true;
           productsLoadFailed=true;
           applyLanguage();
         }
