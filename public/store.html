@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="th">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -8,283 +9,1968 @@
   <meta name="description" content="เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <style>
-    :root{--ink:#203b38;--muted:#566c67;--blue:#006da8;--blue-deep:#0878be;--blue-soft:#e0f3ff;--page:#f8f7f1;--line:#e4e6dc;font-family:"Noto Sans Thai",sans-serif;color:var(--ink);background:var(--page);font-synthesis:none;text-rendering:optimizeLegibility;scroll-behavior:smooth}
-    *{box-sizing:border-box}
-    body{margin:0}
-    a{color:inherit;text-decoration:none}
-    button,input,select{font:inherit}
-    button,a{ -webkit-tap-highlight-color:transparent}
-    .wrap{width:min(1160px,calc(100% - 40px));margin:auto}
-    .top{position:sticky;top:0;z-index:5;background:rgba(232,240,233,.97);backdrop-filter:blur(14px);border-bottom:1px solid #d9e3da}
-    .nav{width:min(1240px,calc(100% - 40px));height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-    @media(min-width:901px){.nav{display:grid;grid-template-columns:190px minmax(0,1fr) 303px}.links{justify-content:center;gap:1vw}.links a{text-align:center;white-space:nowrap}.links a:nth-child(1){width:72px}.links a:nth-child(2){width:76px}.links a:nth-child(3){width:96px}.links a:nth-child(4){width:92px}.links a:nth-child(5){width:76px}.links a:nth-child(6){width:72px}}
-    .brand{display:flex;align-items:center;gap:11px;font-size:1.04rem;font-weight:800;letter-spacing:.01em}
-    .brandLogo{display:block;width:160px;max-width:100%;height:auto;border-radius:8px}
-    .languageSwitch{display:flex;align-items:center;gap:4px;padding:4px;border:1px solid var(--line);border-radius:999px;background:#fff}
-    .languageSwitch button{display:grid;place-items:center;min-width:36px;min-height:36px;padding:4px;border:0;border-radius:999px;background:transparent;cursor:pointer}
-    .languageSwitch button[aria-pressed=true]{background:var(--blue-soft);box-shadow:inset 0 0 0 1px var(--line)}
-    .languageSwitch button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-    .languageSwitch span{font-size:.82rem;font-weight:700;line-height:1}
-    .navActions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:none}
-    .mark{display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:linear-gradient(145deg,#29adf5,var(--blue-deep));color:#fff}
-    .mark svg{width:24px}
-    .links{display:flex;align-items:center;gap:24px;color:var(--ink);font-size:1rem;font-weight:700}
-    .links a:hover,.links a:focus-visible{color:var(--blue)}
-    .links a[aria-current=page]{color:var(--blue);font-weight:800}
-    .navCta,.button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:999px;background:var(--blue-deep);color:#fff;font-weight:700;cursor:pointer}
-    .navCta{width:210px;white-space:nowrap}
-    .navCta:hover,.button:hover{background:var(--blue)}
-    .hero{padding:54px 0 36px}
-    .heroBox{position:relative;overflow:hidden;padding:clamp(28px,5vw,62px);border-radius:30px;background:linear-gradient(115deg,#edf3e8,#e1f0e9);min-height:390px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:24px}
-    .heroText{position:relative;z-index:1;max-width:570px}
-    .heroVisual{position:relative;width:100%;height:310px}
-    .heroPhoto{position:absolute;overflow:hidden;border:6px solid #fff;border-radius:24px;background:#dce7dc;box-shadow:0 18px 42px #203b3826}
-    .heroPhoto img{display:block;width:100%;height:100%;object-fit:cover}
-    .heroPhoto span{position:absolute;left:12px;bottom:12px;padding:6px 12px;border-radius:999px;background:#fff;color:var(--ink);font-size:.76rem;font-weight:800;box-shadow:0 4px 12px #203b3818}
-    .heroPhotoMain{top:3%;right:2%;width:61%;height:91%;border-radius:48% 48% 24px 24px}
-    .heroPhotoMain span{left:auto;right:12px}
-    .heroPhotoTop{top:3%;left:0;width:38%;height:43%;transform:rotate(-5deg)}
-    .heroPhotoBottom{bottom:2%;left:4%;width:43%;height:44%;transform:rotate(4deg)}
-    .eyebrow{display:inline-block;color:var(--blue);font-weight:800;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
-    h1{font-size:clamp(2rem,4.7vw,3.8rem);line-height:1.24;letter-spacing:-.04em;margin:12px 0 14px;white-space:pre-line}
-    .heroText p{max-width:490px;color:var(--muted);line-height:1.9;margin:0 0 24px}
-    .heroActions{display:flex;flex-wrap:wrap;gap:10px}
-    .button.secondary{background:#fff;color:var(--blue-deep);border:1px solid var(--line)}
-    .button.secondary:hover{background:var(--blue-soft)}
-    .section{padding:48px 0}
-    .sectionHead{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:22px}
-    h2{font-size:clamp(1.45rem,2.4vw,2rem);line-height:1.3;margin:0;letter-spacing:-.025em}
-    .sectionHead p,.muted{color:var(--muted);margin:6px 0 0;line-height:1.75}
-    .tools{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 22px}
-    .tools input,.tools select{min-height:44px;border:1px solid var(--line);background:#fff;border-radius:12px;padding:0 13px;color:var(--ink)}
-    .tools input{flex:1;min-width:200px}
-    .tools select{min-width:180px}
-    .categoryOverview{margin:0 0 22px;padding:22px;border:1px solid var(--line);border-radius:22px;background:#f1f2e9}
-    .categoryOverview h3{margin:4px 0;font-size:1.05rem}
-    .categoryOverview p{margin:0;color:var(--muted);line-height:1.75}
-    .categoryDetail{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:22px;align-items:center;margin:0 0 22px;padding:16px;border:1px solid var(--line);border-radius:22px;background:#f1f2e9}
-    .categoryDetail img{display:block;width:100%;height:230px;object-fit:cover;border-radius:15px}
-    .categoryDetail p{color:var(--muted);line-height:1.75;margin:0}
-    .categoryDetail .count{margin-top:12px;color:var(--blue-deep);font-weight:700}
-    .categoryDetail.noImage{grid-template-columns:1fr}
-    .categoryTags{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
-    .categoryEmpty{grid-column:1/-1;margin:0;padding:14px;color:var(--muted);text-align:center}
-    .categoryTag{overflow:hidden;display:flex;flex-direction:column;gap:3px;padding:8px 8px 13px;border:1px solid #e3e5da;border-radius:16px;background:#fff;transition:transform .18s,box-shadow .18s}
-    .categoryTag:hover{transform:translateY(-3px);box-shadow:0 10px 24px #203b3812}
-    .categoryTag:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
-    .categoryTag img{display:block;width:100%;aspect-ratio:1.55;object-fit:cover;border-radius:11px;background:#e9f5fc;margin-bottom:5px}
-    .categoryTag strong{color:var(--blue-deep);font-size:.9rem}
-    .categoryTag small{color:var(--muted);font-size:.78rem;line-height:1.55}
-    .partnerSection{background:#fff}
-    .partnerHead{justify-content:center;text-align:center}
-    .partnerHead>div{max-width:760px}
-    .partnerCarousel{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;gap:14px}
-    .partnerViewport{overflow:auto;scrollbar-width:none;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-inline:contain}
-    .partnerViewport::-webkit-scrollbar{display:none}
-    .partnerTrack{display:flex;align-items:center;gap:20px}
-    .partnerLogo{display:grid;place-items:center;flex:0 0 clamp(130px,16vw,176px);height:100px;padding:12px;scroll-snap-align:start}
-    .partnerLogo img{display:block;width:100%;max-width:150px;height:76px;object-fit:contain}
-    .partnerArrow{display:grid;place-items:center;width:48px;height:56px;padding:0;border:0;background:var(--blue-deep);color:#fff;cursor:pointer;transition:background .18s,opacity .18s}
-    .partnerArrow:hover:not(:disabled){background:var(--blue)}
-    .partnerArrow:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
-    .partnerArrow:disabled{background:#f4f4f4;color:#566c67;cursor:default}
-    .partnerArrow svg{width:24px;height:24px}
-    .partnerSource{margin:18px 0 0;color:var(--muted);font-size:.8rem;text-align:center}
-    .partnerSource a{color:var(--blue-deep);font-weight:700;text-decoration:underline;text-underline-offset:3px}
-    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-    .pagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;margin:18px 0 0}
-    .pagination[hidden]{display:none}
-    .pagination button{min-width:40px;min-height:40px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--ink);font-weight:700;cursor:pointer}
-    .pagination button:hover:not(:disabled):not([aria-current=page]){border-color:var(--blue-deep);color:var(--blue-deep)}
-    .pagination button[aria-current=page]{border-color:var(--blue-deep);background:var(--blue-deep);color:#fff}
-    .pagination button:disabled{opacity:.5;cursor:default}
-    .pagination button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-    .pagination .ellipsis{min-width:24px;color:var(--muted);text-align:center}
-    .product{overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:18px;transition:transform .18s,box-shadow .18s;cursor:pointer;scroll-margin-top:84px}
-    .product:hover{transform:translateY(-3px);box-shadow:0 12px 28px #163c5612}
-    .photo{aspect-ratio:1.16;background:#e9f5fc;display:grid;place-items:center;overflow:hidden}
-    .photo img{width:100%;height:100%;object-fit:cover}
-    .photo .placeholder{font-size:2rem;color:#9ab9ca}
-    .productText{padding:15px}
-    .tag{font-size:.75rem;color:#0d6fa9;font-weight:700}
-    .product h3{font-size:1rem;margin:5px 0 7px;line-height:1.55}
-    .product .sku{font-size:.78rem;color:var(--muted)}
-    .newGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-    .newCard{padding:20px;border:1px solid var(--line);border-radius:18px;background:#fff;display:flex;gap:16px;align-items:center;cursor:pointer}
-    .newCard .photo{width:80px;height:80px;aspect-ratio:1;flex:none;border-radius:12px}
-    .newCard h3{font-size:.94rem;margin:0 0 4px}
-    .soft{background:#e6f5ff}
-    .infoGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .infoCard{padding:26px;border-radius:20px;background:#fff;border:1px solid var(--line)}
-    .infoCard p{color:var(--muted);line-height:1.85;margin:8px 0 0}
-    .empty{grid-column:1/-1;padding:30px;border:1px dashed #c9dce8;border-radius:16px;color:var(--muted);text-align:center;background:#ffffffc9}
-    .about{display:grid;grid-template-columns:1.1fr .9fr;gap:42px;align-items:center}
-    .aboutArt{position:relative;min-height:230px;overflow:hidden;border-radius:24px;background:#edf4f8}
-    .aboutArt img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
-    .about p{color:var(--muted);line-height:1.95}
-    .about .sourceNote{font-size:.85rem}
-    .about .sourceNote a{color:var(--blue-deep);font-weight:700;text-decoration:underline;text-underline-offset:3px}
-    .contactBox{padding:32px;border-radius:24px;background:linear-gradient(115deg,#0878be,#006da8);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:28px}
-    .contactBox p{color:#fff;line-height:1.8;margin:8px 0 0}
-    .contactWays{display:flex;flex-wrap:wrap;gap:10px}
-    .contactWays a{display:inline-flex;padding:11px 16px;border:1px solid #ffffff55;border-radius:999px;font-weight:700}
-    .contactWays a:hover{background:#ffffff18}
-    .contactPageGrid .contactBox{align-self:start;display:grid;grid-template-columns:minmax(140px,.8fr) minmax(0,1.2fr);align-items:center;gap:22px;background:radial-gradient(circle at 100% 0,#ffffff20,transparent 15rem),linear-gradient(135deg,#0878be,#006da8 62%,#075982);box-shadow:0 16px 36px #006da82b}
-    .contactPageGrid .contactBox h2{margin:4px 0 0;font-size:clamp(1.3rem,1.8vw,1.65rem);line-height:1.4;overflow-wrap:anywhere}
-    .contactPageGrid .contactWays{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-width:0}
-    .contactPageGrid .contactWays a{display:flex;align-items:center;justify-content:center;min-width:0;min-height:46px;padding:9px 12px;border-color:#ffffff55;background:#ffffff0a;text-align:center;font-size:.92rem;line-height:1.45;overflow-wrap:anywhere;transition:background .18s,border-color .18s,transform .18s}
-    .contactPageGrid .contactWays a:first-child{grid-column:1/-1}
-    .contactPageGrid .contactWays a:hover{transform:translateY(-2px);border-color:#ffffffa8;background:#ffffff20}
-    .contactPageGrid .contactWays a:focus-visible{outline:3px solid #fff;outline-offset:3px}
-    .contactMap{height:280px;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#e9f5fc}
-    .contactMap iframe{display:block;width:100%;height:100%;border:0}
-    .contactPageGrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:18px;margin-top:18px;align-items:start}
-    .contactFormPanel{min-width:0;padding:26px;border:1px solid var(--line);border-radius:24px;background:#fff}
-    .contactFormPanel h3{margin:0 0 5px;font-size:1.15rem}
-    .contactFormPanel>p{margin:0 0 14px;color:var(--muted);line-height:1.75}
-    .contactFields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .contactForm label{display:block;min-width:0;margin:12px 0 0;font-size:.9rem;font-weight:700}
-    .contactFields label{margin:0}
-    .contactForm input,.contactForm textarea{display:block;width:100%;min-height:46px;margin-top:5px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font:inherit}
-    .contactForm textarea{min-height:140px;resize:vertical}
-    .contactForm input:focus,.contactForm textarea:focus{border-color:var(--blue-deep);outline:3px solid #0878be22}
-    .contactFormActions{display:flex;justify-content:flex-end;margin-top:16px}
-    .contactFormActions button{min-height:44px;padding:0 20px;border:0;border-radius:999px;background:var(--blue-deep);color:#fff;font-weight:700;cursor:pointer}
-    .contactFormActions button:hover{background:var(--blue)}
-    @media(max-width:1100px){.contactPageGrid{grid-template-columns:1fr}}
-    @media(max-width:680px){.contactMap{height:210px}.contactPageGrid{grid-template-columns:1fr}.contactFormPanel{padding:22px}}
-    @media(max-width:520px){.contactMap{height:185px}.contactFields,.contactPageGrid .contactBox{grid-template-columns:1fr}.contactPageGrid .contactBox{gap:18px}.contactPageGrid .contactWays{grid-template-columns:1fr}}
-    footer{margin-top:42px;padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
-    .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-    dialog{width:min(580px,calc(100% - 28px));border:0;border-radius:22px;padding:24px;color:var(--ink);box-shadow:0 22px 80px #10304a40}
-    dialog::backdrop{background:#102b40d0;backdrop-filter:blur(3px)}
-    .modalPhoto{width:100%;max-height:320px;object-fit:cover;border-radius:14px;background:#edf4f8}
-    .modalDetailTitle{margin:18px 0 6px;font-size:1rem}
-    .modalDescription{margin:0 0 16px;color:var(--muted);line-height:1.75;white-space:pre-wrap}
-    .modalClose{float:right;border:0;background:var(--blue-soft);color:var(--blue-deep);border-radius:50%;width:38px;height:38px;font-size:1.2rem;cursor:pointer}
-    .status{min-height:24px;color:var(--muted);margin:18px 0}
-    .mobileMenuToggle{display:none;place-items:center;width:48px;height:48px;padding:0;border:0;border-radius:12px;background:transparent;color:var(--ink);cursor:pointer}
-    .mobileMenuToggle svg{width:36px;height:36px}
-    #mobileMenuBackdrop{position:fixed;inset:0;z-index:20;background:#203b380a;opacity:0;visibility:hidden;transition:opacity .24s ease,visibility 0s linear .24s}
-    #mobileMenuBackdrop.is-open{opacity:1;visibility:visible;transition:opacity .24s ease}
-    .mobileDrawer{position:fixed;inset:0 0 0 auto;z-index:21;display:flex;flex-direction:column;width:min(360px,calc(100vw - 48px));overflow-y:auto;background:#f4f4f4;color:#5a5a5a;box-shadow:-12px 0 28px #0003;transform:translateX(100%);visibility:hidden;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s linear .28s}
-    .mobileDrawer.is-open{transform:translateX(0);visibility:visible;transition:transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s}
-    @media(prefers-reduced-motion:reduce){#mobileMenuBackdrop,.mobileDrawer,.introScreen{transition:none!important}.introScreen::before,.introScreen::after,.introHalo,.introFoodCard,.introRevealCard,.introProgress span{animation:none!important}.introFoodCard{opacity:1;transform:rotate(var(--introRotation))}.introRevealCard{opacity:1;transform:none}.introProgress span{transform:scaleX(1)}.partnerViewport{scroll-behavior:auto;scroll-snap-type:x proximity}}
-    .srOnly{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-    .drawerSearch{display:flex;align-items:center;gap:8px;padding:9px clamp(16px,6vw,36px);background:#e5e5e5}
-    .drawerSearch input{width:100%;min-width:0;height:50px;padding:0 52px 0 14px;border:0;border-radius:0;background:#fff;color:var(--ink);font-size:1rem}
-    .drawerSearch button{display:grid;place-items:center;flex:none;width:48px;height:48px;margin-left:-56px;border:0;background:transparent;color:var(--muted);cursor:pointer}
-    .drawerSearch button svg{width:24px;height:24px}
-    .drawerLinks{display:flex;flex-direction:column}
-    .drawerLinks a{display:flex;align-items:center;justify-content:space-between;min-height:76px;padding:0 clamp(20px,6vw,36px);border-bottom:1px solid #ddd;color:inherit;font-weight:600}
-    .drawerLinks a::after{width:8px;height:8px;border-top:2px solid #aaa;border-right:2px solid #aaa;content:"";opacity:.5;transform:rotate(45deg)}
-    .drawerLinks a[aria-current=page]{color:var(--blue-deep)}
-    .drawerLanguages{display:flex;align-items:center;justify-content:center;gap:20px;min-height:120px;border-bottom:1px solid #ddd}
-    .drawerLanguages button{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:10px;background:transparent;font-size:1.35rem;cursor:pointer}
-    .drawerLanguages button svg{display:block;width:30px;height:20px}
-    .drawerSocial{display:flex;align-items:center;gap:20px;min-height:76px;padding:0 clamp(20px,6vw,36px);border-bottom:1px solid #ddd}
-    .drawerSocial a{display:grid;place-items:center;width:28px;height:28px;color:#686868}
-    .drawerSocial svg{width:20px;height:20px}
-    .introScreen{position:fixed;inset:0;z-index:1000;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:clamp(12px,2.5vh,24px);overflow:hidden;padding:clamp(16px,3vw,36px);background:radial-gradient(ellipse at 50% 45%,#fff 0,#f3f5ef 55%,#e2efe8 100%);opacity:1;transition:opacity .45s ease,visibility .45s ease}
-    .introScreen::before,.introScreen::after{position:absolute;top:50%;left:50%;width:clamp(340px,65vw,880px);aspect-ratio:1;border:1px solid #0878be12;border-radius:50%;content:"";pointer-events:none;animation:introOrbit 24s linear infinite}
-    .introScreen::after{width:clamp(480px,90vw,1200px);animation-direction:reverse}
-    .introScreen.is-leaving{visibility:hidden;opacity:0;pointer-events:none}
-    .introHeader,.introFooter{position:relative;z-index:5;display:flex;align-items:center;justify-content:space-between;width:min(1240px,100%);margin:0 auto}
-    .introBrand{color:var(--muted);font-size:.8rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-    .introStage{position:relative;display:grid;place-items:center;width:min(1240px,100%);height:clamp(400px,68vh,680px);max-height:100%;margin:auto}
-    .introHalo{position:absolute;width:min(65vw,620px);aspect-ratio:1;border:1px solid #0878be18;border-radius:50%;animation:introOrbit 22s linear infinite}
-    .introHalo::before,.introHalo::after{position:absolute;inset:8%;border:1px dashed #0878be18;border-radius:50%;content:""}
-    .introHalo::after{inset:19%;border-style:solid;border-color:#76c2b45c}
-    .introFoodCard{position:absolute;z-index:1;overflow:hidden;margin:0;border:7px solid #fff;border-radius:25px;background:#dce7dc;box-shadow:0 22px 50px #203b3826;opacity:0;animation:introCardEnter .85s cubic-bezier(.2,.8,.2,1) var(--introDelay) both,introFloat 6s ease-in-out calc(var(--introDelay) + .85s) infinite}
-    .introFoodCard img{display:block;width:100%;height:100%;object-fit:cover}
-    .introFoodCard span{position:absolute;left:12px;bottom:12px;padding:6px 12px;border-radius:999px;background:#fff;color:var(--ink);font-size:.76rem;font-weight:800;box-shadow:0 4px 12px #203b3818}
-    .introFoodSeafood{top:12%;left:14%;width:25%;height:35%;--introDelay:.05s;--introRotation:-7deg;--introFromX:-90px;--introFromY:-30px;transform:rotate(var(--introRotation))}
-    .introFoodProduce{top:7%;right:14%;width:32%;height:70%;border-radius:48% 48% 25px 25px;--introDelay:.2s;--introRotation:5deg;--introFromX:90px;--introFromY:-20px;transform:rotate(var(--introRotation))}
-    .introFoodBakery{bottom:7%;left:21%;width:29%;height:33%;--introDelay:.35s;--introRotation:4deg;--introFromX:-60px;--introFromY:60px;transform:rotate(var(--introRotation))}
-    .introRevealCard{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;width:min(430px,68vw);padding:clamp(24px,4vw,42px);border:1px solid #fff;border-radius:30px;background:#ffffffdf;box-shadow:0 28px 80px #203b3822;text-align:center;backdrop-filter:blur(14px);animation:introLogoPop .85s .25s cubic-bezier(.2,.8,.2,1) both}
-    .introLogo{display:block;width:min(250px,82%);height:auto;margin:0 auto 20px}
-    .introEyebrow{color:var(--blue);font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
-    .introRevealCard h1{margin:10px 0 8px;font-size:clamp(1.65rem,3.8vw,2.4rem);line-height:1.25;letter-spacing:-.035em}
-    .introRevealCard p{margin:0;color:var(--muted);font-size:.93rem;line-height:1.8}
-    .introFooter{gap:20px;color:var(--muted);font-size:.8rem;font-weight:700}
-    .introProgress{width:min(340px,44vw);height:4px;overflow:hidden;border-radius:8px;background:#dce8df}
-    .introProgress span{display:block;width:100%;height:100%;border-radius:inherit;background:linear-gradient(90deg,#0878be,#6fceb5);transform:scaleX(0);transform-origin:left;animation:introProgressFill 2.8s linear forwards}
-    .intro-seen .introScreen:not(.is-leaving){display:none}
-    html:not(.intro-seen) body{overflow:hidden}
-    @keyframes introOrbit{to{transform:translate(-50%,-50%) rotate(360deg)}}
-    @keyframes introCardEnter{from{opacity:0;transform:translate3d(var(--introFromX),var(--introFromY),0) rotate(calc(var(--introRotation) - 8deg)) scale(.78)}to{opacity:1;transform:translate3d(0,0,0) rotate(var(--introRotation)) scale(1)}}
-    @keyframes introLogoPop{from{opacity:0;transform:translateY(20px) scale(.92)}to{opacity:1;transform:translateY(0) scale(1)}}
-    @keyframes introFloat{0%,100%{translate:0 0}50%{translate:0 -8px}}
-    @keyframes introProgressFill{to{transform:scaleX(1)}}
-    [hidden]{display:none!important}
-    @media(max-width:1000px){.nav{height:68px;min-height:68px;justify-content:flex-start}.brand,.navActions,.nav>.links{display:none}.mobileMenuToggle{display:grid}}
-    @media(max-width:900px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.links{gap:14px}.about{gap:24px}}
-    @media(max-width:680px){
-      .wrap{width:min(100% - 28px,560px)}
-      .top{background:rgba(255,250,235,.98);border-bottom-color:#ece5d4}
-      .introScreen{gap:12px;padding:14px}
-      .introBrand{font-size:.68rem}
-      .introStage{height:min(70vh,620px);min-height:340px}
-      .introHalo{width:min(84vw,440px)}
-      .introFoodSeafood{top:12%;left:3%;width:42%;height:30%}
-      .introFoodProduce{top:10%;right:2%;width:45%;height:43%}
-      .introFoodBakery{bottom:8%;left:9%;width:43%;height:30%}
-      .introFoodCard{border-width:5px;border-radius:18px}
-      .introFoodCard span{left:8px;bottom:8px;padding:5px 9px;font-size:.66rem}
-      .introRevealCard{width:min(380px,78vw);padding:22px 18px;border-radius:24px}
-      .introLogo{width:min(220px,82%);margin-bottom:14px}
-      .introEyebrow{font-size:.64rem}
-      .introRevealCard h1{font-size:clamp(1.45rem,6.6vw,2.05rem)}
-      .introRevealCard p{font-size:.83rem;line-height:1.65}
-      .introFooter{gap:10px;font-size:.68rem}
-      .introProgress{width:min(170px,42vw);height:3px}
-      .nav{display:flex;height:72px;min-height:72px;justify-content:flex-start;padding:0}
-      .brand,.navActions,.nav>.links{display:none}
-      .mobileMenuToggle{display:grid}
-      body.menuOpen{overflow:hidden;padding-right:var(--menu-scrollbar-width,0px)}
-      .hero{padding:26px 0 18px}
-      .heroBox{min-height:0;grid-template-columns:1fr;gap:12px;padding:22px}
-      .heroVisual{order:-1;height:225px}
-      .heroPhoto{border-width:5px;border-radius:18px}
-      .heroPhotoMain{border-radius:48% 48% 18px 18px}
-      .heroPhoto span{left:8px;bottom:8px;padding:5px 9px;font-size:.68rem}
-      .heroPhotoMain span{left:auto;right:8px}
-      .heroText{max-width:100%}
-      .heroText p{font-size:.92rem}
-      .section{padding:34px 0}
-      .sectionHead{align-items:start;flex-direction:column}
-      .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-      .productText{padding:11px}
-      .product h3{font-size:.9rem}
-      .newGrid,.infoGrid{grid-template-columns:1fr}
-      .categoryTags{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-      .categoryTag{padding:7px 7px 11px}
-      .partnerCarousel{grid-template-columns:38px minmax(0,1fr) 38px;gap:6px}
-      .partnerArrow{width:38px;height:48px}
-      .partnerTrack{gap:8px}
-      .partnerLogo{flex-basis:clamp(112px,38vw,150px);height:88px;padding:8px}
-      .partnerLogo img{height:68px}
-      .categoryDetail{grid-template-columns:1fr;gap:14px;padding:12px}
-      .categoryDetail img{height:180px}
-      .about{grid-template-columns:1fr;gap:16px}
-      .aboutArt{min-height:150px}
-      .contactBox{align-items:start;flex-direction:column;padding:24px}
-      .photo{aspect-ratio:1}
-      .tools select{flex:1}
-      .foot{flex-direction:column}
+    :root {
+      --ink: #203b38;
+      --muted: #566c67;
+      --blue: #006da8;
+      --blue-deep: #0878be;
+      --blue-soft: #e0f3ff;
+      --page: #f8f7f1;
+      --line: #e4e6dc;
+      font-family: "Noto Sans Thai", sans-serif;
+      color: var(--ink);
+      background: var(--page);
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      scroll-behavior: smooth
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    button,
+    input,
+    select {
+      font: inherit
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent
+    }
+
+    .wrap {
+      width: min(1160px, calc(100% - 40px));
+      margin: auto
+    }
+
+    .top {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(232, 240, 233, .97);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid #d9e3da
+    }
+
+    .nav {
+      width: min(1240px, calc(100% - 40px));
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px
+    }
+
+    @media(min-width:901px) {
+      .nav {
+        display: grid;
+        grid-template-columns: 190px minmax(0, 1fr) 303px
+      }
+
+      .links {
+        justify-content: center;
+        gap: 1vw
+      }
+
+      .links a {
+        text-align: center;
+        white-space: nowrap
+      }
+
+      .links a:nth-child(1) {
+        width: 72px
+      }
+
+      .links a:nth-child(2) {
+        width: 76px
+      }
+
+      .links a:nth-child(3) {
+        width: 96px
+      }
+
+      .links a:nth-child(4) {
+        width: 92px
+      }
+
+      .links a:nth-child(5) {
+        width: 76px
+      }
+
+      .links a:nth-child(6) {
+        width: 72px
+      }
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 1.04rem;
+      font-weight: 800;
+      letter-spacing: .01em
+    }
+
+    .brandLogo {
+      display: block;
+      width: 160px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px
+    }
+
+    .languageSwitch {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff
+    }
+
+    .languageSwitch button {
+      display: grid;
+      place-items: center;
+      min-width: 36px;
+      min-height: 36px;
+      padding: 4px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      cursor: pointer
+    }
+
+    .languageSwitch button[aria-pressed=true] {
+      background: var(--blue-soft);
+      box-shadow: inset 0 0 0 1px var(--line)
+    }
+
+    .languageSwitch button:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px
+    }
+
+    .languageSwitch span {
+      font-size: .82rem;
+      font-weight: 700;
+      line-height: 1
+    }
+
+    .navActions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex: none
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #29adf5, var(--blue-deep));
+      color: #fff
+    }
+
+    .mark svg {
+      width: 24px
+    }
+
+    .links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: var(--ink);
+      font-size: 1rem;
+      font-weight: 700
+    }
+
+    .links a:hover,
+    .links a:focus-visible {
+      color: var(--blue)
+    }
+
+    .links a[aria-current=page] {
+      color: var(--blue);
+      font-weight: 800
+    }
+
+    .navCta,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--blue-deep);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .navCta {
+      width: 210px;
+      white-space: nowrap
+    }
+
+    .navCta:hover,
+    .button:hover {
+      background: var(--blue)
+    }
+
+    .hero {
+      padding: 54px 0 36px
+    }
+
+    .heroBox {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(28px, 5vw, 62px);
+      border-radius: 30px;
+      background: linear-gradient(115deg, #edf3e8, #e1f0e9);
+      min-height: 390px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 24px
+    }
+
+    .heroText {
+      position: relative;
+      z-index: 1;
+      max-width: 570px
+    }
+
+    .heroVisual {
+      position: relative;
+      width: 100%;
+      height: 310px
+    }
+
+    .heroPhoto {
+      position: absolute;
+      overflow: hidden;
+      border: 6px solid #fff;
+      border-radius: 24px;
+      background: #dce7dc;
+      box-shadow: 0 18px 42px #203b3826
+    }
+
+    .heroPhoto img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .heroPhoto span {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      font-size: .76rem;
+      font-weight: 800;
+      box-shadow: 0 4px 12px #203b3818
+    }
+
+    .heroPhotoMain {
+      top: 3%;
+      right: 2%;
+      width: 61%;
+      height: 91%;
+      border-radius: 48% 48% 24px 24px
+    }
+
+    .heroPhotoMain span {
+      left: auto;
+      right: 12px
+    }
+
+    .heroPhotoTop {
+      top: 3%;
+      left: 0;
+      width: 38%;
+      height: 43%;
+      transform: rotate(-5deg)
+    }
+
+    .heroPhotoBottom {
+      bottom: 2%;
+      left: 4%;
+      width: 43%;
+      height: 44%;
+      transform: rotate(4deg)
+    }
+
+    .eyebrow {
+      display: inline-block;
+      color: var(--blue);
+      font-weight: 800;
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4.7vw, 3.8rem);
+      line-height: 1.24;
+      letter-spacing: -.04em;
+      margin: 12px 0 14px;
+      white-space: pre-line
+    }
+
+    .heroText p {
+      max-width: 490px;
+      color: var(--muted);
+      line-height: 1.9;
+      margin: 0 0 24px
+    }
+
+    .heroActions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .button.secondary {
+      background: #fff;
+      color: var(--blue-deep);
+      border: 1px solid var(--line)
+    }
+
+    .button.secondary:hover {
+      background: var(--blue-soft)
+    }
+
+    .section {
+      padding: 48px 0
+    }
+
+    .sectionHead {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px
+    }
+
+    h2 {
+      font-size: clamp(1.45rem, 2.4vw, 2rem);
+      line-height: 1.3;
+      margin: 0;
+      letter-spacing: -.025em
+    }
+
+    .sectionHead p,
+    .muted {
+      color: var(--muted);
+      margin: 6px 0 0;
+      line-height: 1.75
+    }
+
+    .tools {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 0 0 22px
+    }
+
+    .tools input,
+    .tools select {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 0 13px;
+      color: var(--ink)
+    }
+
+    .tools input {
+      flex: 1;
+      min-width: 200px
+    }
+
+    .tools select {
+      min-width: 180px
+    }
+
+    .categoryOverview {
+      margin: 0 0 22px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #f1f2e9
+    }
+
+    .categoryOverview h3 {
+      margin: 4px 0;
+      font-size: 1.05rem
+    }
+
+    .categoryOverview p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75
+    }
+
+    .categoryDetail {
+      display: grid;
+      grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+      gap: 22px;
+      align-items: center;
+      margin: 0 0 22px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #f1f2e9
+    }
+
+    .categoryDetail img {
+      display: block;
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 15px
+    }
+
+    .categoryDetail p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin: 0
+    }
+
+    .categoryDetail .count {
+      margin-top: 12px;
+      color: var(--blue-deep);
+      font-weight: 700
+    }
+
+    .categoryDetail.noImage {
+      grid-template-columns: 1fr
+    }
+
+    .categoryTags {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px
+    }
+
+    .categoryEmpty {
+      grid-column: 1/-1;
+      margin: 0;
+      padding: 14px;
+      color: var(--muted);
+      text-align: center
+    }
+
+    .categoryTag {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      padding: 8px 8px 13px;
+      border: 1px solid #e3e5da;
+      border-radius: 16px;
+      background: #fff;
+      transition: transform .18s, box-shadow .18s
+    }
+
+    .categoryTag:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px #203b3812
+    }
+
+    .categoryTag:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 3px
+    }
+
+    .categoryTag img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1.55;
+      object-fit: cover;
+      border-radius: 11px;
+      background: #e9f5fc;
+      margin-bottom: 5px
+    }
+
+    .categoryTag strong {
+      color: var(--blue-deep);
+      font-size: .9rem
+    }
+
+    .categoryTag small {
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.55
+    }
+
+    .partnerSection {
+      background: #fff
+    }
+
+    .partnerHead {
+      justify-content: center;
+      text-align: center
+    }
+
+    .partnerHead>div {
+      max-width: 760px
+    }
+
+    .partnerCarousel {
+      display: grid;
+      grid-template-columns: 48px minmax(0, 1fr) 48px;
+      align-items: center;
+      gap: 14px
+    }
+
+    .partnerViewport {
+      overflow: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      overscroll-behavior-inline: contain
+    }
+
+    .partnerViewport::-webkit-scrollbar {
+      display: none
+    }
+
+    .partnerTrack {
+      display: flex;
+      align-items: center;
+      gap: 20px
+    }
+
+    .partnerLogo {
+      display: grid;
+      place-items: center;
+      flex: 0 0 clamp(130px, 16vw, 176px);
+      height: 100px;
+      padding: 12px;
+      scroll-snap-align: start
+    }
+
+    .partnerLogo img {
+      display: block;
+      width: 100%;
+      max-width: 150px;
+      height: 76px;
+      object-fit: contain
+    }
+
+    .partnerArrow {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 56px;
+      padding: 0;
+      border: 0;
+      background: var(--blue-deep);
+      color: #fff;
+      cursor: pointer;
+      transition: background .18s, opacity .18s
+    }
+
+    .partnerArrow:hover:not(:disabled) {
+      background: var(--blue)
+    }
+
+    .partnerArrow:focus-visible {
+      outline: 3px solid var(--blue);
+      outline-offset: 3px
+    }
+
+    .partnerArrow:disabled {
+      background: #f4f4f4;
+      color: #566c67;
+      cursor: default
+    }
+
+    .partnerArrow svg {
+      width: 24px;
+      height: 24px
+    }
+
+    .partnerSource {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: .8rem;
+      text-align: center
+    }
+
+    .partnerSource a {
+      color: var(--blue-deep);
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px
+    }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 0
+    }
+
+    .pagination[hidden] {
+      display: none
+    }
+
+    .pagination button {
+      min-width: 40px;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .pagination button:hover:not(:disabled):not([aria-current=page]) {
+      border-color: var(--blue-deep);
+      color: var(--blue-deep)
+    }
+
+    .pagination button[aria-current=page] {
+      border-color: var(--blue-deep);
+      background: var(--blue-deep);
+      color: #fff
+    }
+
+    .pagination button:disabled {
+      opacity: .5;
+      cursor: default
+    }
+
+    .pagination button:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 2px
+    }
+
+    .pagination .ellipsis {
+      min-width: 24px;
+      color: var(--muted);
+      text-align: center
+    }
+
+    .product {
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      transition: transform .18s, box-shadow .18s;
+      cursor: pointer;
+      scroll-margin-top: 84px
+    }
+
+    .product:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px #163c5612
+    }
+
+    .photo {
+      aspect-ratio: 1.16;
+      background: #e9f5fc;
+      display: grid;
+      place-items: center;
+      overflow: hidden
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .photo .placeholder {
+      font-size: 2rem;
+      color: #9ab9ca
+    }
+
+    .productText {
+      padding: 15px
+    }
+
+    .tag {
+      font-size: .75rem;
+      color: #0d6fa9;
+      font-weight: 700
+    }
+
+    .product h3 {
+      font-size: 1rem;
+      margin: 5px 0 7px;
+      line-height: 1.55
+    }
+
+    .product .sku {
+      font-size: .78rem;
+      color: var(--muted)
+    }
+
+    .newGrid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px
+    }
+
+    .newCard {
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fff;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      cursor: pointer
+    }
+
+    .newCard .photo {
+      width: 80px;
+      height: 80px;
+      aspect-ratio: 1;
+      flex: none;
+      border-radius: 12px
+    }
+
+    .newCard h3 {
+      font-size: .94rem;
+      margin: 0 0 4px
+    }
+
+    .soft {
+      background: #e6f5ff
+    }
+
+    .infoGrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px
+    }
+
+    .infoCard {
+      padding: 26px;
+      border-radius: 20px;
+      background: #fff;
+      border: 1px solid var(--line)
+    }
+
+    .infoCard p {
+      color: var(--muted);
+      line-height: 1.85;
+      margin: 8px 0 0
+    }
+
+    .empty {
+      grid-column: 1/-1;
+      padding: 30px;
+      border: 1px dashed #c9dce8;
+      border-radius: 16px;
+      color: var(--muted);
+      text-align: center;
+      background: #ffffffc9
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 42px;
+      align-items: center
+    }
+
+    .aboutArt {
+      position: relative;
+      min-height: 230px;
+      overflow: hidden;
+      border-radius: 24px;
+      background: #edf4f8
+    }
+
+    .aboutArt img {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .about p {
+      color: var(--muted);
+      line-height: 1.95
+    }
+
+    .about .sourceNote {
+      font-size: .85rem
+    }
+
+    .about .sourceNote a {
+      color: var(--blue-deep);
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px
+    }
+
+    .contactBox {
+      padding: 32px;
+      border-radius: 24px;
+      background: linear-gradient(115deg, #0878be, #006da8);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 28px
+    }
+
+    .contactBox p {
+      color: #fff;
+      line-height: 1.8;
+      margin: 8px 0 0
+    }
+
+    .contactWays {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .contactWays a {
+      display: inline-flex;
+      padding: 11px 16px;
+      border: 1px solid #ffffff55;
+      border-radius: 999px;
+      font-weight: 700
+    }
+
+    .contactWays a:hover {
+      background: #ffffff18
+    }
+
+    .contactPageGrid .contactBox {
+      align-self: start;
+      display: grid;
+      grid-template-columns: minmax(140px, .8fr) minmax(0, 1.2fr);
+      align-items: center;
+      gap: 22px;
+      background: radial-gradient(circle at 100% 0, #ffffff20, transparent 15rem), linear-gradient(135deg, #0878be, #006da8 62%, #075982);
+      box-shadow: 0 16px 36px #006da82b
+    }
+
+    .contactPageGrid .contactBox h2 {
+      margin: 4px 0 0;
+      font-size: clamp(1.3rem, 1.8vw, 1.65rem);
+      line-height: 1.4;
+      overflow-wrap: anywhere
+    }
+
+    .contactPageGrid .contactWays {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      min-width: 0
+    }
+
+    .contactPageGrid .contactWays a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      min-height: 46px;
+      padding: 9px 12px;
+      border-color: #ffffff55;
+      background: #ffffff0a;
+      text-align: center;
+      font-size: .92rem;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+      transition: background .18s, border-color .18s, transform .18s
+    }
+
+    .contactPageGrid .contactWays a:first-child {
+      grid-column: 1/-1
+    }
+
+    .contactPageGrid .contactWays a:hover {
+      transform: translateY(-2px);
+      border-color: #ffffffa8;
+      background: #ffffff20
+    }
+
+    .contactPageGrid .contactWays a:focus-visible {
+      outline: 3px solid #fff;
+      outline-offset: 3px
+    }
+
+    .contactMap {
+      height: 280px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #e9f5fc
+    }
+
+    .contactMap iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0
+    }
+
+    .contactPageGrid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
+      gap: 18px;
+      margin-top: 18px;
+      align-items: start
+    }
+
+    .contactFormPanel {
+      min-width: 0;
+      padding: 26px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: #fff
+    }
+
+    .contactFormPanel h3 {
+      margin: 0 0 5px;
+      font-size: 1.15rem
+    }
+
+    .contactFormPanel>p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.75
+    }
+
+    .contactFields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px
+    }
+
+    .contactForm label {
+      display: block;
+      min-width: 0;
+      margin: 12px 0 0;
+      font-size: .9rem;
+      font-weight: 700
+    }
+
+    .contactFields label {
+      margin: 0
+    }
+
+    .contactForm input,
+    .contactForm textarea {
+      display: block;
+      width: 100%;
+      min-height: 46px;
+      margin-top: 5px;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit
+    }
+
+    .contactForm textarea {
+      min-height: 140px;
+      resize: vertical
+    }
+
+    .contactForm input:focus,
+    .contactForm textarea:focus {
+      border-color: var(--blue-deep);
+      outline: 3px solid #0878be22
+    }
+
+    .contactFormActions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 16px
+    }
+
+    .contactFormActions button {
+      min-height: 44px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--blue-deep);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .contactFormActions button:hover {
+      background: var(--blue)
+    }
+
+    @media(max-width:1100px) {
+      .contactPageGrid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media(max-width:680px) {
+      .contactMap {
+        height: 210px
+      }
+
+      .contactPageGrid {
+        grid-template-columns: 1fr
+      }
+
+      .contactFormPanel {
+        padding: 22px
+      }
+    }
+
+    @media(max-width:520px) {
+      .contactMap {
+        height: 185px
+      }
+
+      .contactFields,
+      .contactPageGrid .contactBox {
+        grid-template-columns: 1fr
+      }
+
+      .contactPageGrid .contactBox {
+        gap: 18px
+      }
+
+      .contactPageGrid .contactWays {
+        grid-template-columns: 1fr
+      }
+    }
+
+    footer {
+      margin-top: 42px;
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .82rem
+    }
+
+    .foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap
+    }
+
+    dialog {
+      width: min(580px, calc(100% - 28px));
+      border: 0;
+      border-radius: 22px;
+      padding: 24px;
+      color: var(--ink);
+      box-shadow: 0 22px 80px #10304a40
+    }
+
+    dialog::backdrop {
+      background: #102b40d0;
+      backdrop-filter: blur(3px)
+    }
+
+    .modalPhoto {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      border-radius: 14px;
+      background: #edf4f8
+    }
+
+    .modalDetailTitle {
+      margin: 18px 0 6px;
+      font-size: 1rem
+    }
+
+    .modalDescription {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.75;
+      white-space: pre-wrap
+    }
+
+    .modalClose {
+      float: right;
+      border: 0;
+      background: var(--blue-soft);
+      color: var(--blue-deep);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      font-size: 1.2rem;
+      cursor: pointer
+    }
+
+    .status {
+      min-height: 24px;
+      color: var(--muted);
+      margin: 18px 0
+    }
+
+    .mobileMenuToggle {
+      display: none;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer
+    }
+
+    .mobileMenuToggle svg {
+      width: 36px;
+      height: 36px
+    }
+
+    #mobileMenuBackdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      background: #203b380a;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .24s ease, visibility 0s linear .24s
+    }
+
+    #mobileMenuBackdrop.is-open {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity .24s ease
+    }
+
+    .mobileDrawer {
+      position: fixed;
+      inset: 0 0 0 auto;
+      z-index: 21;
+      display: flex;
+      flex-direction: column;
+      width: min(360px, calc(100vw - 48px));
+      overflow-y: auto;
+      background: #f4f4f4;
+      color: #5a5a5a;
+      box-shadow: -12px 0 28px #0003;
+      transform: translateX(100%);
+      visibility: hidden;
+      transition: transform .28s cubic-bezier(.2, .8, .2, 1), visibility 0s linear .28s
+    }
+
+    .mobileDrawer.is-open {
+      transform: translateX(0);
+      visibility: visible;
+      transition: transform .28s cubic-bezier(.2, .8, .2, 1), visibility 0s
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+
+      #mobileMenuBackdrop,
+      .mobileDrawer,
+      .introScreen {
+        transition: none !important
+      }
+
+      .introScreen::before,
+      .introScreen::after,
+      .introHalo,
+      .introFoodCard,
+      .introRevealCard,
+      .introProgress span {
+        animation: none !important
+      }
+
+      .introFoodCard {
+        opacity: 1;
+        transform: rotate(var(--introRotation))
+      }
+
+      .introRevealCard {
+        opacity: 1;
+        transform: none
+      }
+
+      .introProgress span {
+        transform: scaleX(1)
+      }
+
+      .partnerViewport {
+        scroll-behavior: auto;
+        scroll-snap-type: x proximity
+      }
+    }
+
+    .srOnly {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0
+    }
+
+    .drawerSearch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px clamp(16px, 6vw, 36px);
+      background: #e5e5e5
+    }
+
+    .drawerSearch input {
+      width: 100%;
+      min-width: 0;
+      height: 50px;
+      padding: 0 52px 0 14px;
+      border: 0;
+      border-radius: 0;
+      background: #fff;
+      color: var(--ink);
+      font-size: 1rem
+    }
+
+    .drawerSearch button {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 48px;
+      height: 48px;
+      margin-left: -56px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer
+    }
+
+    .drawerSearch button svg {
+      width: 24px;
+      height: 24px
+    }
+
+    .drawerLinks {
+      display: flex;
+      flex-direction: column
+    }
+
+    .drawerLinks a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 76px;
+      padding: 0 clamp(20px, 6vw, 36px);
+      border-bottom: 1px solid #ddd;
+      color: inherit;
+      font-weight: 600
+    }
+
+    .drawerLinks a::after {
+      width: 8px;
+      height: 8px;
+      border-top: 2px solid #aaa;
+      border-right: 2px solid #aaa;
+      content: "";
+      opacity: .5;
+      transform: rotate(45deg)
+    }
+
+    .drawerLinks a[aria-current=page] {
+      color: var(--blue-deep)
+    }
+
+    .drawerLanguages {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      min-height: 120px;
+      border-bottom: 1px solid #ddd
+    }
+
+    .drawerLanguages button {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 0;
+      border-radius: 10px;
+      background: transparent;
+      font-size: 1.35rem;
+      cursor: pointer
+    }
+
+    .drawerLanguages button svg {
+      display: block;
+      width: 30px;
+      height: 20px
+    }
+
+    .drawerSocial {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      min-height: 76px;
+      padding: 0 clamp(20px, 6vw, 36px);
+      border-bottom: 1px solid #ddd
+    }
+
+    .drawerSocial a {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      color: #686868
+    }
+
+    .drawerSocial svg {
+      width: 20px;
+      height: 20px
+    }
+
+    .introScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: clamp(12px, 2.5vh, 24px);
+      overflow: hidden;
+      padding: clamp(16px, 3vw, 36px);
+      background: radial-gradient(ellipse at 50% 45%, #fff 0, #f3f5ef 55%, #e2efe8 100%);
+      opacity: 1;
+      transition: opacity .45s ease, visibility .45s ease
+    }
+
+    .introScreen::before,
+    .introScreen::after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: clamp(340px, 65vw, 880px);
+      aspect-ratio: 1;
+      border: 1px solid #0878be12;
+      border-radius: 50%;
+      content: "";
+      pointer-events: none;
+      animation: introOrbit 24s linear infinite
+    }
+
+    .introScreen::after {
+      width: clamp(480px, 90vw, 1200px);
+      animation-direction: reverse
+    }
+
+    .introScreen.is-leaving {
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none
+    }
+
+    .introHeader,
+    .introFooter {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(1240px, 100%);
+      margin: 0 auto
+    }
+
+    .introBrand {
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase
+    }
+
+    .introStage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: min(1240px, 100%);
+      height: clamp(400px, 68vh, 680px);
+      max-height: 100%;
+      margin: auto
+    }
+
+    .introHalo {
+      position: absolute;
+      width: min(65vw, 620px);
+      aspect-ratio: 1;
+      border: 1px solid #0878be18;
+      border-radius: 50%;
+      animation: introOrbit 22s linear infinite
+    }
+
+    .introHalo::before,
+    .introHalo::after {
+      position: absolute;
+      inset: 8%;
+      border: 1px dashed #0878be18;
+      border-radius: 50%;
+      content: ""
+    }
+
+    .introHalo::after {
+      inset: 19%;
+      border-style: solid;
+      border-color: #76c2b45c
+    }
+
+    .introFoodCard {
+      position: absolute;
+      z-index: 1;
+      overflow: hidden;
+      margin: 0;
+      border: 7px solid #fff;
+      border-radius: 25px;
+      background: #dce7dc;
+      box-shadow: 0 22px 50px #203b3826;
+      opacity: 0;
+      animation: introCardEnter .85s cubic-bezier(.2, .8, .2, 1) var(--introDelay) both, introFloat 6s ease-in-out calc(var(--introDelay) + .85s) infinite
+    }
+
+    .introFoodCard img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .introFoodCard span {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      font-size: .76rem;
+      font-weight: 800;
+      box-shadow: 0 4px 12px #203b3818
+    }
+
+    .introFoodSeafood {
+      top: 12%;
+      left: 14%;
+      width: 25%;
+      height: 35%;
+      --introDelay: .05s;
+      --introRotation: -7deg;
+      --introFromX: -90px;
+      --introFromY: -30px;
+      transform: rotate(var(--introRotation))
+    }
+
+    .introFoodProduce {
+      top: 7%;
+      right: 14%;
+      width: 32%;
+      height: 70%;
+      border-radius: 48% 48% 25px 25px;
+      --introDelay: .2s;
+      --introRotation: 5deg;
+      --introFromX: 90px;
+      --introFromY: -20px;
+      transform: rotate(var(--introRotation))
+    }
+
+    .introFoodBakery {
+      bottom: 7%;
+      left: 21%;
+      width: 29%;
+      height: 33%;
+      --introDelay: .35s;
+      --introRotation: 4deg;
+      --introFromX: -60px;
+      --introFromY: 60px;
+      transform: rotate(var(--introRotation))
+    }
+
+    .introRevealCard {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: min(430px, 68vw);
+      padding: clamp(24px, 4vw, 42px);
+      border: 1px solid #fff;
+      border-radius: 30px;
+      background: #ffffffdf;
+      box-shadow: 0 28px 80px #203b3822;
+      text-align: center;
+      backdrop-filter: blur(14px);
+      animation: introLogoPop .85s .25s cubic-bezier(.2, .8, .2, 1) both
+    }
+
+    .introLogo {
+      display: block;
+      width: min(250px, 82%);
+      height: auto;
+      margin: 0 auto 20px
+    }
+
+    .introEyebrow {
+      color: var(--blue);
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase
+    }
+
+    .introRevealCard h1 {
+      margin: 10px 0 8px;
+      font-size: clamp(1.65rem, 3.8vw, 2.4rem);
+      line-height: 1.25;
+      letter-spacing: -.035em
+    }
+
+    .introRevealCard p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .93rem;
+      line-height: 1.8
+    }
+
+    .introFooter {
+      gap: 20px;
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 700
+    }
+
+    .introProgress {
+      width: min(340px, 44vw);
+      height: 4px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #dce8df
+    }
+
+    .introProgress span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #0878be, #6fceb5);
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: introProgressFill 2.8s linear forwards
+    }
+
+    .intro-seen .introScreen:not(.is-leaving) {
+      display: none
+    }
+
+    html:not(.intro-seen) body {
+      overflow: hidden
+    }
+
+    @keyframes introOrbit {
+      to {
+        transform: translate(-50%, -50%) rotate(360deg)
+      }
+    }
+
+    @keyframes introCardEnter {
+      from {
+        opacity: 0;
+        transform: translate3d(var(--introFromX), var(--introFromY), 0) rotate(calc(var(--introRotation) - 8deg)) scale(.78)
+      }
+
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) rotate(var(--introRotation)) scale(1)
+      }
+    }
+
+    @keyframes introLogoPop {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(.92)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1)
+      }
+    }
+
+    @keyframes introFloat {
+
+      0%,
+      100% {
+        translate: 0 0
+      }
+
+      50% {
+        translate: 0 -8px
+      }
+    }
+
+    @keyframes introProgressFill {
+      to {
+        transform: scaleX(1)
+      }
+    }
+
+    [hidden] {
+      display: none !important
+    }
+
+    @media(max-width:1000px) {
+      .nav {
+        height: 68px;
+        min-height: 68px;
+        justify-content: flex-start
+      }
+
+      .brand,
+      .navActions,
+      .nav>.links {
+        display: none
+      }
+
+      .mobileMenuToggle {
+        display: grid
+      }
+    }
+
+    @media(max-width:900px) {
+      .grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr))
+      }
+
+      .links {
+        gap: 14px
+      }
+
+      .about {
+        gap: 24px
+      }
+    }
+
+    @media(max-width:680px) {
+      .wrap {
+        width: min(100% - 28px, 560px)
+      }
+
+      .top {
+        background: rgba(255, 250, 235, .98);
+        border-bottom-color: #ece5d4
+      }
+
+      .introScreen {
+        gap: 12px;
+        padding: 14px
+      }
+
+      .introBrand {
+        font-size: .68rem
+      }
+
+      .introStage {
+        height: min(70vh, 620px);
+        min-height: 340px
+      }
+
+      .introHalo {
+        width: min(84vw, 440px)
+      }
+
+      .introFoodSeafood {
+        top: 12%;
+        left: 3%;
+        width: 42%;
+        height: 30%
+      }
+
+      .introFoodProduce {
+        top: 10%;
+        right: 2%;
+        width: 45%;
+        height: 43%
+      }
+
+      .introFoodBakery {
+        bottom: 8%;
+        left: 9%;
+        width: 43%;
+        height: 30%
+      }
+
+      .introFoodCard {
+        border-width: 5px;
+        border-radius: 18px
+      }
+
+      .introFoodCard span {
+        left: 8px;
+        bottom: 8px;
+        padding: 5px 9px;
+        font-size: .66rem
+      }
+
+      .introRevealCard {
+        width: min(380px, 78vw);
+        padding: 22px 18px;
+        border-radius: 24px
+      }
+
+      .introLogo {
+        width: min(220px, 82%);
+        margin-bottom: 14px
+      }
+
+      .introEyebrow {
+        font-size: .64rem
+      }
+
+      .introRevealCard h1 {
+        font-size: clamp(1.45rem, 6.6vw, 2.05rem)
+      }
+
+      .introRevealCard p {
+        font-size: .83rem;
+        line-height: 1.65
+      }
+
+      .introFooter {
+        gap: 10px;
+        font-size: .68rem
+      }
+
+      .introProgress {
+        width: min(170px, 42vw);
+        height: 3px
+      }
+
+      .nav {
+        display: flex;
+        height: 72px;
+        min-height: 72px;
+        justify-content: flex-start;
+        padding: 0
+      }
+
+      .brand,
+      .navActions,
+      .nav>.links {
+        display: none
+      }
+
+      .mobileMenuToggle {
+        display: grid
+      }
+
+      body.menuOpen {
+        overflow: hidden;
+        padding-right: var(--menu-scrollbar-width, 0px)
+      }
+
+      .hero {
+        padding: 26px 0 18px
+      }
+
+      .heroBox {
+        min-height: 0;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 22px
+      }
+
+      .heroVisual {
+        order: -1;
+        height: 225px
+      }
+
+      .heroPhoto {
+        border-width: 5px;
+        border-radius: 18px
+      }
+
+      .heroPhotoMain {
+        border-radius: 48% 48% 18px 18px
+      }
+
+      .heroPhoto span {
+        left: 8px;
+        bottom: 8px;
+        padding: 5px 9px;
+        font-size: .68rem
+      }
+
+      .heroPhotoMain span {
+        left: auto;
+        right: 8px
+      }
+
+      .heroText {
+        max-width: 100%
+      }
+
+      .heroText p {
+        font-size: .92rem
+      }
+
+      .section {
+        padding: 34px 0
+      }
+
+      .sectionHead {
+        align-items: start;
+        flex-direction: column
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px
+      }
+
+      .productText {
+        padding: 11px
+      }
+
+      .product h3 {
+        font-size: .9rem
+      }
+
+      .newGrid,
+      .infoGrid {
+        grid-template-columns: 1fr
+      }
+
+      .categoryTags {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px
+      }
+
+      .categoryTag {
+        padding: 7px 7px 11px
+      }
+
+      .partnerCarousel {
+        grid-template-columns: 38px minmax(0, 1fr) 38px;
+        gap: 6px
+      }
+
+      .partnerArrow {
+        width: 38px;
+        height: 48px
+      }
+
+      .partnerTrack {
+        gap: 8px
+      }
+
+      .partnerLogo {
+        flex-basis: clamp(112px, 38vw, 150px);
+        height: 88px;
+        padding: 8px
+      }
+
+      .partnerLogo img {
+        height: 68px
+      }
+
+      .categoryDetail {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 12px
+      }
+
+      .categoryDetail img {
+        height: 180px
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+        gap: 16px
+      }
+
+      .aboutArt {
+        min-height: 150px
+      }
+
+      .contactBox {
+        align-items: start;
+        flex-direction: column;
+        padding: 24px
+      }
+
+      .photo {
+        aspect-ratio: 1
+      }
+
+      .tools select {
+        flex: 1
+      }
+
+      .foot {
+        flex-direction: column
+      }
     }
   </style>
   <script>
-    try{
-      if(sessionStorage.getItem('foodGalleryEntranceSeen')==='true')document.documentElement.classList.add('intro-seen');
-      else sessionStorage.setItem('foodGalleryEntranceSeen','true');
-    }catch(error){console.warn('Could not store the storefront intro state.',error)}
+    try {
+      if (sessionStorage.getItem('foodGalleryEntranceSeen') === 'true') document.documentElement.classList.add('intro-seen');
+      else sessionStorage.setItem('foodGalleryEntranceSeen', 'true');
+    } catch (error) { console.warn('Could not store the storefront intro state.', error) }
   </script>
 </head>
+
 <body>
-  <div class="introScreen" id="introScreen" role="dialog" aria-modal="true" aria-labelledby="introTitle" aria-describedby="introMessage" tabindex="-1">
+  <div class="introScreen" id="introScreen" role="dialog" aria-modal="true" aria-labelledby="introTitle"
+    aria-describedby="introMessage" tabindex="-1">
     <header class="introHeader">
       <span class="introBrand" data-i18n="introBrand">Food Gallery · The Gallery of Fine Food</span>
     </header>
@@ -306,7 +1992,8 @@
         <img class="introLogo" src="images/food-gallery-logo.png" alt="Food Gallery — The Gallery of Fine Food">
         <span class="introEyebrow" data-i18n="introEyebrow">THE GALLERY OF FINE FOOD</span>
         <h1 id="introTitle" data-i18n="introTitle">เปิดโลกวัตถุดิบคุณภาพ</h1>
-        <p id="introMessage" data-i18n="introMessage">คัดสรรวัตถุดิบและสินค้าอาหารคุณภาพ เพื่อเติมเต็มทุกไอเดียในครัว</p>
+        <p id="introMessage" data-i18n="introMessage">คัดสรรวัตถุดิบและสินค้าอาหารคุณภาพ เพื่อเติมเต็มทุกไอเดียในครัว
+        </p>
       </div>
     </div>
     <footer class="introFooter">
@@ -315,33 +2002,37 @@
     </footer>
   </div>
   <script>
-    const introScreen=document.getElementById('introScreen');
-    if(!document.documentElement.classList.contains('intro-seen')){
-      const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const introScreen = document.getElementById('introScreen');
+    if (!document.documentElement.classList.contains('intro-seen')) {
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let introTimer;
-      const closeIntro=()=>{
-        if(introScreen.classList.contains('is-leaving'))return;
+      const closeIntro = () => {
+        if (introScreen.classList.contains('is-leaving')) return;
         clearTimeout(introTimer);
         introScreen.classList.add('is-leaving');
         document.documentElement.classList.add('intro-seen');
-        setTimeout(()=>{
+        setTimeout(() => {
           introScreen.remove();
-          document.querySelector('.heroActions a')?.focus({preventScroll:true});
-        },reducedMotion?0:460);
+          document.querySelector('.heroActions a')?.focus({ preventScroll: true });
+        }, reducedMotion ? 0 : 460);
       };
-      const handleIntroKeys=event=>{
-        if(event.key==='Escape')closeIntro();
-        if(event.key==='Tab'){event.preventDefault();introScreen.focus()}
+      const handleIntroKeys = event => {
+        if (event.key === 'Escape') closeIntro();
+        if (event.key === 'Tab') { event.preventDefault(); introScreen.focus() }
       };
-      document.addEventListener('keydown',handleIntroKeys);
-      introScreen.focus({preventScroll:true});
-      introTimer=setTimeout(closeIntro,reducedMotion?700:2800);
+      document.addEventListener('keydown', handleIntroKeys);
+      introScreen.focus({ preventScroll: true });
+      introTimer = setTimeout(closeIntro, reducedMotion ? 700 : 2800);
     }
   </script>
   <header class="top">
     <div class="wrap nav">
-      <button class="mobileMenuToggle" id="mobileMenuToggle" type="button" aria-expanded="false" aria-controls="mobileDrawer" aria-label="เปิดเมนู" data-i18n-aria-label="openMenu">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2"></path></svg>
+      <button class="mobileMenuToggle" id="mobileMenuToggle" type="button" aria-expanded="false"
+        aria-controls="mobileDrawer" aria-label="เปิดเมนู" data-i18n-aria-label="openMenu">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+          </path>
+        </svg>
       </button>
       <a class="brand" href="store.html" aria-label="Food Gallery หน้าแรก">
         <img class="brandLogo" src="images/food-gallery-logo.png" alt="Food Gallery — The Gallery of Fine Food">
@@ -356,27 +2047,47 @@
       </nav>
       <div class="navActions">
         <div class="languageSwitch" role="group" aria-label="เลือกภาษา" data-i18n-aria-label="chooseLanguage">
-          <button type="button" data-language="th" aria-pressed="true" aria-label="ภาษาไทย" title="ภาษาไทย"><span aria-hidden="true">TH</span></button>
-          <button type="button" data-language="en" aria-pressed="false" aria-label="English" title="English"><span aria-hidden="true">EN</span></button>
+          <button type="button" data-language="th" aria-pressed="true" aria-label="ภาษาไทย" title="ภาษาไทย"><span
+              aria-hidden="true">TH</span></button>
+          <button type="button" data-language="en" aria-pressed="false" aria-label="English" title="English"><span
+              aria-hidden="true">EN</span></button>
         </div>
-        <a class="navCta" href="store.html?page=products"><span data-i18n="navCta">เลือกชมสินค้า</span><span aria-hidden="true">→</span></a>
+        <a class="navCta" href="store.html?page=products"><span data-i18n="navCta">เลือกชมสินค้า</span><span
+            aria-hidden="true">→</span></a>
       </div>
     </div>
   </header>
   <div id="mobileMenuBackdrop" aria-hidden="true"></div>
-  <aside class="mobileDrawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-labelledby="mobileDrawerTitle" aria-hidden="true">
+  <aside class="mobileDrawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-labelledby="mobileDrawerTitle"
+    aria-hidden="true">
     <h2 class="srOnly" id="mobileDrawerTitle" tabindex="-1" data-i18n="mainMenu">เมนูหลัก</h2>
     <form class="drawerSearch" id="mobileSearchForm">
       <label class="srOnly" for="mobileSearch" data-i18n="searchProducts">ค้นหาสินค้า</label>
-      <input id="mobileSearch" type="search" placeholder="ค้นหา" aria-label="ค้นหาสินค้า" data-i18n-placeholder="drawerSearchPlaceholder" data-i18n-aria-label="searchProducts">
+      <input id="mobileSearch" type="search" placeholder="ค้นหา" aria-label="ค้นหาสินค้า"
+        data-i18n-placeholder="drawerSearchPlaceholder" data-i18n-aria-label="searchProducts">
       <button type="submit" aria-label="ค้นหา" data-i18n-aria-label="submitSearch">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="2.5"></circle><path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path></svg>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="10.8" cy="10.8" r="6.8" fill="none" stroke="currentColor" stroke-width="2.5"></circle>
+          <path d="m16 16 5 5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2.5"></path>
+        </svg>
       </button>
     </form>
     <nav class="drawerLinks" id="mobileDrawerLinks" aria-label="เมนูหลัก" data-i18n-aria-label="mainMenu"></nav>
     <div class="drawerLanguages" role="group" aria-label="เลือกภาษา" data-i18n-aria-label="chooseLanguage">
-      <button type="button" data-language="en" aria-label="English" title="English" aria-pressed="false"><svg viewBox="0 0 30 20" aria-hidden="true"><rect width="30" height="20" fill="#012169"></rect><path d="M0 0 30 20M30 0 0 20" stroke="#fff" stroke-width="5"></path><path d="M0 0 30 20M30 0 0 20" stroke="#c8102e" stroke-width="2"></path><path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="8"></path><path d="M15 0v20M0 10h30" stroke="#c8102e" stroke-width="4"></path></svg></button>
-      <button type="button" data-language="th" aria-label="ภาษาไทย" title="ภาษาไทย" aria-pressed="true"><svg viewBox="0 0 30 20" aria-hidden="true"><path fill="#a51931" d="M0 0h30v20H0z"></path><path fill="#f4f5f8" d="M0 3.33h30v13.34H0z"></path><path fill="#2d2a4a" d="M0 6.67h30v6.66H0z"></path></svg></button>
+      <button type="button" data-language="en" aria-label="English" title="English" aria-pressed="false"><svg
+          viewBox="0 0 30 20" aria-hidden="true">
+          <rect width="30" height="20" fill="#012169"></rect>
+          <path d="M0 0 30 20M30 0 0 20" stroke="#fff" stroke-width="5"></path>
+          <path d="M0 0 30 20M30 0 0 20" stroke="#c8102e" stroke-width="2"></path>
+          <path d="M15 0v20M0 10h30" stroke="#fff" stroke-width="8"></path>
+          <path d="M15 0v20M0 10h30" stroke="#c8102e" stroke-width="4"></path>
+        </svg></button>
+      <button type="button" data-language="th" aria-label="ภาษาไทย" title="ภาษาไทย" aria-pressed="true"><svg
+          viewBox="0 0 30 20" aria-hidden="true">
+          <path fill="#a51931" d="M0 0h30v20H0z"></path>
+          <path fill="#f4f5f8" d="M0 3.33h30v13.34H0z"></path>
+          <path fill="#2d2a4a" d="M0 6.67h30v6.66H0z"></path>
+        </svg></button>
     </div>
     <div class="drawerSocial" id="mobileSocial" aria-label="โซเชียลมีเดีย" data-i18n-aria-label="socialMedia"></div>
   </aside>
@@ -388,13 +2099,20 @@
           <div class="heroText">
             <span class="eyebrow" data-i18n="heroEyebrow">รวมวัตถุดิบหลากหลายหมวด</span>
             <h1 data-i18n="heroTitle">เลือกชมสินค้า<br>ที่ใช่สำหรับคุณ</h1>
-            <p data-i18n="heroDescription">ค้นพบรายการสินค้าใหม่และข่าวสารจากเรา เลือกดูตามหมวดหมู่ แล้วติดต่อทีมงานเพื่อสอบถามรายละเอียดเพิ่มเติม</p>
-            <div class="heroActions"><a class="button" href="store.html?page=products" data-i18n="heroBrowse">ดูสินค้าทั้งหมด</a><a class="button secondary" href="store.html?page=about" data-i18n="heroAbout">รู้จักเรา</a></div>
+            <p data-i18n="heroDescription">ค้นพบรายการสินค้าใหม่และข่าวสารจากเรา เลือกดูตามหมวดหมู่
+              แล้วติดต่อทีมงานเพื่อสอบถามรายละเอียดเพิ่มเติม</p>
+            <div class="heroActions"><a class="button" href="store.html?page=products"
+                data-i18n="heroBrowse">ดูสินค้าทั้งหมด</a><a class="button secondary" href="store.html?page=about"
+                data-i18n="heroAbout">รู้จักเรา</a></div>
           </div>
           <div class="heroVisual" role="group" aria-label="หมวดหมู่อาหาร" data-i18n-aria-label="heroVisual">
-            <div class="heroPhoto heroPhotoMain"><img data-src="images/category-produce.jpg" alt="ผักและผลไม้" data-i18n-alt="produce" fetchpriority="high"><span aria-hidden="true" data-i18n="produce">ผักและผลไม้</span></div>
-            <div class="heroPhoto heroPhotoTop"><img data-src="images/category-seafood.jpg" alt="อาหารทะเล" data-i18n-alt="seafood"><span aria-hidden="true" data-i18n="seafood">อาหารทะเล</span></div>
-            <div class="heroPhoto heroPhotoBottom"><img data-src="images/category-bakery.jpg" alt="ผลิตภัณฑ์ขนมอบ" data-i18n-alt="bakery"><span aria-hidden="true" data-i18n="bakery">ผลิตภัณฑ์ขนมอบ</span></div>
+            <div class="heroPhoto heroPhotoMain"><img data-src="images/category-produce.jpg" alt="ผักและผลไม้"
+                data-i18n-alt="produce" fetchpriority="high"><span aria-hidden="true"
+                data-i18n="produce">ผักและผลไม้</span></div>
+            <div class="heroPhoto heroPhotoTop"><img data-src="images/category-seafood.jpg" alt="อาหารทะเล"
+                data-i18n-alt="seafood"><span aria-hidden="true" data-i18n="seafood">อาหารทะเล</span></div>
+            <div class="heroPhoto heroPhotoBottom"><img data-src="images/category-bakery.jpg" alt="ผลิตภัณฑ์ขนมอบ"
+                data-i18n-alt="bakery"><span aria-hidden="true" data-i18n="bakery">ผลิตภัณฑ์ขนมอบ</span></div>
           </div>
         </div>
       </div>
@@ -402,16 +2120,28 @@
 
     <section class="section" id="products">
       <div class="wrap">
-        <div class="sectionHead"><div><span class="eyebrow">Our products</span><h2 id="productsTitle" data-i18n="productsTitle">เลือกชมสินค้า</h2><p id="productsDescription" data-i18n="productsDescription">แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้</p></div></div>
+        <div class="sectionHead">
+          <div><span class="eyebrow">Our products</span>
+            <h2 id="productsTitle" data-i18n="productsTitle">เลือกชมสินค้า</h2>
+            <p id="productsDescription" data-i18n="productsDescription">แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้</p>
+          </div>
+        </div>
         <div class="categoryDetail" id="categoryDetail" hidden>
           <img id="categoryDetailImage" alt="">
-          <div><p id="categoryDetailDescription"></p><p id="categoryProductCount" class="count" aria-live="polite"></p></div>
+          <div>
+            <p id="categoryDetailDescription"></p>
+            <p id="categoryProductCount" class="count" aria-live="polite"></p>
+          </div>
         </div>
         <div class="tools" id="productTools">
-          <input id="search" type="search" placeholder="ค้นหาชื่อสินค้า" aria-label="ค้นหาสินค้า" data-i18n-placeholder="searchPlaceholder" data-i18n-aria-label="searchProducts">
-          <select id="category" aria-label="กรองตามหมวดหมู่" data-i18n-aria-label="filterCategory"><option value="" data-i18n="allCategories">ทุกหมวดหมู่</option></select>
+          <input id="search" type="search" placeholder="ค้นหาชื่อสินค้า" aria-label="ค้นหาสินค้า"
+            data-i18n-placeholder="searchPlaceholder" data-i18n-aria-label="searchProducts">
+          <select id="category" aria-label="กรองตามหมวดหมู่" data-i18n-aria-label="filterCategory">
+            <option value="" data-i18n="allCategories">ทุกหมวดหมู่</option>
+          </select>
         </div>
-        <aside class="categoryOverview" id="categoryOverview" aria-label="กลุ่มสินค้าหลัก" data-i18n-aria-label="mainCategories">
+        <aside class="categoryOverview" id="categoryOverview" aria-label="กลุ่มสินค้าหลัก"
+          data-i18n-aria-label="mainCategories">
           <span class="eyebrow">Food Gallery · Categories</span>
           <h3 data-i18n="categoryTitle">เลือกชมสินค้าหลากหลายหมวด</h3>
           <p data-i18n="categoryDescription">หมวดหมู่สินค้าจากรายการที่เผยแพร่ในหน้าร้าน</p>
@@ -419,69 +2149,126 @@
         </aside>
         <div id="productsGrid" class="grid" aria-live="polite"></div>
         <p id="loadStatus" class="status" role="status">กำลังโหลดสินค้า…</p>
-        <nav id="productPagination" class="pagination" aria-label="เลือกหน้าแสดงสินค้า" data-i18n-aria-label="paginationLabel" hidden></nav>
+        <nav id="productPagination" class="pagination" aria-label="เลือกหน้าแสดงสินค้า"
+          data-i18n-aria-label="paginationLabel" hidden></nav>
       </div>
     </section>
 
     <section class="section partnerSection" id="partners">
       <div class="wrap">
         <div class="sectionHead partnerHead">
-          <div><span class="eyebrow" data-i18n="partnersEyebrow">Company Partners</span><h2 data-i18n="partnersTitle">แบรนด์และพาร์ตเนอร์</h2><p data-i18n="partnersDescription">แบรนด์ที่ปรากฏในส่วน Company Partners บนเว็บไซต์ Food Gallery</p></div>
+          <div><span class="eyebrow" data-i18n="partnersEyebrow">Company Partners</span>
+            <h2 data-i18n="partnersTitle">แบรนด์และพาร์ตเนอร์</h2>
+            <p data-i18n="partnersDescription">แบรนด์ที่ปรากฏในส่วน Company Partners บนเว็บไซต์ Food Gallery</p>
+          </div>
         </div>
         <div class="partnerCarousel">
-          <button class="partnerArrow" id="partnersPrev" type="button" aria-label="ดูแบรนด์ก่อนหน้า" data-i18n-aria-label="partnersPrevious" disabled>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 4-8 8 8 8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+          <button class="partnerArrow" id="partnersPrev" type="button" aria-label="ดูแบรนด์ก่อนหน้า"
+            data-i18n-aria-label="partnersPrevious" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m15 4-8 8 8 8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2.5"></path>
+            </svg>
           </button>
-          <div class="partnerViewport" id="partnerViewport" role="region" aria-label="รายชื่อแบรนด์และพาร์ตเนอร์" data-i18n-aria-label="partnersList" tabindex="0">
+          <div class="partnerViewport" id="partnerViewport" role="region" aria-label="รายชื่อแบรนด์และพาร์ตเนอร์"
+            data-i18n-aria-label="partnersList" tabindex="0">
             <div class="partnerTrack">
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Coolibah.png" alt="Coolibah" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_citterio.png" alt="Citterio" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_chocolatelove.png" alt="Chocolate and Love" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Blackswan.png" alt="Black Swan" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_BlackSalmon.png" alt="Black Salmon" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Basilur.png" alt="Basilur" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_ballantyne.png" alt="Ballantyne" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Avanza.png" alt="Avanza" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_zespri.png" alt="Zespri" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Zanetti.png" alt="Zanetti" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Wildalp.png" alt="Wildalp" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Washington.png" alt="Washington" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_TropicalMaria.png" alt="Tropical Maria" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_ThinChispy.png" alt="Thin Chispy" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Sunnydale.png" alt="Sunnydale" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Simpsonfarms.png" alt="Simpson Farms" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_ScottishSeafarm.png" alt="Scottish Sea Farms" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Rutherford.png" alt="Rutherford" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Prestige.png" alt="Prestige" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Piacelli.png" alt="Piacelli" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_petzel.png" alt="Petzel" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Pema.png" alt="Pema" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_pacificcheese.png" alt="Pacific Cheese" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Oyster.png" alt="Oyster" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Omega.png" alt="Omega" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_OKF.png" alt="OKF" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_NorwaySalmon.png" alt="Norway Salmon" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_NorthBeach.png" alt="North Beach" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_NorQuin-300x70.png" alt="NorQuin" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Natura.png" alt="Natura" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_MountainMist.png" alt="Mountain Mist" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Monvillage.png" alt="Monvillage" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Loison.png" alt="Loison" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Lambertz.png" alt="Lambertz" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Kizandy.png" alt="Kizandy" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Jasberry.png" alt="Jasberry" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_huontasmania.png" alt="Huon Tasmania" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Granralo.png" alt="Granarolo" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_florida.png" alt="Florida" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Fattorie-Giacobazzi.png" alt="Fattorie Giacobazzi" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_elsabroso.png" alt="El Sabroso" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Eatreal.png" alt="Eat Real" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_driscoll.png" alt="Driscoll's" loading="lazy" decoding="async"></div>
-              <div class="partnerLogo"><img src="images/partners/Brand_logo_Delifrance.png" alt="Délifrance" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Coolibah.png" alt="Coolibah" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_citterio.png" alt="Citterio" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_chocolatelove.png" alt="Chocolate and Love"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Blackswan.png" alt="Black Swan"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_BlackSalmon.png" alt="Black Salmon"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Basilur.png" alt="Basilur" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_ballantyne.png" alt="Ballantyne"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Avanza.png" alt="Avanza" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_zespri.png" alt="Zespri" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Zanetti.png" alt="Zanetti" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Wildalp.png" alt="Wildalp" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Washington.png" alt="Washington"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_TropicalMaria.png" alt="Tropical Maria"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_ThinChispy.png" alt="Thin Chispy"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Sunnydale.png" alt="Sunnydale"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Simpsonfarms.png" alt="Simpson Farms"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_ScottishSeafarm.png"
+                  alt="Scottish Sea Farms" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Rutherford.png" alt="Rutherford"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Prestige.png" alt="Prestige" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Piacelli.png" alt="Piacelli" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_petzel.png" alt="Petzel" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Pema.png" alt="Pema" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_pacificcheese.png" alt="Pacific Cheese"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Oyster.png" alt="Oyster" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Omega.png" alt="Omega" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_OKF.png" alt="OKF" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_NorwaySalmon.png" alt="Norway Salmon"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_NorthBeach.png" alt="North Beach"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_NorQuin-300x70.png" alt="NorQuin"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Natura.png" alt="Natura" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_MountainMist.png" alt="Mountain Mist"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Monvillage.png" alt="Monvillage"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Loison.png" alt="Loison" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Lambertz.png" alt="Lambertz" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Kizandy.png" alt="Kizandy" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Jasberry.png" alt="Jasberry" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_huontasmania.png" alt="Huon Tasmania"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Granralo.png" alt="Granarolo" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_florida.png" alt="Florida" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Fattorie-Giacobazzi.png"
+                  alt="Fattorie Giacobazzi" loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_elsabroso.png" alt="El Sabroso"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Eatreal.png" alt="Eat Real" loading="lazy"
+                  decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_driscoll.png" alt="Driscoll's"
+                  loading="lazy" decoding="async"></div>
+              <div class="partnerLogo"><img src="images/partners/Brand_logo_Delifrance.png" alt="Délifrance"
+                  loading="lazy" decoding="async"></div>
             </div>
           </div>
-          <button class="partnerArrow" id="partnersNext" type="button" aria-label="ดูแบรนด์ถัดไป" data-i18n-aria-label="partnersNext">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 4 8 8-8 8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+          <button class="partnerArrow" id="partnersNext" type="button" aria-label="ดูแบรนด์ถัดไป"
+            data-i18n-aria-label="partnersNext">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m9 4 8 8-8 8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2.5"></path>
+            </svg>
           </button>
         </div>
       </div>
@@ -489,52 +2276,95 @@
 
     <section class="section soft" id="activities">
       <div class="wrap">
-        <div class="sectionHead"><div><span class="eyebrow">What's happening</span><h2 data-i18n="activitiesTitle">กิจกรรม</h2><p data-i18n="activitiesDescription">ข่าวสารและกิจกรรมจาก Food Gallery</p></div></div>
+        <div class="sectionHead">
+          <div><span class="eyebrow">What's happening</span>
+            <h2 data-i18n="activitiesTitle">กิจกรรม</h2>
+            <p data-i18n="activitiesDescription">ข่าวสารและกิจกรรมจาก Food Gallery</p>
+          </div>
+        </div>
         <div class="infoGrid">
-          <article class="infoCard"><span class="eyebrow">News & events</span><h3 data-i18n="followActivities">ติดตามกิจกรรมของเรา</h3><p data-i18n="noActivities">ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้</p></article>
-          <article class="infoCard"><span class="eyebrow">Community</span><h3 data-i18n="seeYouSoon">พบกันในโอกาสต่อไป</h3><p data-i18n="activitiesAnnounced">รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ</p></article>
+          <article class="infoCard"><span class="eyebrow">News & events</span>
+            <h3 data-i18n="followActivities">ติดตามกิจกรรมของเรา</h3>
+            <p data-i18n="noActivities">ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้</p>
+          </article>
+          <article class="infoCard"><span class="eyebrow">Community</span>
+            <h3 data-i18n="seeYouSoon">พบกันในโอกาสต่อไป</h3>
+            <p data-i18n="activitiesAnnounced">รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ</p>
+          </article>
         </div>
       </div>
     </section>
 
     <section class="section" id="new">
       <div class="wrap">
-        <div class="sectionHead"><div><span class="eyebrow">Just arrived</span><h2 data-i18n="newTitle">สินค้าใหม่</h2><p data-i18n="newDescription">รายการล่าสุดที่เผยแพร่บนหน้าร้าน</p></div></div>
+        <div class="sectionHead">
+          <div><span class="eyebrow">Just arrived</span>
+            <h2 data-i18n="newTitle">สินค้าใหม่</h2>
+            <p data-i18n="newDescription">รายการล่าสุดที่เผยแพร่บนหน้าร้าน</p>
+          </div>
+        </div>
         <div id="newGrid" class="newGrid"></div>
       </div>
     </section>
 
     <section class="section soft" id="promotions">
       <div class="wrap">
-        <div class="sectionHead"><div><span class="eyebrow">Special offers</span><h2 data-i18n="promotionsTitle">โปรโมชั่น</h2><p data-i18n="promotionsDescription">ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา</p></div></div>
-        <div class="infoCard"><h3 data-i18n="noPromotions">ยังไม่มีโปรโมชั่นที่ประกาศ</h3><p data-i18n="promotionsUpdated">เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้</p></div>
+        <div class="sectionHead">
+          <div><span class="eyebrow">Special offers</span>
+            <h2 data-i18n="promotionsTitle">โปรโมชั่น</h2>
+            <p data-i18n="promotionsDescription">ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา</p>
+          </div>
+        </div>
+        <div class="infoCard">
+          <h3 data-i18n="noPromotions">ยังไม่มีโปรโมชั่นที่ประกาศ</h3>
+          <p data-i18n="promotionsUpdated">เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้</p>
+        </div>
       </div>
     </section>
 
     <section class="section" id="about">
       <div class="wrap about">
-        <div><span class="eyebrow">About Food Gallery Limited</span><h2 data-i18n="aboutTitle">เกี่ยวกับเรา</h2><p data-i18n="aboutDescription">Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ ผลิตภัณฑ์จากนม และขนมขบเคี้ยว</p><p data-i18n="aboutStorefront">หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง</p></div>
-        <div class="aboutArt" aria-hidden="true"><img src="images/about-food-gallery.jpg" alt="" width="900" height="900" loading="lazy" decoding="async"></div>
+        <div><span class="eyebrow">About Food Gallery Limited</span>
+          <h2 data-i18n="aboutTitle">เกี่ยวกับเรา</h2>
+          <p data-i18n="aboutDescription">Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร
+            โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ
+            ผลิตภัณฑ์จากนม และขนมขบเคี้ยว</p>
+          <p data-i18n="aboutStorefront">หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก
+            โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง</p>
+        </div>
+        <div class="aboutArt" aria-hidden="true"><img src="images/about-food-gallery.jpg" alt="" width="900"
+            height="900" loading="lazy" decoding="async"></div>
       </div>
     </section>
 
     <section class="section" id="contact">
       <div class="wrap">
-        <div class="sectionHead"><div><span class="eyebrow">Get in touch</span><h2 data-i18n="contactTitle">ติดต่อเรา</h2><p id="contactDescription" data-i18n="contactMessage">สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง</p></div></div>
+        <div class="sectionHead">
+          <div><span class="eyebrow">Get in touch</span>
+            <h2 data-i18n="contactTitle">ติดต่อเรา</h2>
+            <p id="contactDescription" data-i18n="contactMessage">
+              สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง</p>
+          </div>
+        </div>
         <div class="contactMap">
-          <iframe title="Food Gallery Limited map" data-i18n-title="contactMapTitle" src="https://www.google.com/maps?q=Food%20Gallery%20Limited%2C%20Bangkok%2C%20Thailand&amp;output=embed" loading="lazy" referrerpolicy="no-referrer"></iframe>
+          <iframe title="Food Gallery Limited map" data-i18n-title="contactMapTitle"
+            src="https://www.google.com/maps?q=Food%20Gallery%20Limited%2C%20Bangkok%2C%20Thailand&amp;output=embed"
+            loading="lazy" referrerpolicy="no-referrer"></iframe>
         </div>
         <div class="contactPageGrid">
           <div class="contactFormPanel">
             <h3 data-i18n="contactFormTitle">ส่งข้อความถึงเรา</h3>
-            <p data-i18n="contactFormNote">เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง</p>
+            <p data-i18n="contactFormNote">เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ
+              คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง</p>
             <form id="contactForm" class="contactForm">
               <div class="contactFields">
                 <label for="contactFirstName"><span data-i18n="contactFirstName">ชื่อ</span>
-                  <input id="contactFirstName" name="firstName" type="text" autocomplete="given-name" maxlength="60" required>
+                  <input id="contactFirstName" name="firstName" type="text" autocomplete="given-name" maxlength="60"
+                    required>
                 </label>
                 <label for="contactLastName"><span data-i18n="contactLastName">นามสกุล</span>
-                  <input id="contactLastName" name="lastName" type="text" autocomplete="family-name" maxlength="60" required>
+                  <input id="contactLastName" name="lastName" type="text" autocomplete="family-name" maxlength="60"
+                    required>
                 </label>
                 <label for="contactEmail"><span data-i18n="email">อีเมล</span>
                   <input id="contactEmail" name="email" type="email" autocomplete="email" maxlength="254" required>
@@ -549,11 +2379,14 @@
               <label for="contactMessageText"><span data-i18n="contactMessageField">ข้อความ</span>
                 <textarea id="contactMessageText" name="message" rows="5" maxlength="2000" required></textarea>
               </label>
-              <div class="contactFormActions"><button type="submit" data-i18n="contactSend">ส่งข้อความทางอีเมล</button></div>
+              <div class="contactFormActions"><button type="submit" data-i18n="contactSend">ส่งข้อความทางอีเมล</button>
+              </div>
             </form>
           </div>
           <div class="contactBox">
-            <div><span class="eyebrow" style="color:#fff">Get in touch</span><h2 data-i18n="contactDetailsTitle">ช่องทางติดต่อ</h2></div>
+            <div><span class="eyebrow" style="color:#fff">Get in touch</span>
+              <h2 data-i18n="contactDetailsTitle">ช่องทางติดต่อ</h2>
+            </div>
             <div id="contactWays" class="contactWays"></div>
           </div>
         </div>
@@ -561,504 +2394,510 @@
     </section>
   </main>
 
-  <footer><div class="wrap foot"><span>© 2026 Food Gallery Limited. All rights reserved.</span><a href="THIRD_PARTY_NOTICES.txt" data-i18n="notices">ประกาศสิทธิ์และใบอนุญาต</a></div></footer>
+  <footer>
+    <div class="wrap foot"><span>© 2026 Food Gallery Limited. All rights reserved.</span><a
+        href="THIRD_PARTY_NOTICES.txt" data-i18n="notices">ประกาศสิทธิ์และใบอนุญาต</a></div>
+  </footer>
 
   <dialog id="productDialog" aria-labelledby="modalTitle">
     <button class="modalClose" id="modalClose" aria-label="ปิด" data-i18n-aria-label="close">×</button>
     <img id="modalImage" class="modalPhoto" alt="" hidden>
-    <p id="modalCategory" class="tag"></p><h2 id="modalTitle"></h2>
+    <p id="modalCategory" class="tag"></p>
+    <h2 id="modalTitle"></h2>
     <h3 class="modalDetailTitle" data-i18n="productDescriptionLabel">รายละเอียดสินค้า</h3>
     <p id="modalDescription" class="modalDescription"></p>
-    <p class="muted"><span data-i18n="modalContactPrompt">สอบถามรายละเอียดเพิ่มเติมได้ทาง</span> <a href="store.html?page=contact" id="modalContact" data-i18n="navContact">ติดต่อเรา</a></p>
+    <p class="muted"><span data-i18n="modalContactPrompt">สอบถามรายละเอียดเพิ่มเติมได้ทาง</span> <a
+        href="store.html?page=contact" id="modalContact" data-i18n="navContact">ติดต่อเรา</a></p>
   </dialog>
 
   <script>
-    const $=id=>document.getElementById(id);
-    const imageCache=new Map();
-    let allProducts=[];
-    let allCategories=[];
-    let currentContact={};
-    let productsLoaded=false;
-    let productsLoadFailed=false;
-    const PRODUCTS_PER_PAGE=12;
-    let currentProductPage=1;
-    const translations={
-      th:{
-        introBrand:'Food Gallery · The Gallery of Fine Food',introEyebrow:'THE GALLERY OF FINE FOOD',introTitle:'เปิดโลกวัตถุดิบคุณภาพ',introMessage:'คัดสรรวัตถุดิบและสินค้าอาหารคุณภาพ เพื่อเติมเต็มทุกไอเดียในครัว',introLoading:'กำลังเปิดโลกแห่งรสชาติ',
-        mainMenu:'เมนูหลัก',chooseLanguage:'เลือกภาษา',openMenu:'เปิดเมนู',closeMenu:'ปิดเมนู',drawerSearchPlaceholder:'ค้นหาสินค้า',submitSearch:'ค้นหา',socialMedia:'โซเชียลมีเดีย',navProducts:'สินค้า',navActivities:'กิจกรรม',navNew:'สินค้าใหม่',navPromotions:'โปรโมชั่น',navAbout:'เกี่ยวกับเรา',navContact:'ติดต่อเรา',navCta:'เลือกชมสินค้า',
-        partnersEyebrow:'Company Partners',partnersTitle:'แบรนด์และพาร์ตเนอร์',partnersDescription:'แบรนด์ที่ปรากฏในส่วน Company Partners บนเว็บไซต์ Food Gallery',partnersPrevious:'ดูแบรนด์ก่อนหน้า',partnersNext:'ดูแบรนด์ถัดไป',partnersList:'รายชื่อแบรนด์และพาร์ตเนอร์',
-        heroEyebrow:'รวมวัตถุดิบหลากหลายหมวด',heroVisual:'หมวดหมู่อาหาร',heroTitle:'วัตถุดิบหลากหลาย\nเพื่อทุกไอเดียอาหาร',heroDescription:'สำรวจสินค้าอาหารจากหลากหลายหมวดหมู่ เลือกชมรายการที่ทีมงานเผยแพร่ และติดต่อเราเพื่อสอบถามรายละเอียดเพิ่มเติม',heroBrowse:'ดูสินค้าทั้งหมด',heroAbout:'รู้จักเรา',
-        productsTitle:'เลือกชมสินค้า',productsDescription:'แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้',categoryPageTitle:'หมวดสินค้า',categoryPageDescription:'เลือกชมสินค้าทั้งหมดในหมวดนี้',categoryItemCount:'สินค้าหมวดนี้ {count} รายการ',categoryGenericDescription:'เลือกชมสินค้าที่เผยแพร่ในหมวดนี้',noCategories:'ยังไม่มีหมวดหมู่สินค้าที่เผยแพร่',searchPlaceholder:'ค้นหาชื่อสินค้า',searchProducts:'ค้นหาสินค้า',filterCategory:'กรองตามหมวดหมู่',allCategories:'ทุกหมวดหมู่',mainCategories:'กลุ่มสินค้าหลัก',categoryTitle:'เลือกชมสินค้าหลากหลายหมวด',categoryDescription:'หมวดหมู่อาหารและประเภทสินค้าที่เผยแพร่ในหน้าร้าน',
-        produce:'ผักและผลไม้',freshProduce:'รวมผักสดและผลไม้สดหลากหลายชนิด สำหรับเลือกชมเป็นวัตถุดิบในเมนูต่าง ๆ',meat:'เนื้อสัตว์',freshFrozenMeat:'เนื้อสัตว์แช่เย็นและแช่แข็ง สำหรับเมนูอาหารหลากหลาย',seafood:'อาหารทะเล',freshFrozenSeafood:'อาหารทะเลสดและแช่แข็ง สำหรับเมนูคาวและเมนูพิเศษ',beverages:'เครื่องดื่ม',beveragesDescription:'เครื่องดื่มหลากหลายประเภท ตั้งแต่น้ำผลไม้ น้ำดื่ม นม ไปจนถึงชา',grocery:'อาหารแห้ง',groceryDescription:'อาหารแห้งและธัญพืช สำหรับจัดเก็บและใช้ประกอบอาหาร',bakery:'ผลิตภัณฑ์ขนมอบ',bakeryDescription:'ขนมอบหลากหลาย เช่น เค้ก ขนมปัง และขนมปังแช่แข็ง',dairy:'นมและผลิตภัณฑ์จากนม',dairyDescription:'ผลิตภัณฑ์จากนม เช่น ไอศกรีม เนย ชีส และครีม',snacks:'ขนมขบเคี้ยว',snacksDescription:'ขนมขบเคี้ยวและของหวาน เช่น ลูกอม ช็อกโกแลต และขนมกรุบกรอบ',
-        activitiesTitle:'กิจกรรม',activitiesDescription:'ข่าวสารและกิจกรรมจาก Food Gallery',followActivities:'ติดตามกิจกรรมของเรา',noActivities:'ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้',seeYouSoon:'พบกันในโอกาสต่อไป',activitiesAnnounced:'รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ',
-        newTitle:'สินค้าใหม่',newDescription:'รายการล่าสุดที่เผยแพร่บนหน้าร้าน',promotionsTitle:'โปรโมชั่น',promotionsDescription:'ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา',noPromotions:'ยังไม่มีโปรโมชั่นที่ประกาศ',promotionsUpdated:'เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้',
-        aboutTitle:'เกี่ยวกับเรา',aboutDescription:'Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักและผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ผลิตภัณฑ์ขนมอบ นมและผลิตภัณฑ์จากนม และขนมขบเคี้ยว',aboutStorefront:'หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง',
-        contactTitle:'ติดต่อเรา',contactMessage:'สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง',contactDetailsTitle:'ช่องทางติดต่อ',contactMapTitle:'แผนที่สำนักงาน Food Gallery Limited',contactFormTitle:'ส่งข้อความถึงเรา',contactFormNote:'เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง',contactFirstName:'ชื่อ',contactLastName:'นามสกุล',contactSubjectField:'หัวข้อ',contactMessageField:'ข้อความ',contactSend:'ส่งข้อความทางอีเมล',contactMailSubject:'ติดต่อจากเว็บไซต์',contactNameLabel:'ชื่อ',notices:'ประกาศสิทธิ์และใบอนุญาต',close:'ปิด',modalContactPrompt:'สอบถามรายละเอียดเพิ่มเติมได้ทาง',
-        homeTitle:'สินค้าและข่าวสาร | Food Gallery',loadingProducts:'กำลังโหลดสินค้า…',showingCount:'แสดง {start}–{end} จาก {total} รายการ',previousPage:'ก่อนหน้า',nextPage:'ถัดไป',goToPage:'ไปหน้าที่ {page}',paginationLabel:'เลือกหน้าแสดงสินค้า',noMatchingProducts:'ยังไม่มีสินค้าที่ตรงกับการค้นหา',noCategoryProducts:'ยังไม่มีสินค้าที่เผยแพร่ในหมวดนี้',noPublishedProducts:'ยังไม่มีสินค้าที่เผยแพร่',noNewProducts:'ยังไม่มีสินค้าใหม่ที่เผยแพร่',loadFailed:'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง',unableProducts:'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้',imageUnavailable:'รูปภาพไม่พร้อมใช้งาน',product:'สินค้า',productDetails:'ดูรายละเอียด',productDescriptionLabel:'รายละเอียดสินค้า',noProductDescription:'ยังไม่มีรายละเอียดสินค้า',email:'อีเมล',phone:'โทร',officialSite:'เว็บไซต์ Food Gallery',metaDescription:'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
+    const $ = id => document.getElementById(id);
+    const imageCache = new Map();
+    let allProducts = [];
+    let allCategories = [];
+    let currentContact = {};
+    let productsLoaded = false;
+    let productsLoadFailed = false;
+    const PRODUCTS_PER_PAGE = 12;
+    let currentProductPage = 1;
+    const translations = {
+      th: {
+        introBrand: 'Food Gallery · The Gallery of Fine Food', introEyebrow: 'THE GALLERY OF FINE FOOD', introTitle: 'เปิดโลกวัตถุดิบคุณภาพ', introMessage: 'คัดสรรวัตถุดิบและสินค้าอาหารคุณภาพ เพื่อเติมเต็มทุกไอเดียในครัว', introLoading: 'กำลังเปิดโลกแห่งรสชาติ',
+        mainMenu: 'เมนูหลัก', chooseLanguage: 'เลือกภาษา', openMenu: 'เปิดเมนู', closeMenu: 'ปิดเมนู', drawerSearchPlaceholder: 'ค้นหาสินค้า', submitSearch: 'ค้นหา', socialMedia: 'โซเชียลมีเดีย', navProducts: 'สินค้า', navActivities: 'กิจกรรม', navNew: 'สินค้าใหม่', navPromotions: 'โปรโมชั่น', navAbout: 'เกี่ยวกับเรา', navContact: 'ติดต่อเรา', navCta: 'เลือกชมสินค้า',
+        partnersEyebrow: 'Company Partners', partnersTitle: 'แบรนด์และพาร์ตเนอร์', partnersDescription: 'แบรนด์ที่ปรากฏในส่วน Company Partners บนเว็บไซต์ Food Gallery', partnersPrevious: 'ดูแบรนด์ก่อนหน้า', partnersNext: 'ดูแบรนด์ถัดไป', partnersList: 'รายชื่อแบรนด์และพาร์ตเนอร์',
+        heroEyebrow: 'รวมวัตถุดิบหลากหลายหมวด', heroVisual: 'หมวดหมู่อาหาร', heroTitle: 'วัตถุดิบหลากหลาย\nเพื่อทุกไอเดียอาหาร', heroDescription: 'สำรวจสินค้าอาหารจากหลากหลายหมวดหมู่ เลือกชมรายการที่ทีมงานเผยแพร่ และติดต่อเราเพื่อสอบถามรายละเอียดเพิ่มเติม', heroBrowse: 'ดูสินค้าทั้งหมด', heroAbout: 'รู้จักเรา',
+        productsTitle: 'เลือกชมสินค้า', productsDescription: 'แสดงเฉพาะสินค้าที่ทีมงานเผยแพร่ไว้', categoryPageTitle: 'หมวดสินค้า', categoryPageDescription: 'เลือกชมสินค้าทั้งหมดในหมวดนี้', categoryItemCount: 'สินค้าหมวดนี้ {count} รายการ', categoryGenericDescription: 'เลือกชมสินค้าที่เผยแพร่ในหมวดนี้', noCategories: 'ยังไม่มีหมวดหมู่สินค้าที่เผยแพร่', searchPlaceholder: 'ค้นหาชื่อสินค้า', searchProducts: 'ค้นหาสินค้า', filterCategory: 'กรองตามหมวดหมู่', allCategories: 'ทุกหมวดหมู่', mainCategories: 'กลุ่มสินค้าหลัก', categoryTitle: 'เลือกชมสินค้าหลากหลายหมวด', categoryDescription: 'หมวดหมู่อาหารและประเภทสินค้าที่เผยแพร่ในหน้าร้าน',
+        produce: 'ผักและผลไม้', freshProduce: 'รวมผักสดและผลไม้สดหลากหลายชนิด สำหรับเลือกชมเป็นวัตถุดิบในเมนูต่าง ๆ', meat: 'เนื้อสัตว์', freshFrozenMeat: 'เนื้อสัตว์แช่เย็นและแช่แข็ง สำหรับเมนูอาหารหลากหลาย', seafood: 'อาหารทะเล', freshFrozenSeafood: 'อาหารทะเลสดและแช่แข็ง สำหรับเมนูคาวและเมนูพิเศษ', beverages: 'เครื่องดื่ม', beveragesDescription: 'เครื่องดื่มหลากหลายประเภท ตั้งแต่น้ำผลไม้ น้ำดื่ม นม ไปจนถึงชา', grocery: 'อาหารแห้ง', groceryDescription: 'อาหารแห้งและธัญพืช สำหรับจัดเก็บและใช้ประกอบอาหาร', bakery: 'ผลิตภัณฑ์ขนมอบ', bakeryDescription: 'ขนมอบหลากหลาย เช่น เค้ก ขนมปัง และขนมปังแช่แข็ง', dairy: 'นมและผลิตภัณฑ์จากนม', dairyDescription: 'ผลิตภัณฑ์จากนม เช่น ไอศกรีม เนย ชีส และครีม', snacks: 'ขนมขบเคี้ยว', snacksDescription: 'ขนมขบเคี้ยวและของหวาน เช่น ลูกอม ช็อกโกแลต และขนมกรุบกรอบ',
+        activitiesTitle: 'กิจกรรม', activitiesDescription: 'ข่าวสารและกิจกรรมจาก Food Gallery', followActivities: 'ติดตามกิจกรรมของเรา', noActivities: 'ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้', seeYouSoon: 'พบกันในโอกาสต่อไป', activitiesAnnounced: 'รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ',
+        newTitle: 'สินค้าใหม่', newDescription: 'รายการล่าสุดที่เผยแพร่บนหน้าร้าน', promotionsTitle: 'โปรโมชั่น', promotionsDescription: 'ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา', noPromotions: 'ยังไม่มีโปรโมชั่นที่ประกาศ', promotionsUpdated: 'เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้',
+        aboutTitle: 'เกี่ยวกับเรา', aboutDescription: 'Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักและผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ผลิตภัณฑ์ขนมอบ นมและผลิตภัณฑ์จากนม และขนมขบเคี้ยว', aboutStorefront: 'หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง',
+        contactTitle: 'ติดต่อเรา', contactMessage: 'สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง', contactDetailsTitle: 'ช่องทางติดต่อ', contactMapTitle: 'แผนที่สำนักงาน Food Gallery Limited', contactFormTitle: 'ส่งข้อความถึงเรา', contactFormNote: 'เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง', contactFirstName: 'ชื่อ', contactLastName: 'นามสกุล', contactSubjectField: 'หัวข้อ', contactMessageField: 'ข้อความ', contactSend: 'ส่งข้อความทางอีเมล', contactMailSubject: 'ติดต่อจากเว็บไซต์', contactNameLabel: 'ชื่อ', notices: 'ประกาศสิทธิ์และใบอนุญาต', close: 'ปิด', modalContactPrompt: 'สอบถามรายละเอียดเพิ่มเติมได้ทาง',
+        homeTitle: 'สินค้าและข่าวสาร | Food Gallery', loadingProducts: 'กำลังโหลดสินค้า…', showingCount: 'แสดง {start}–{end} จาก {total} รายการ', previousPage: 'ก่อนหน้า', nextPage: 'ถัดไป', goToPage: 'ไปหน้าที่ {page}', paginationLabel: 'เลือกหน้าแสดงสินค้า', noMatchingProducts: 'ยังไม่มีสินค้าที่ตรงกับการค้นหา', noCategoryProducts: 'ยังไม่มีสินค้าที่เผยแพร่ในหมวดนี้', noPublishedProducts: 'ยังไม่มีสินค้าที่เผยแพร่', noNewProducts: 'ยังไม่มีสินค้าใหม่ที่เผยแพร่', loadFailed: 'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง', unableProducts: 'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้', imageUnavailable: 'รูปภาพไม่พร้อมใช้งาน', product: 'สินค้า', productDetails: 'ดูรายละเอียด', productDescriptionLabel: 'รายละเอียดสินค้า', noProductDescription: 'ยังไม่มีรายละเอียดสินค้า', email: 'อีเมล', phone: 'โทร', metaDescription: 'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
       },
-      en:{
-        introBrand:'Food Gallery · The Gallery of Fine Food',introEyebrow:'THE GALLERY OF FINE FOOD',introTitle:'A world of fine ingredients',introMessage:'Carefully selected food products to inspire every idea in your kitchen.',introLoading:'Discover a world of fine food',
-        mainMenu:'Main menu',chooseLanguage:'Choose language',openMenu:'Open menu',closeMenu:'Close menu',drawerSearchPlaceholder:'Search',submitSearch:'Search',socialMedia:'Social media',navProducts:'Products',navActivities:'Activities',navNew:'New arrivals',navPromotions:'Promotions',navAbout:'About us',navContact:'Contact',navCta:'Browse products',
-        partnersEyebrow:'Company Partners',partnersTitle:'Brands and partners',partnersDescription:'Brands featured in the Company Partners section on the Food Gallery website.',partnersPrevious:'View previous brands',partnersNext:'View next brands',partnersList:'Brand and partner logos',partnersSource:'Listed in the Company Partners section on the',partnersSourceLink:'Food Gallery website',
-        heroEyebrow:'A curated food collection',heroVisual:'Featured food categories',heroTitle:'A world of ingredients\nfor every food idea',heroDescription:'Explore food products across a range of categories. Browse items published by our team, then contact us for more information.',heroBrowse:'Browse all products',heroAbout:'About us',
-        productsTitle:'Browse products',productsDescription:'Showing products published by our team.',categoryPageTitle:'Product category',categoryPageDescription:'Browse all products in this category.',categoryItemCount:'{count} products in this category',categoryGenericDescription:'Browse published products in this category.',noCategories:'No published product categories yet.',searchPlaceholder:'Search product names',searchProducts:'Search products',filterCategory:'Filter by category',allCategories:'All categories',mainCategories:'Main categories',categoryTitle:'Explore our product range',categoryDescription:'Food categories and other categories with published products.',
-        produce:'Produce',freshProduce:'A selection of fresh vegetables and fruit for a range of dishes.',meat:'Meat',freshFrozenMeat:'Chilled and frozen meat for a variety of meals.',seafood:'Seafood',freshFrozenSeafood:'Fresh and frozen seafood for everyday dishes and special meals.',beverages:'Beverage',beveragesDescription:'Drinks including juice, water, milk and tea.',grocery:'Grocery',groceryDescription:'Pantry goods and grains for convenient storage and cooking.',bakery:'Bakery',bakeryDescription:'Baked goods including cakes, bread and frozen bakery.',dairy:'Dairy',dairyDescription:'Dairy products including ice cream, butter, cheese and cream.',snacks:'Snacks',snacksDescription:'Snacks and sweets including candy, chocolate and savory bites.',
-        activitiesTitle:'Activities',activitiesDescription:'News and activities from Food Gallery',followActivities:'Follow our activities',noActivities:'There are no new activity announcements yet. Please check back for updates.',seeYouSoon:'See you next time',activitiesAnnounced:'Activity details will be announced once officially confirmed.',
-        newTitle:'New arrivals',newDescription:'The latest products published in our store',promotionsTitle:'Promotions',promotionsDescription:'Check our channels for promotion announcements',noPromotions:'No promotions have been announced yet',promotionsUpdated:'We will update this page when new promotions are available.',
-        aboutTitle:'About us',aboutDescription:'Food Gallery Limited imports and distributes a wide range of food products, from fresh produce, meat and seafood to beverages, groceries, bakery products, dairy and snacks.',aboutStorefront:'This storefront features products selected for publication by our team. Inventory quantities, reorder points and warehouse locations are not shown.',
-        contactTitle:'Contact us',contactMessage:'For product enquiries and more information, please use the contact details below.',contactDetailsTitle:'Contact details',contactMapTitle:'Food Gallery Limited office map',contactFormTitle:'Send us a message',contactFormNote:'Submitting opens a draft in your email app. You will need to confirm sending it there.',contactFirstName:'First name',contactLastName:'Last name',contactSubjectField:'Subject',contactMessageField:'Message',contactSend:'Send by email',contactMailSubject:'Website enquiry',contactNameLabel:'Name',notices:'Notices & licenses',close:'Close',modalContactPrompt:'For more information, contact us via',
-        homeTitle:'Products and News | Food Gallery',loadingProducts:'Loading products…',showingCount:'Showing {start}–{end} of {total} products',previousPage:'Previous',nextPage:'Next',goToPage:'Go to page {page}',paginationLabel:'Product pages',noMatchingProducts:'No products match your search.',noCategoryProducts:'No published products in this category yet.',noPublishedProducts:'No products have been published.',noNewProducts:'No new products have been published.',loadFailed:'Could not load data. Please try again later.',unableProducts:'Unable to connect to product data.',imageUnavailable:'Image unavailable',product:'Product',productDetails:'View details',productDescriptionLabel:'Product details',noProductDescription:'No product details have been added yet.',email:'Email',phone:'Phone',officialSite:'Food Gallery website',metaDescription:'Browse new products, activities and promotions from Food Gallery'
+      en: {
+        introBrand: 'Food Gallery · The Gallery of Fine Food', introEyebrow: 'THE GALLERY OF FINE FOOD', introTitle: 'A world of fine ingredients', introMessage: 'Carefully selected food products to inspire every idea in your kitchen.', introLoading: 'Discover a world of fine food',
+        mainMenu: 'Main menu', chooseLanguage: 'Choose language', openMenu: 'Open menu', closeMenu: 'Close menu', drawerSearchPlaceholder: 'Search', submitSearch: 'Search', socialMedia: 'Social media', navProducts: 'Products', navActivities: 'Activities', navNew: 'New arrivals', navPromotions: 'Promotions', navAbout: 'About us', navContact: 'Contact', navCta: 'Browse products',
+        partnersEyebrow: 'Company Partners', partnersTitle: 'Brands and partners', partnersDescription: 'Brands featured in the Company Partners section on the Food Gallery website.', partnersPrevious: 'View previous brands', partnersNext: 'View next brands', partnersList: 'Brand and partner logos', partnersSource: 'Listed in the Company Partners section on the', partnersSourceLink: 'Food Gallery website',
+        heroEyebrow: 'A curated food collection', heroVisual: 'Featured food categories', heroTitle: 'A world of ingredients\nfor every food idea', heroDescription: 'Explore food products across a range of categories. Browse items published by our team, then contact us for more information.', heroBrowse: 'Browse all products', heroAbout: 'About us',
+        productsTitle: 'Browse products', productsDescription: 'Showing products published by our team.', categoryPageTitle: 'Product category', categoryPageDescription: 'Browse all products in this category.', categoryItemCount: '{count} products in this category', categoryGenericDescription: 'Browse published products in this category.', noCategories: 'No published product categories yet.', searchPlaceholder: 'Search product names', searchProducts: 'Search products', filterCategory: 'Filter by category', allCategories: 'All categories', mainCategories: 'Main categories', categoryTitle: 'Explore our product range', categoryDescription: 'Food categories and other categories with published products.',
+        produce: 'Produce', freshProduce: 'A selection of fresh vegetables and fruit for a range of dishes.', meat: 'Meat', freshFrozenMeat: 'Chilled and frozen meat for a variety of meals.', seafood: 'Seafood', freshFrozenSeafood: 'Fresh and frozen seafood for everyday dishes and special meals.', beverages: 'Beverage', beveragesDescription: 'Drinks including juice, water, milk and tea.', grocery: 'Grocery', groceryDescription: 'Pantry goods and grains for convenient storage and cooking.', bakery: 'Bakery', bakeryDescription: 'Baked goods including cakes, bread and frozen bakery.', dairy: 'Dairy', dairyDescription: 'Dairy products including ice cream, butter, cheese and cream.', snacks: 'Snacks', snacksDescription: 'Snacks and sweets including candy, chocolate and savory bites.',
+        activitiesTitle: 'Activities', activitiesDescription: 'News and activities from Food Gallery', followActivities: 'Follow our activities', noActivities: 'There are no new activity announcements yet. Please check back for updates.', seeYouSoon: 'See you next time', activitiesAnnounced: 'Activity details will be announced once officially confirmed.',
+        newTitle: 'New arrivals', newDescription: 'The latest products published in our store', promotionsTitle: 'Promotions', promotionsDescription: 'Check our channels for promotion announcements', noPromotions: 'No promotions have been announced yet', promotionsUpdated: 'We will update this page when new promotions are available.',
+        aboutTitle: 'About us', aboutDescription: 'Food Gallery Limited imports and distributes a wide range of food products, from fresh produce, meat and seafood to beverages, groceries, bakery products, dairy and snacks.', aboutStorefront: 'This storefront features products selected for publication by our team. Inventory quantities, reorder points and warehouse locations are not shown.',
+        contactTitle: 'Contact us', contactMessage: 'For product enquiries and more information, please use the contact details below.', contactDetailsTitle: 'Contact details', contactMapTitle: 'Food Gallery Limited office map', contactFormTitle: 'Send us a message', contactFormNote: 'Submitting opens a draft in your email app. You will need to confirm sending it there.', contactFirstName: 'First name', contactLastName: 'Last name', contactSubjectField: 'Subject', contactMessageField: 'Message', contactSend: 'Send by email', contactMailSubject: 'Website enquiry', contactNameLabel: 'Name', notices: 'Notices & licenses', close: 'Close', modalContactPrompt: 'For more information, contact us via',
+        homeTitle: 'Products and News | Food Gallery', loadingProducts: 'Loading products…', showingCount: 'Showing {start}–{end} of {total} products', previousPage: 'Previous', nextPage: 'Next', goToPage: 'Go to page {page}', paginationLabel: 'Product pages', noMatchingProducts: 'No products match your search.', noCategoryProducts: 'No published products in this category yet.', noPublishedProducts: 'No products have been published.', noNewProducts: 'No new products have been published.', loadFailed: 'Could not load data. Please try again later.', unableProducts: 'Unable to connect to product data.', imageUnavailable: 'Image unavailable', product: 'Product', productDetails: 'View details', productDescriptionLabel: 'Product details', noProductDescription: 'No product details have been added yet.', email: 'Email', phone: 'Phone', metaDescription: 'Browse new products, activities and promotions from Food Gallery'
       }
     };
-    const categoryTranslations={
-      'ผักและผลไม้':'Produce','เนื้อสัตว์':'Meat','อาหารทะเล':'Seafood','เครื่องดื่ม':'Beverage','อาหารแห้ง':'Grocery','ผลิตภัณฑ์ขนมอบ':'Bakery','นมและผลิตภัณฑ์จากนม':'Dairy','ขนมขบเคี้ยว':'Snacks',
-      'Fresh produce':'ผักและผลไม้','Produce':'ผักและผลไม้','Meat':'เนื้อสัตว์','Seafood':'อาหารทะเล','Beverages':'เครื่องดื่ม','Beverage':'เครื่องดื่ม','Grocery':'อาหารแห้ง','ขนมอบ':'ผลิตภัณฑ์ขนมอบ','Bakery':'ผลิตภัณฑ์ขนมอบ','ผลิตภัณฑ์จากนม':'นมและผลิตภัณฑ์จากนม','Dairy':'นมและผลิตภัณฑ์จากนม','Snacks':'ขนมขบเคี้ยว'
+    const categoryTranslations = {
+      'ผักและผลไม้': 'Produce', 'เนื้อสัตว์': 'Meat', 'อาหารทะเล': 'Seafood', 'เครื่องดื่ม': 'Beverage', 'อาหารแห้ง': 'Grocery', 'ผลิตภัณฑ์ขนมอบ': 'Bakery', 'นมและผลิตภัณฑ์จากนม': 'Dairy', 'ขนมขบเคี้ยว': 'Snacks',
+      'Fresh produce': 'ผักและผลไม้', 'Produce': 'ผักและผลไม้', 'Meat': 'เนื้อสัตว์', 'Seafood': 'อาหารทะเล', 'Beverages': 'เครื่องดื่ม', 'Beverage': 'เครื่องดื่ม', 'Grocery': 'อาหารแห้ง', 'ขนมอบ': 'ผลิตภัณฑ์ขนมอบ', 'Bakery': 'ผลิตภัณฑ์ขนมอบ', 'ผลิตภัณฑ์จากนม': 'นมและผลิตภัณฑ์จากนม', 'Dairy': 'นมและผลิตภัณฑ์จากนม', 'Snacks': 'ขนมขบเคี้ยว'
     };
-    const categoryDetails={
-      produce:{image:'images/category-produce.jpg',description:'freshProduce'},
-      meat:{image:'images/category-meat.jpg',description:'freshFrozenMeat'},
-      seafood:{image:'images/category-seafood.jpg',description:'freshFrozenSeafood'},
-      beverages:{image:'images/category-beverage.jpg',description:'beveragesDescription'},
-      grocery:{image:'images/category-grocery.jpg',description:'groceryDescription'},
-      bakery:{image:'images/category-bakery.jpg',description:'bakeryDescription'},
-      dairy:{image:'images/category-dairy.jpg',description:'dairyDescription'},
-      snacks:{image:'images/category-snacks.jpg',description:'snacksDescription'}
+    const categoryDetails = {
+      produce: { image: 'images/category-produce.jpg', description: 'freshProduce' },
+      meat: { image: 'images/category-meat.jpg', description: 'freshFrozenMeat' },
+      seafood: { image: 'images/category-seafood.jpg', description: 'freshFrozenSeafood' },
+      beverages: { image: 'images/category-beverage.jpg', description: 'beveragesDescription' },
+      grocery: { image: 'images/category-grocery.jpg', description: 'groceryDescription' },
+      bakery: { image: 'images/category-bakery.jpg', description: 'bakeryDescription' },
+      dairy: { image: 'images/category-dairy.jpg', description: 'dairyDescription' },
+      snacks: { image: 'images/category-snacks.jpg', description: 'snacksDescription' }
     };
-    const normalizeCategory=value=>String(value||'').trim().toLocaleLowerCase();
-    function categoryAliases(value){
-      const normalized=normalizeCategory(value),aliases=new Set([normalized]);
-      for(const [source,translated] of Object.entries(categoryTranslations)){
-        if(normalizeCategory(source)===normalized||normalizeCategory(translated)===normalized){
-          aliases.add(normalizeCategory(source));aliases.add(normalizeCategory(translated));
+    const normalizeCategory = value => String(value || '').trim().toLocaleLowerCase();
+    function categoryAliases(value) {
+      const normalized = normalizeCategory(value), aliases = new Set([normalized]);
+      for (const [source, translated] of Object.entries(categoryTranslations)) {
+        if (normalizeCategory(source) === normalized || normalizeCategory(translated) === normalized) {
+          aliases.add(normalizeCategory(source)); aliases.add(normalizeCategory(translated));
         }
       }
-      for(const [key] of Object.entries(categoryDetails)){
-        const labels=[key,translations.th[key],translations.en[key]];
-        if(labels.some(label=>normalizeCategory(label)===normalized)){
-          labels.forEach(label=>aliases.add(normalizeCategory(label)));
+      for (const [key] of Object.entries(categoryDetails)) {
+        const labels = [key, translations.th[key], translations.en[key]];
+        if (labels.some(label => normalizeCategory(label) === normalized)) {
+          labels.forEach(label => aliases.add(normalizeCategory(label)));
         }
       }
       return aliases;
     }
-    function categoriesMatch(left,right){
-      const leftAliases=categoryAliases(left);
-      return [...categoryAliases(right)].some(alias=>leftAliases.has(alias));
+    function categoriesMatch(left, right) {
+      const leftAliases = categoryAliases(left);
+      return [...categoryAliases(right)].some(alias => leftAliases.has(alias));
     }
-    function findCategoryOption(value){
-      return Array.from($('category').options).find(option=>option.value&&categoriesMatch(option.value,value));
+    function findCategoryOption(value) {
+      return Array.from($('category').options).find(option => option.value && categoriesMatch(option.value, value));
     }
-    function categoryKeyForValue(value){
-      return Object.keys(categoryDetails).find(key=>categoriesMatch(value,key))||'';
+    function categoryKeyForValue(value) {
+      return Object.keys(categoryDetails).find(key => categoriesMatch(value, key)) || '';
     }
-    function selectableCategories(){
-      const categories=[];
-      for(const key of Object.keys(categoryDetails))categories.push(translations.th[key]);
-      categories.push(...allCategories.filter(category=>!categoryKeyForValue(category)));
+    function selectableCategories() {
+      const categories = [];
+      for (const key of Object.keys(categoryDetails)) categories.push(translations.th[key]);
+      categories.push(...allCategories.filter(category => !categoryKeyForValue(category)));
       return categories;
     }
-    function currentCategoryKey(){
-      const requested=new URLSearchParams(location.search).get('category');
-      return categoryKeyForValue(requested)||categoryKeyForValue($('category').value);
+    function currentCategoryKey() {
+      const requested = new URLSearchParams(location.search).get('category');
+      return categoryKeyForValue(requested) || categoryKeyForValue($('category').value);
     }
-    function translate(key){return translations[currentLanguage][key]||translations.th[key]||key}
-    function translatedCategory(category){
-      if(!category)return translate('product');
-      const value=String(category).trim(),key=categoryKeyForValue(value);
-      return key?translate(key):value;
+    function translate(key) { return translations[currentLanguage][key] || translations.th[key] || key }
+    function translatedCategory(category) {
+      if (!category) return translate('product');
+      const value = String(category).trim(), key = categoryKeyForValue(value);
+      return key ? translate(key) : value;
     }
-    function renderCategoryOptions(){
-      const select=$('category'),previous=select.value,requested=new URLSearchParams(location.search).get('category');
+    function renderCategoryOptions() {
+      const select = $('category'), previous = select.value, requested = new URLSearchParams(location.search).get('category');
       select.replaceChildren();
-      const allOption=document.createElement('option');allOption.value='';allOption.textContent=translate('allCategories');select.append(allOption);
-      for(const category of selectableCategories()){
-        const option=document.createElement('option');option.value=category;option.textContent=translatedCategory(category);select.append(option);
+      const allOption = document.createElement('option'); allOption.value = ''; allOption.textContent = translate('allCategories'); select.append(allOption);
+      for (const category of selectableCategories()) {
+        const option = document.createElement('option'); option.value = category; option.textContent = translatedCategory(category); select.append(option);
       }
-      const preferred=requested||previous,match=findCategoryOption(preferred);
-      if(match)select.value=match.value;
+      const preferred = requested || previous, match = findCategoryOption(preferred);
+      if (match) select.value = match.value;
     }
-    function renderCategoryTags(){
-      const container=$('categoryTags');
+    function renderCategoryTags() {
+      const container = $('categoryTags');
       container.replaceChildren();
-      const categories=selectableCategories();
-      if(!categories.length){
-        const empty=document.createElement('p');empty.className='categoryEmpty';empty.textContent=translate('noCategories');container.append(empty);
+      const categories = selectableCategories();
+      if (!categories.length) {
+        const empty = document.createElement('p'); empty.className = 'categoryEmpty'; empty.textContent = translate('noCategories'); container.append(empty);
         return;
       }
-      for(const category of categories){
-        const key=categoryKeyForValue(category),link=document.createElement('a');
-        link.className='categoryTag';
-        link.href=`store.html?${new URLSearchParams({page:'category',category})}`;
-        if(key){
-          const image=document.createElement('img');image.dataset.src=categoryDetails[key].image;
-          image.alt=translatedCategory(category);image.loading='lazy';link.append(image);
+      for (const category of categories) {
+        const key = categoryKeyForValue(category), link = document.createElement('a');
+        link.className = 'categoryTag';
+        link.href = `store.html?${new URLSearchParams({ page: 'category', category })}`;
+        if (key) {
+          const image = document.createElement('img'); image.dataset.src = categoryDetails[key].image;
+          image.alt = translatedCategory(category); image.loading = 'lazy'; link.append(image);
         }
-        const title=document.createElement('strong');title.textContent=translatedCategory(category);
-        const description=document.createElement('small');
-        description.textContent=translate(key?categoryDetails[key].description:'categoryGenericDescription');
-        link.append(title,description);container.append(link);
+        const title = document.createElement('strong'); title.textContent = translatedCategory(category);
+        const description = document.createElement('small');
+        description.textContent = translate(key ? categoryDetails[key].description : 'categoryGenericDescription');
+        link.append(title, description); container.append(link);
       }
     }
-    function productName(product){
-      return currentLanguage==='en'?(product.name_en||product.name): (product.name_th||product.name);
+    function productName(product) {
+      return currentLanguage === 'en' ? (product.name_en || product.name) : (product.name_th || product.name);
     }
-    function readLanguage(){
-      try{return localStorage.getItem('store_language')==='en'?'en':'th'}
-      catch(error){console.warn('Could not read the saved storefront language.',error);return 'th'}
+    function readLanguage() {
+      try { return localStorage.getItem('store_language') === 'en' ? 'en' : 'th' }
+      catch (error) { console.warn('Could not read the saved storefront language.', error); return 'th' }
     }
-    let currentLanguage=readLanguage();
-    const mobileDrawerLinks=$('mobileDrawerLinks');
-    document.querySelectorAll('.links [data-page]').forEach(link=>mobileDrawerLinks.append(link.cloneNode(true)));
-    function applyLanguage(){
-      document.documentElement.lang=currentLanguage;
-      document.querySelectorAll('[data-i18n]').forEach(element=>{element.textContent=translate(element.dataset.i18n)});
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(element=>{element.placeholder=translate(element.dataset.i18nPlaceholder)});
-      document.querySelectorAll('[data-i18n-aria-label]').forEach(element=>{element.setAttribute('aria-label',translate(element.dataset.i18nAriaLabel))});
-      document.querySelectorAll('[data-i18n-title]').forEach(element=>{element.title=translate(element.dataset.i18nTitle)});
-      document.querySelectorAll('[data-i18n-alt]').forEach(element=>{element.alt=translate(element.dataset.i18nAlt)});
-      document.querySelectorAll('[data-language]').forEach(button=>{
-        const selected=button.dataset.language===currentLanguage;
-        button.setAttribute('aria-pressed',String(selected));
+    let currentLanguage = readLanguage();
+    const mobileDrawerLinks = $('mobileDrawerLinks');
+    document.querySelectorAll('.links [data-page]').forEach(link => mobileDrawerLinks.append(link.cloneNode(true)));
+    function applyLanguage() {
+      document.documentElement.lang = currentLanguage;
+      document.querySelectorAll('[data-i18n]').forEach(element => { element.textContent = translate(element.dataset.i18n) });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(element => { element.placeholder = translate(element.dataset.i18nPlaceholder) });
+      document.querySelectorAll('[data-i18n-aria-label]').forEach(element => { element.setAttribute('aria-label', translate(element.dataset.i18nAriaLabel)) });
+      document.querySelectorAll('[data-i18n-title]').forEach(element => { element.title = translate(element.dataset.i18nTitle) });
+      document.querySelectorAll('[data-i18n-alt]').forEach(element => { element.alt = translate(element.dataset.i18nAlt) });
+      document.querySelectorAll('[data-language]').forEach(button => {
+        const selected = button.dataset.language === currentLanguage;
+        button.setAttribute('aria-pressed', String(selected));
       });
       renderCategoryOptions();
       renderCategoryTags();
-      document.querySelector('meta[name="description"]').content=translate('metaDescription');
+      document.querySelector('meta[name="description"]').content = translate('metaDescription');
       selectPage();
       renderProducts();
       renderContact(currentContact);
     }
-    function selectPage(){
-      const requested=new URLSearchParams(location.search).get('page')||'home';
-      const categoryKey=new URLSearchParams(location.search).get('category');
-      const categoryName=$('category').value?translatedCategory($('category').value):categoryKey?translatedCategory(categoryKey):'';
-      const pageNames={products:translate('navProducts'),category:categoryName||translate('categoryPageTitle'),activities:translate('navActivities'),new:translate('navNew'),promotions:translate('navPromotions'),about:translate('navAbout'),contact:translate('navContact')};
-      const page=requested==='home'||Object.prototype.hasOwnProperty.call(pageNames,requested)?requested:'home';
-      const detailKey=currentCategoryKey();
-      const categoryDetail=page==='category'?(categoryDetails[detailKey]||{description:'categoryGenericDescription'}):null;
-      const sectionPage=page==='category'?'products':page;
-      const homeSections=new Set(['home','products','partners','about','contact']);
-      document.querySelector('.hero').hidden=page!=='home';
-      document.querySelectorAll('main>section[id]').forEach(section=>{
-        section.hidden=page==='home'?!homeSections.has(section.id):section.id!==sectionPage
+    function selectPage() {
+      const requested = new URLSearchParams(location.search).get('page') || 'home';
+      const categoryKey = new URLSearchParams(location.search).get('category');
+      const categoryName = $('category').value ? translatedCategory($('category').value) : categoryKey ? translatedCategory(categoryKey) : '';
+      const pageNames = { products: translate('navProducts'), category: categoryName || translate('categoryPageTitle'), activities: translate('navActivities'), new: translate('navNew'), promotions: translate('navPromotions'), about: translate('navAbout'), contact: translate('navContact') };
+      const page = requested === 'home' || Object.prototype.hasOwnProperty.call(pageNames, requested) ? requested : 'home';
+      const detailKey = currentCategoryKey();
+      const categoryDetail = page === 'category' ? (categoryDetails[detailKey] || { description: 'categoryGenericDescription' }) : null;
+      const sectionPage = page === 'category' ? 'products' : page;
+      const homeSections = new Set(['home', 'products', 'partners', 'about', 'contact']);
+      document.querySelector('.hero').hidden = page !== 'home';
+      document.querySelectorAll('main>section[id]').forEach(section => {
+        section.hidden = page === 'home' ? !homeSections.has(section.id) : section.id !== sectionPage
       });
-      $('productTools').hidden=page==='home';
-      $('productsGrid').hidden=page==='home';
-      $('loadStatus').hidden=page==='home';
-      $('categoryOverview').hidden=page==='category';
-      $('categoryDetail').hidden=!categoryDetail;
-      $('categoryDetail').classList.toggle('noImage',!categoryDetail||!categoryDetail.image);
-      $('categoryDetailImage').hidden=!categoryDetail||!categoryDetail.image;
-      if(categoryDetail){
-        if(categoryDetail.image)$('categoryDetailImage').src=categoryDetail.image;
-        $('categoryDetailImage').alt=categoryName||translate(detailKey);
-        $('categoryDetailDescription').textContent=translate(categoryDetail.description);
+      $('productTools').hidden = page === 'home';
+      $('productsGrid').hidden = page === 'home';
+      $('loadStatus').hidden = page === 'home';
+      $('categoryOverview').hidden = page === 'category';
+      $('categoryDetail').hidden = !categoryDetail;
+      $('categoryDetail').classList.toggle('noImage', !categoryDetail || !categoryDetail.image);
+      $('categoryDetailImage').hidden = !categoryDetail || !categoryDetail.image;
+      if (categoryDetail) {
+        if (categoryDetail.image) $('categoryDetailImage').src = categoryDetail.image;
+        $('categoryDetailImage').alt = categoryName || translate(detailKey);
+        $('categoryDetailDescription').textContent = translate(categoryDetail.description);
       }
-      $('productsTitle').textContent=page==='category'?(categoryName||translate('categoryPageTitle')):translate('productsTitle');
-      $('productsDescription').textContent=page==='category'?translate('categoryPageDescription'):translate('productsDescription');
-      if(page==='home'){
-        document.querySelectorAll('.heroVisual img[data-src]:not([src])').forEach(image=>{image.src=image.dataset.src});
+      $('productsTitle').textContent = page === 'category' ? (categoryName || translate('categoryPageTitle')) : translate('productsTitle');
+      $('productsDescription').textContent = page === 'category' ? translate('categoryPageDescription') : translate('productsDescription');
+      if (page === 'home') {
+        document.querySelectorAll('.heroVisual img[data-src]:not([src])').forEach(image => { image.src = image.dataset.src });
       }
-      if(page==='home'||page==='products'){
-        document.querySelectorAll('.categoryTag img[data-src]:not([src])').forEach(image=>{image.src=image.dataset.src});
+      if (page === 'home' || page === 'products') {
+        document.querySelectorAll('.categoryTag img[data-src]:not([src])').forEach(image => { image.src = image.dataset.src });
       }
-      document.querySelectorAll('[data-page]').forEach(link=>{
-        if(link.dataset.page===page)link.setAttribute('aria-current','page');
+      document.querySelectorAll('[data-page]').forEach(link => {
+        if (link.dataset.page === page) link.setAttribute('aria-current', 'page');
         else link.removeAttribute('aria-current')
       });
-      document.title=page==='home'?translate('homeTitle'):`${pageNames[page]} | Food Gallery`;
+      document.title = page === 'home' ? translate('homeTitle') : `${pageNames[page]} | Food Gallery`;
     }
-    function productImage(id){
-      if(!id)return Promise.resolve('');
-      if(imageCache.has(id))return imageCache.get(id);
-      const request=fetch('/api/storefront/images/'+encodeURIComponent(id))
-        .then(response=>{if(!response.ok)throw new Error('image');return response.json()})
-        .then(data=>data.data)
-        .catch(error=>{imageCache.delete(id);throw error});
-      imageCache.set(id,request);
+    function productImage(id) {
+      if (!id) return Promise.resolve('');
+      if (imageCache.has(id)) return imageCache.get(id);
+      const request = fetch('/api/storefront/images/' + encodeURIComponent(id))
+        .then(response => { if (!response.ok) throw new Error('image'); return response.json() })
+        .then(data => data.data)
+        .catch(error => { imageCache.delete(id); throw error });
+      imageCache.set(id, request);
       return request;
     }
-    async function fillImage(img,id){
-      try{const src=await productImage(id);if(src){img.src=src;img.hidden=false;img.parentElement.querySelector('.placeholder')?.remove()}}
-      catch(e){const placeholder=img.parentElement?.querySelector('.placeholder');if(placeholder)placeholder.textContent=translate('imageUnavailable')}
+    async function fillImage(img, id) {
+      try { const src = await productImage(id); if (src) { img.src = src; img.hidden = false; img.parentElement.querySelector('.placeholder')?.remove() } }
+      catch (e) { const placeholder = img.parentElement?.querySelector('.placeholder'); if (placeholder) placeholder.textContent = translate('imageUnavailable') }
     }
-    const imageObserver=typeof IntersectionObserver==='function'?new IntersectionObserver((entries,observer)=>{
-      for(const entry of entries){
-        if(!entry.isIntersecting)continue;
+    const imageObserver = typeof IntersectionObserver === 'function' ? new IntersectionObserver((entries, observer) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
         observer.unobserve(entry.target);
-        const image=entry.target.querySelector('.photo img');
-        if(image)fillImage(image,entry.target.dataset.imageId);
+        const image = entry.target.querySelector('.photo img');
+        if (image) fillImage(image, entry.target.dataset.imageId);
       }
-    },{rootMargin:'200px'}):null;
-    function productCard(product,compact){
-      const nameText=productName(product);
-      const node=document.createElement('article');
-      node.className=compact?'newCard':'product';
-      node.tabIndex=0;
-      node.setAttribute('role','button');
-      node.setAttribute('aria-label',`${translate('productDetails')} ${nameText}`);
-      const photo=document.createElement('div');photo.className='photo';
-      const placeholder=document.createElement('span');placeholder.className='placeholder';placeholder.textContent='✦';photo.append(placeholder);
-      const image=document.createElement('img');image.alt=nameText;image.hidden=true;image.loading='lazy';image.decoding='async';
+    }, { rootMargin: '200px' }) : null;
+    function productCard(product, compact) {
+      const nameText = productName(product);
+      const node = document.createElement('article');
+      node.className = compact ? 'newCard' : 'product';
+      node.tabIndex = 0;
+      node.setAttribute('role', 'button');
+      node.setAttribute('aria-label', `${translate('productDetails')} ${nameText}`);
+      const photo = document.createElement('div'); photo.className = 'photo';
+      const placeholder = document.createElement('span'); placeholder.className = 'placeholder'; placeholder.textContent = '✦'; photo.append(placeholder);
+      const image = document.createElement('img'); image.alt = nameText; image.hidden = true; image.loading = 'lazy'; image.decoding = 'async';
       photo.append(image);
-      const text=document.createElement('div');text.className=compact?'':'productText';
-      const category=document.createElement('span');category.className='tag';category.textContent=translatedCategory(product.cat);
-      const name=document.createElement('h3');name.textContent=nameText;
-      text.append(category,name);
-      node.append(photo,text);
-      if(product.image){
-        if(imageObserver){node.dataset.imageId=product.image;imageObserver.observe(node)}
-        else fillImage(image,product.image);
+      const text = document.createElement('div'); text.className = compact ? '' : 'productText';
+      const category = document.createElement('span'); category.className = 'tag'; category.textContent = translatedCategory(product.cat);
+      const name = document.createElement('h3'); name.textContent = nameText;
+      text.append(category, name);
+      node.append(photo, text);
+      if (product.image) {
+        if (imageObserver) { node.dataset.imageId = product.image; imageObserver.observe(node) }
+        else fillImage(image, product.image);
       }
-      const open=()=>showProduct(product);
-      node.addEventListener('click',open);
-      node.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();open()}});
+      const open = () => showProduct(product);
+      node.addEventListener('click', open);
+      node.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open() } });
       return node;
     }
-    async function showProduct(product){
-      $('modalTitle').textContent=productName(product);
-      $('modalCategory').textContent=translatedCategory(product.cat);
-      $('modalDescription').textContent=String(product.description||'').trim()||translate('noProductDescription');
-      const image=$('modalImage');image.hidden=true;image.removeAttribute('src');
-      if(product.image)try{image.src=await productImage(product.image);image.hidden=false}catch(e){}
+    async function showProduct(product) {
+      $('modalTitle').textContent = productName(product);
+      $('modalCategory').textContent = translatedCategory(product.cat);
+      $('modalDescription').textContent = String(product.description || '').trim() || translate('noProductDescription');
+      const image = $('modalImage'); image.hidden = true; image.removeAttribute('src');
+      if (product.image) try { image.src = await productImage(product.image); image.hidden = false } catch (e) { }
       $('productDialog').showModal();
     }
-    function filteredProducts(){
-      const query=$('search').value.trim().toLocaleLowerCase(currentLanguage);
-      const category=$('category').value;
-      const categoryRequired=new URLSearchParams(location.search).get('page')==='category';
-      return allProducts.filter(product=>(category?categoriesMatch(product.cat,category):!categoryRequired)&&
-        (!query||`${productName(product)} ${product.sku} ${translatedCategory(product.cat)}`.toLocaleLowerCase(currentLanguage).includes(query)));
+    function filteredProducts() {
+      const query = $('search').value.trim().toLocaleLowerCase(currentLanguage);
+      const category = $('category').value;
+      const categoryRequired = new URLSearchParams(location.search).get('page') === 'category';
+      return allProducts.filter(product => (category ? categoriesMatch(product.cat, category) : !categoryRequired) &&
+        (!query || `${productName(product)} ${product.sku} ${translatedCategory(product.cat)}`.toLocaleLowerCase(currentLanguage).includes(query)));
     }
-    function renderPagination(pageCount,visible){
-      const pagination=$('productPagination');
+    function renderPagination(pageCount, visible) {
+      const pagination = $('productPagination');
       pagination.replaceChildren();
-      pagination.hidden=!visible||!productsLoaded||productsLoadFailed||pageCount<=1;
-      if(pagination.hidden)return;
-      const locale=currentLanguage==='th'?'th-TH':'en-US';
-      const addButton=(page,label,ariaLabel,isCurrent=false,disabled=false)=>{
-        const button=document.createElement('button');
-        button.type='button';
-        button.dataset.page=String(page);
-        button.textContent=label;
-        button.setAttribute('aria-label',ariaLabel);
-        if(isCurrent)button.setAttribute('aria-current','page');
-        button.disabled=disabled;
+      pagination.hidden = !visible || !productsLoaded || productsLoadFailed || pageCount <= 1;
+      if (pagination.hidden) return;
+      const locale = currentLanguage === 'th' ? 'th-TH' : 'en-US';
+      const addButton = (page, label, ariaLabel, isCurrent = false, disabled = false) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.dataset.page = String(page);
+        button.textContent = label;
+        button.setAttribute('aria-label', ariaLabel);
+        if (isCurrent) button.setAttribute('aria-current', 'page');
+        button.disabled = disabled;
         pagination.append(button);
       };
-      addButton(currentProductPage-1,translate('previousPage'),translate('previousPage'),false,currentProductPage===1);
-      const pages=new Set([1,pageCount]);
-      for(let page=Math.max(1,currentProductPage-2);page<=Math.min(pageCount,currentProductPage+2);page++)pages.add(page);
-      let previous=0;
-      for(const page of [...pages].sort((a,b)=>a-b)){
-        if(previous&&page-previous>1){
-          const ellipsis=document.createElement('span');
-          ellipsis.className='ellipsis';
-          ellipsis.textContent='…';
-          ellipsis.setAttribute('aria-hidden','true');
+      addButton(currentProductPage - 1, translate('previousPage'), translate('previousPage'), false, currentProductPage === 1);
+      const pages = new Set([1, pageCount]);
+      for (let page = Math.max(1, currentProductPage - 2); page <= Math.min(pageCount, currentProductPage + 2); page++)pages.add(page);
+      let previous = 0;
+      for (const page of [...pages].sort((a, b) => a - b)) {
+        if (previous && page - previous > 1) {
+          const ellipsis = document.createElement('span');
+          ellipsis.className = 'ellipsis';
+          ellipsis.textContent = '…';
+          ellipsis.setAttribute('aria-hidden', 'true');
           pagination.append(ellipsis);
         }
-        addButton(page,page.toLocaleString(locale),translate('goToPage').replace('{page}',page.toLocaleString(locale)),page===currentProductPage);
-        previous=page;
+        addButton(page, page.toLocaleString(locale), translate('goToPage').replace('{page}', page.toLocaleString(locale)), page === currentProductPage);
+        previous = page;
       }
-      addButton(currentProductPage+1,translate('nextPage'),translate('nextPage'),false,currentProductPage===pageCount);
+      addButton(currentProductPage + 1, translate('nextPage'), translate('nextPage'), false, currentProductPage === pageCount);
     }
-    function renderProducts(){
-      if(imageObserver)imageObserver.disconnect();
-      const page=new URLSearchParams(location.search).get('page')||'home';
-      const detailKey=currentCategoryKey();
-      const products=productsLoaded&&!productsLoadFailed?filteredProducts():[];
-      const pageCount=Math.max(1,Math.ceil(products.length/PRODUCTS_PER_PAGE));
-      currentProductPage=Math.min(currentProductPage,pageCount);
-      const startIndex=(currentProductPage-1)*PRODUCTS_PER_PAGE;
-      const visibleProducts=products.slice(startIndex,startIndex+PRODUCTS_PER_PAGE);
-      const rangeStart=products.length?startIndex+1:0;
-      const rangeEnd=startIndex+visibleProducts.length;
-      const grid=$('productsGrid');grid.replaceChildren();
-      visibleProducts.forEach(product=>grid.append(productCard(product,false)));
-      if(!products.length&&(productsLoaded||productsLoadFailed)){
-        const categoryPage=page==='category',query=$('search').value.trim();
-        const emptyKey=productsLoadFailed?'unableProducts':query?'noMatchingProducts':categoryPage?'noCategoryProducts':'noPublishedProducts';
-        grid.innerHTML=`<div class="empty">${translate(emptyKey)}</div>`;
+    function renderProducts() {
+      if (imageObserver) imageObserver.disconnect();
+      const page = new URLSearchParams(location.search).get('page') || 'home';
+      const detailKey = currentCategoryKey();
+      const products = productsLoaded && !productsLoadFailed ? filteredProducts() : [];
+      const pageCount = Math.max(1, Math.ceil(products.length / PRODUCTS_PER_PAGE));
+      currentProductPage = Math.min(currentProductPage, pageCount);
+      const startIndex = (currentProductPage - 1) * PRODUCTS_PER_PAGE;
+      const visibleProducts = products.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
+      const rangeStart = products.length ? startIndex + 1 : 0;
+      const rangeEnd = startIndex + visibleProducts.length;
+      const grid = $('productsGrid'); grid.replaceChildren();
+      visibleProducts.forEach(product => grid.append(productCard(product, false)));
+      if (!products.length && (productsLoaded || productsLoadFailed)) {
+        const categoryPage = page === 'category', query = $('search').value.trim();
+        const emptyKey = productsLoadFailed ? 'unableProducts' : query ? 'noMatchingProducts' : categoryPage ? 'noCategoryProducts' : 'noPublishedProducts';
+        grid.innerHTML = `<div class="empty">${translate(emptyKey)}</div>`;
       }
-      if(!$('categoryDetail').hidden){
-        const categoryProducts=productsLoaded&&!productsLoadFailed?allProducts.filter(product=>categoriesMatch(product.cat,$('category').value)):[];
-        const locale=currentLanguage==='th'?'th-TH':'en-US';
-        $('categoryProductCount').textContent=translate('categoryItemCount').replace('{count}',categoryProducts.length.toLocaleString(locale));
+      if (!$('categoryDetail').hidden) {
+        const categoryProducts = productsLoaded && !productsLoadFailed ? allProducts.filter(product => categoriesMatch(product.cat, $('category').value)) : [];
+        const locale = currentLanguage === 'th' ? 'th-TH' : 'en-US';
+        $('categoryProductCount').textContent = translate('categoryItemCount').replace('{count}', categoryProducts.length.toLocaleString(locale));
       }
-      const locale=currentLanguage==='th'?'th-TH':'en-US';
-      renderPagination(pageCount,page!=='home');
-      if(productsLoadFailed)$('loadStatus').textContent=translate('loadFailed');
-      else if(!productsLoaded)$('loadStatus').textContent=translate('loadingProducts');
-      else $('loadStatus').textContent=translate('showingCount').replace('{start}',rangeStart.toLocaleString(locale)).replace('{end}',rangeEnd.toLocaleString(locale)).replace('{total}',products.length.toLocaleString(locale));
-      if(!productsLoaded||productsLoadFailed)return;
-      const recent=allProducts.slice(0,3),newGrid=$('newGrid');newGrid.replaceChildren();
-      if(recent.length)recent.forEach(product=>newGrid.append(productCard(product,true)));
-      else newGrid.innerHTML=`<div class="empty">${translate('noNewProducts')}</div>`;
+      const locale = currentLanguage === 'th' ? 'th-TH' : 'en-US';
+      renderPagination(pageCount, page !== 'home');
+      if (productsLoadFailed) $('loadStatus').textContent = translate('loadFailed');
+      else if (!productsLoaded) $('loadStatus').textContent = translate('loadingProducts');
+      else $('loadStatus').textContent = translate('showingCount').replace('{start}', rangeStart.toLocaleString(locale)).replace('{end}', rangeEnd.toLocaleString(locale)).replace('{total}', products.length.toLocaleString(locale));
+      if (!productsLoaded || productsLoadFailed) return;
+      const recent = allProducts.slice(0, 3), newGrid = $('newGrid'); newGrid.replaceChildren();
+      if (recent.length) recent.forEach(product => newGrid.append(productCard(product, true)));
+      else newGrid.innerHTML = `<div class="empty">${translate('noNewProducts')}</div>`;
     }
-    function getContactEmail(){
-      return typeof currentContact.email==='string'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(currentContact.email)?currentContact.email:'info@foodgallery.co.th';
+    function getContactEmail() {
+      return typeof currentContact.email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(currentContact.email) ? currentContact.email : 'info@foodgallery.co.th';
     }
-    function renderContact(contact){
-      const ways=$('contactWays');ways.replaceChildren();
-      const mobileSocial=$('mobileSocial');mobileSocial.replaceChildren();
-      const socialIcons={
-        Facebook:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.6 1.6-1.6h1.7V3.8c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6V10H6.7v3h2.9v8h3.9z"></path></svg>',
-        Instagram:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"></rect><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg>'
+    function renderContact(contact) {
+      const ways = $('contactWays'); ways.replaceChildren();
+      const mobileSocial = $('mobileSocial'); mobileSocial.replaceChildren();
+      const socialIcons = {
+        Facebook: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.6 1.6-1.6h1.7V3.8c-.3 0-1.4-.1-2.7-.1-2.7 0-4.5 1.6-4.5 4.6V10H6.7v3h2.9v8h3.9z"></path></svg>',
+        Instagram: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"></rect><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"></circle><circle cx="17.5" cy="6.5" r="1" fill="currentColor"></circle></svg>'
       };
-      currentContact=contact;
-      const emailAddress=getContactEmail();
-      const email=document.createElement('a');email.href='mailto:'+emailAddress;email.textContent=`${translate('email')} ${emailAddress}`;ways.append(email);
-      if(typeof contact.phone==='string'&&/^[\d\s()+-]{7,24}$/.test(contact.phone)){
-        const phone=document.createElement('a');phone.href='tel:'+contact.phone.replace(/[^\d+]/g,'');phone.textContent=`${translate('phone')} ${contact.phone}`;ways.append(phone)}
-      for(const [url,label] of [
-        [`https://www.foodgallery.co.th/${currentLanguage}/`,translate('officialSite')],
-        ['https://www.facebook.com/foodgalleryth','Facebook'],
-        ['https://www.instagram.com/foodgallerylimited/','Instagram']
-      ]){
-        const link=document.createElement('a');link.href=url;link.textContent=label;link.target='_blank';link.rel='noopener noreferrer';ways.append(link);
-        if(socialIcons[label]){
-          const social=document.createElement('a');social.href=url;social.target='_blank';social.rel='noopener noreferrer';social.setAttribute('aria-label',label);social.innerHTML=socialIcons[label];mobileSocial.append(social)
+      currentContact = contact;
+      const emailAddress = getContactEmail();
+      const email = document.createElement('a'); email.href = 'mailto:' + emailAddress; email.textContent = `${translate('email')} ${emailAddress}`; ways.append(email);
+      if (typeof contact.phone === 'string' && /^[\d\s()+-]{7,24}$/.test(contact.phone)) {
+        const phone = document.createElement('a'); phone.href = 'tel:' + contact.phone.replace(/[^\d+]/g, ''); phone.textContent = `${translate('phone')} ${contact.phone}`; ways.append(phone)
+      }
+      for (const [url, label] of [
+        ['https://www.facebook.com/foodgalleryth', 'Facebook'],
+        ['https://www.instagram.com/foodgallerylimited/', 'Instagram']
+      ]) {
+        const link = document.createElement('a'); link.href = url; link.textContent = label; link.target = '_blank'; link.rel = 'noopener noreferrer'; ways.append(link);
+        if (socialIcons[label]) {
+          const social = document.createElement('a'); social.href = url; social.target = '_blank'; social.rel = 'noopener noreferrer'; social.setAttribute('aria-label', label); social.innerHTML = socialIcons[label]; mobileSocial.append(social)
         }
       }
     }
-    function setMobileMenuOpen(open){
-      const toggle=$('mobileMenuToggle'),drawer=$('mobileDrawer');
-      if(open&&!document.body.classList.contains('menuOpen')){
-        const scrollbarWidth=window.innerWidth-document.documentElement.clientWidth;
-        document.body.style.setProperty('--menu-scrollbar-width',`${scrollbarWidth}px`);
-      }else if(!open){
+    function setMobileMenuOpen(open) {
+      const toggle = $('mobileMenuToggle'), drawer = $('mobileDrawer');
+      if (open && !document.body.classList.contains('menuOpen')) {
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.setProperty('--menu-scrollbar-width', `${scrollbarWidth}px`);
+      } else if (!open) {
         document.body.style.removeProperty('--menu-scrollbar-width')
       }
-      drawer.classList.toggle('is-open',open);
-      drawer.setAttribute('aria-hidden',String(!open));
-      $('mobileMenuBackdrop').classList.toggle('is-open',open);
-      document.body.classList.toggle('menuOpen',open);
-      toggle.setAttribute('aria-expanded',String(open));
-      toggle.dataset.i18nAriaLabel=open?'closeMenu':'openMenu';
-      toggle.setAttribute('aria-label',translate(toggle.dataset.i18nAriaLabel));
-      if(open)$('mobileDrawerTitle').focus();
+      drawer.classList.toggle('is-open', open);
+      drawer.setAttribute('aria-hidden', String(!open));
+      $('mobileMenuBackdrop').classList.toggle('is-open', open);
+      document.body.classList.toggle('menuOpen', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.dataset.i18nAriaLabel = open ? 'closeMenu' : 'openMenu';
+      toggle.setAttribute('aria-label', translate(toggle.dataset.i18nAriaLabel));
+      if (open) $('mobileDrawerTitle').focus();
       else toggle.focus()
     }
-    $('mobileMenuToggle').addEventListener('click',()=>setMobileMenuOpen($('mobileMenuToggle').getAttribute('aria-expanded')!=='true'));
-    $('mobileMenuBackdrop').addEventListener('click',()=>setMobileMenuOpen(false));
-    const partnerViewport=$('partnerViewport');
-    const updatePartnerArrows=()=>{
-      const maxScroll=partnerViewport.scrollWidth-partnerViewport.clientWidth;
-      $('partnersPrev').disabled=maxScroll<=1;
-      $('partnersNext').disabled=maxScroll<=1;
+    $('mobileMenuToggle').addEventListener('click', () => setMobileMenuOpen($('mobileMenuToggle').getAttribute('aria-expanded') !== 'true'));
+    $('mobileMenuBackdrop').addEventListener('click', () => setMobileMenuOpen(false));
+    const partnerViewport = $('partnerViewport');
+    const updatePartnerArrows = () => {
+      const maxScroll = partnerViewport.scrollWidth - partnerViewport.clientWidth;
+      $('partnersPrev').disabled = maxScroll <= 1;
+      $('partnersNext').disabled = maxScroll <= 1;
     };
-    const scrollPartners=direction=>{
-      const maxScroll=partnerViewport.scrollWidth-partnerViewport.clientWidth;
-      const atStart=partnerViewport.scrollLeft<=1;
-      const atEnd=partnerViewport.scrollLeft>=maxScroll-1;
-      const behavior=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
-      if(direction>0&&atEnd){
-        partnerViewport.scrollTo({left:0,behavior});
+    const scrollPartners = direction => {
+      const maxScroll = partnerViewport.scrollWidth - partnerViewport.clientWidth;
+      const atStart = partnerViewport.scrollLeft <= 1;
+      const atEnd = partnerViewport.scrollLeft >= maxScroll - 1;
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      if (direction > 0 && atEnd) {
+        partnerViewport.scrollTo({ left: 0, behavior });
         return;
       }
-      if(direction<0&&atStart){
-        partnerViewport.scrollTo({left:maxScroll,behavior});
+      if (direction < 0 && atStart) {
+        partnerViewport.scrollTo({ left: maxScroll, behavior });
         return;
       }
       partnerViewport.scrollBy({
-        left:partnerViewport.clientWidth*.8*direction,
+        left: partnerViewport.clientWidth * .8 * direction,
         behavior
       });
     };
-    $('partnersPrev').addEventListener('click',()=>scrollPartners(-1));
-    $('partnersNext').addEventListener('click',()=>scrollPartners(1));
-    partnerViewport.addEventListener('scroll',updatePartnerArrows,{passive:true});
-    window.addEventListener('resize',updatePartnerArrows);
+    $('partnersPrev').addEventListener('click', () => scrollPartners(-1));
+    $('partnersNext').addEventListener('click', () => scrollPartners(1));
+    partnerViewport.addEventListener('scroll', updatePartnerArrows, { passive: true });
+    window.addEventListener('resize', updatePartnerArrows);
     updatePartnerArrows();
-    $('mobileSearchForm').addEventListener('submit',event=>{
+    $('mobileSearchForm').addEventListener('submit', event => {
       event.preventDefault();
-      const params=new URLSearchParams({page:'products'});
-      const query=$('mobileSearch').value.trim();
-      if(query)params.set('search',query);
-      location.href=`store.html?${params}`;
+      const params = new URLSearchParams({ page: 'products' });
+      const query = $('mobileSearch').value.trim();
+      if (query) params.set('search', query);
+      location.href = `store.html?${params}`;
     });
-    document.addEventListener('keydown',event=>{
-      const drawer=$('mobileDrawer');
-      if(drawer.getAttribute('aria-hidden')==='true')return;
-      if(event.key==='Escape'){setMobileMenuOpen(false);return}
-      if(event.key==='Tab'){
-        const focusable=Array.from(drawer.querySelectorAll('a[href],button:not([disabled]),input:not([disabled])'));
-        const first=focusable[0],last=focusable[focusable.length-1];
-        if(event.shiftKey&&(document.activeElement===first||document.activeElement===$('mobileDrawerTitle'))){event.preventDefault();last.focus()}
-        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
+    document.addEventListener('keydown', event => {
+      const drawer = $('mobileDrawer');
+      if (drawer.getAttribute('aria-hidden') === 'true') return;
+      if (event.key === 'Escape') { setMobileMenuOpen(false); return }
+      if (event.key === 'Tab') {
+        const focusable = Array.from(drawer.querySelectorAll('a[href],button:not([disabled]),input:not([disabled])'));
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (event.shiftKey && (document.activeElement === first || document.activeElement === $('mobileDrawerTitle'))) { event.preventDefault(); last.focus() }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
       }
     });
-    $('search').addEventListener('input',()=>{currentProductPage=1;renderProducts()});
-    $('category').addEventListener('change',()=>{
-      currentProductPage=1;
-      const params=new URLSearchParams(location.search);
-      if(params.get('page')==='category'){
-        if($('category').value)params.set('category',$('category').value);
-        else{params.set('page','products');params.delete('category')}
-        history.replaceState(null,'',`${location.pathname}?${params}`);
+    $('search').addEventListener('input', () => { currentProductPage = 1; renderProducts() });
+    $('category').addEventListener('change', () => {
+      currentProductPage = 1;
+      const params = new URLSearchParams(location.search);
+      if (params.get('page') === 'category') {
+        if ($('category').value) params.set('category', $('category').value);
+        else { params.set('page', 'products'); params.delete('category') }
+        history.replaceState(null, '', `${location.pathname}?${params}`);
       }
-      selectPage();renderProducts();
+      selectPage(); renderProducts();
     });
-    $('productPagination').addEventListener('click',event=>{
-      const button=event.target.closest('button[data-page]');
-      if(!button||button.disabled)return;
-      currentProductPage=Number(button.dataset.page);
+    $('productPagination').addEventListener('click', event => {
+      const button = event.target.closest('button[data-page]');
+      if (!button || button.disabled) return;
+      currentProductPage = Number(button.dataset.page);
       renderProducts();
-      const firstProduct=$('productsGrid').querySelector('.product');
-      if(firstProduct){
-        const behavior=window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';
-        firstProduct.scrollIntoView({behavior,block:'start'});
-        firstProduct.focus({preventScroll:true});
+      const firstProduct = $('productsGrid').querySelector('.product');
+      if (firstProduct) {
+        const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+        firstProduct.scrollIntoView({ behavior, block: 'start' });
+        firstProduct.focus({ preventScroll: true });
       }
     });
-    document.querySelectorAll('[data-language]').forEach(button=>button.addEventListener('click',()=>{
-      currentLanguage=button.dataset.language;
-      try{localStorage.setItem('store_language',currentLanguage)}
-      catch(error){console.warn('Could not save the storefront language preference.',error)}
+    document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => {
+      currentLanguage = button.dataset.language;
+      try { localStorage.setItem('store_language', currentLanguage) }
+      catch (error) { console.warn('Could not save the storefront language preference.', error) }
       applyLanguage();
     }));
-    $('modalClose').onclick=()=>$('productDialog').close();
-    $('modalContact').onclick=()=>$('productDialog').close();
-    $('contactForm').addEventListener('submit',event=>{
+    $('modalClose').onclick = () => $('productDialog').close();
+    $('modalContact').onclick = () => $('productDialog').close();
+    $('contactForm').addEventListener('submit', event => {
       event.preventDefault();
-      const form=event.currentTarget;
-      if(!form.reportValidity())return;
-      const fields=new FormData(form);
-      const value=name=>String(fields.get(name)||'').trim();
-      const subject=`${translate('contactMailSubject')}: ${value('subject')}`;
-      const body=[
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+      const fields = new FormData(form);
+      const value = name => String(fields.get(name) || '').trim();
+      const subject = `${translate('contactMailSubject')}: ${value('subject')}`;
+      const body = [
         `${translate('contactNameLabel')}: ${value('firstName')} ${value('lastName')}`,
         `${translate('email')}: ${value('email')}`,
-        `${translate('phone')}: ${value('phone')||'-'}`,
+        `${translate('phone')}: ${value('phone') || '-'}`,
         `${translate('contactSubjectField')}: ${value('subject')}`,
         '',
         value('message')
       ].join('\n');
-      location.href=`mailto:${getContactEmail()}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      location.href = `mailto:${getContactEmail()}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
-    const initialSearch=new URLSearchParams(location.search).get('search');
-    if(initialSearch!==null){$('search').value=initialSearch;$('mobileSearch').value=initialSearch}
-    $('loadStatus').textContent=translate('loadingProducts');
+    const initialSearch = new URLSearchParams(location.search).get('search');
+    if (initialSearch !== null) { $('search').value = initialSearch; $('mobileSearch').value = initialSearch }
+    $('loadStatus').textContent = translate('loadingProducts');
     applyLanguage();
     renderContact({});
-    const pageWithoutStorefrontData=['activities','promotions','about'].includes(new URLSearchParams(location.search).get('page'));
-    if(!pageWithoutStorefrontData){
-      (async()=>{
-        try{
-          const response=await fetch('/api/storefront');
-          if(!response.ok)throw new Error('Product request failed');
-          const data=await response.json();
-          allProducts=Array.isArray(data.products)?data.products:[];
-          currentContact=data.contact||{};
-          allCategories=Array.isArray(data.categories)?data.categories.filter(category=>typeof category==='string'&&category.trim()):[];
-          productsLoaded=true;
+    const pageWithoutStorefrontData = ['activities', 'promotions', 'about'].includes(new URLSearchParams(location.search).get('page'));
+    if (!pageWithoutStorefrontData) {
+      (async () => {
+        try {
+          const response = await fetch('/api/storefront');
+          if (!response.ok) throw new Error('Product request failed');
+          const data = await response.json();
+          allProducts = Array.isArray(data.products) ? data.products : [];
+          currentContact = data.contact || {};
+          allCategories = Array.isArray(data.categories) ? data.categories.filter(category => typeof category === 'string' && category.trim()) : [];
+          productsLoaded = true;
           applyLanguage();
-        }catch(error){
-          console.error('Could not load storefront data.',error);
-          productsLoadFailed=true;
+        } catch (error) {
+          console.error('Could not load storefront data.', error);
+          productsLoadFailed = true;
           applyLanguage();
         }
       })();
     }
   </script>
 </body>
+
 </html>
