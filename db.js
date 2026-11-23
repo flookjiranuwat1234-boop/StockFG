@@ -113,5 +113,49 @@ CREATE TABLE IF NOT EXISTS movements (
 );
 CREATE INDEX IF NOT EXISTS movements_t_idx ON movements (t DESC);
 `;
-const init = () => pool.query(SCHEMA);
+const init = async () => {
+  await pool.query(SCHEMA);
+
+  const damagedMarks = [0x049f, 0x0477, 0x04a0].map(mark => String.fromCharCode(mark));
+  const thaiMarks = [0x0e49, 0x0e48, 0x0e4a].map(mark => String.fromCharCode(mark));
+  const damagedWater = `นํ${String.fromCharCode(0x049f)}า`;
+  const damagedLow = `ตํ${String.fromCharCode(0x0477)}า`;
+  const incompleteSeafood = 'ร้อมน้ำจิ้มซีฟู้ด';
+  const completeSeafood = 'พร้อมน้ำจิ้มซีฟู้ด';
+  const spacedBlackPepper = 'พริก ไทยดํา';
+  const joinedBlackPepper = 'พริกไทยดำ';
+  const sourceReference = 'แคตตาล็อก ต.ค. 2026 หน้า';
+
+  const { rowCount } = await pool.query(
+    `UPDATE products
+     SET description = replace(
+       replace(
+         translate(
+           replace(replace(description, $6, $7), $8, $9),
+           $1, $2
+         ),
+         $10, $11
+       ),
+       $12, $13
+     )
+     WHERE strpos(description, $14) > 0
+       AND (
+         strpos(description, $3) > 0
+         OR strpos(description, $4) > 0
+         OR strpos(description, $5) > 0
+         OR strpos(description, $10) > 0
+         OR strpos(description, $12) > 0
+       )`,
+    [
+      damagedMarks.join(''), thaiMarks.join(''),
+      damagedMarks[0], damagedMarks[1], damagedMarks[2],
+      damagedWater, 'น้ำ',
+      damagedLow, 'ต่ำ',
+      incompleteSeafood, completeSeafood,
+      spacedBlackPepper, joinedBlackPepper,
+      sourceReference,
+    ],
+  );
+  if (rowCount) console.info(`แก้ไขข้อความสินค้า ${rowCount} รายการ`);
+};
 module.exports = { pool, init };
