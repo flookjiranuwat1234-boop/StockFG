@@ -4644,10 +4644,14 @@
       return new Promise((res, rej) => {
         const u = URL.createObjectURL(file), im = new Image();
         im.onload = () => {
-          const k = Math.min(1, 900 / Math.max(im.width, im.height)), c = document.createElement('canvas');
+          const k = Math.min(1, 1600 / Math.max(im.width, im.height)), c = document.createElement('canvas');
           c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
-          const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(im, 0, 0, c.width, c.height);
-          URL.revokeObjectURL(u); res(c.toDataURL('image/jpeg', 0.78))
+          const g = c.getContext('2d');
+          g.imageSmoothingEnabled = true;
+          g.imageSmoothingQuality = 'high';
+          g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+          g.drawImage(im, 0, 0, c.width, c.height);
+          URL.revokeObjectURL(u); res(c.toDataURL('image/jpeg', 0.92))
         };
         im.onerror = () => { URL.revokeObjectURL(u); rej(new Error('img')) }; im.src = u
       })

@@ -42,7 +42,7 @@ app.use((req, res, next) => {
   });
   next();
 });
-app.use(express.json({ limit: '2mb' }));
+app.use(express.json({ limit: '3mb' }));
 app.use(cookieParser());
 
 const h = fn => (req, res, next) => fn(req, res).catch(next);
@@ -457,7 +457,7 @@ app.post('/api/log/clear', auth, h(async (req, res) => { await pool.query('DELET
 const idList = v => (Array.isArray(v) ? v : []).map(String).filter(x => ID_RE.test(x)).slice(0, 500);
 app.post('/api/images', auth, h(async (req, res) => {
   const { id, data } = req.body;
-  if (!ID_RE.test(String(id)) || !/^data:image\/(jpeg|png|webp);base64,/.test(data || '') || data.length > 700000) throw fail(400, 'รูปภาพไม่ถูกต้องหรือใหญ่เกินไป');
+  if (!ID_RE.test(String(id)) || !/^data:image\/(jpeg|png|webp);base64,/.test(data || '') || data.length > 3000000) throw fail(400, 'รูปภาพไม่ถูกต้องหรือใหญ่เกินไป');
   await pool.query('INSERT INTO images (id,data) VALUES ($1,$2) ON CONFLICT (id) DO UPDATE SET data=EXCLUDED.data', [id, data]);
   res.json({ ok: true });
 }));
