@@ -761,21 +761,61 @@
       background: #fff;
       display: flex;
       gap: 16px;
-      align-items: center;
-      cursor: pointer
+      align-items: flex-start;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s
+    }
+
+    .newCard:hover,
+    .newCard:focus-visible {
+      border-color: var(--blue);
+      box-shadow: 0 10px 24px #123c5514;
+      outline: none
     }
 
     .newCard .photo {
-      width: 80px;
-      height: 80px;
+      width: 96px;
+      height: 96px;
       aspect-ratio: 1;
       flex: none;
       border-radius: 12px
     }
 
+    .newCardText {
+      min-width: 0;
+      flex: 1
+    }
+
     .newCard h3 {
-      font-size: .94rem;
-      margin: 0 0 4px
+      font-size: .98rem;
+      line-height: 1.5;
+      margin: 5px 0 8px
+    }
+
+    .newCardDescription {
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.65;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden
+    }
+
+    .newCardMeta {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: .76rem;
+      overflow-wrap: anywhere
+    }
+
+    .newCardAction {
+      display: inline-flex;
+      margin-top: 12px;
+      color: var(--blue);
+      font-size: .82rem;
+      font-weight: 700
     }
 
     .soft {
@@ -2677,6 +2717,16 @@
       const category = document.createElement('span'); category.className = 'tag'; category.textContent = translatedCategory(product.cat);
       const name = document.createElement('h3'); name.textContent = nameText;
       text.append(category, name);
+      if (compact) {
+        text.className = 'newCardText';
+        const description = document.createElement('p'); description.className = 'newCardDescription';
+        description.textContent = String(product.description || '').trim() || translate('noProductDescription');
+        const meta = document.createElement('div'); meta.className = 'newCardMeta';
+        meta.textContent = `SKU: ${String(product.sku || '')}`;
+        const action = document.createElement('span'); action.className = 'newCardAction';
+        action.textContent = `${translate('productDetails')} →`;
+        text.append(description, meta, action)
+      }
       node.append(photo, text);
       if (product.image) {
         if (imageObserver) { node.dataset.imageId = product.image; imageObserver.observe(node) }
