@@ -7,6 +7,7 @@ Keep this notice with copies or distributions of the website.
    Copyright (c) 2009 Kazuhiko Arase
    License: MIT
    Source: https://github.com/kazuhikoarase/qrcode-generator
+   Bundled in public/scripts/qrcode.js and loaded when QR features are used.
 
 MIT License
 
@@ -38,6 +39,7 @@ rights.
    Copyright (C) 2012-present SheetJS LLC
    License: Apache License 2.0
    Source: https://github.com/SheetJS/sheetjs/tree/v0.18.5
+   Bundled in public/scripts/xlsx.js and loaded when Excel export is used.
 
                                  Apache License
                            Version 2.0, January 2004
