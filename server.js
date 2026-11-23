@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const { OAuth2Client } = require('google-auth-library');
-const { pool, init } = require('./db');
+const { pool, init, normalizeCategory } = require('./db');
 
 const { JWT_SECRET, PORT = 3000, NODE_ENV, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL } = process.env;
 if (!JWT_SECRET || JWT_SECRET.length < 24) {
@@ -347,7 +347,7 @@ app.get('/api/state', auth, h(async (req, res) => {
 }));
 
 app.post('/api/categories', auth, h(async (req, res) => {
-  const name = str(req.body.name, 80).trim();
+  const name = normalizeCategory(str(req.body.name, 80));
   if (!name) throw fail(400, 'กรุณาระบุชื่อหมวดหมู่');
   const { rows } = await pool.query(
     `INSERT INTO categories (name) VALUES ($1)
@@ -356,7 +356,7 @@ app.post('/api/categories', auth, h(async (req, res) => {
   res.status(201).json({ name: rows[0].name });
 }));
 app.delete('/api/categories/:name', auth, h(async (req, res) => {
-  const name = str(req.params.name, 80).trim();
+  const name = normalizeCategory(str(req.params.name, 80));
   if (!name) throw fail(400, 'ชื่อหมวดหมู่ไม่ถูกต้อง');
   const c = await pool.connect();
   try {
@@ -380,7 +380,7 @@ function cleanProduct(p) {
   if (!p || !ID_RE.test(String(p.id)) || !str(p.sku, 80).trim() || !str(p.name, 200).trim()) throw fail(400, 'ข้อมูลสินค้าไม่ถูกต้อง');
   const created = new Date(p.created);
   return {
-    id: String(p.id), sku: str(p.sku, 80).trim(), name: str(p.name, 200).trim(), cat: str(p.cat, 80).trim(),
+    id: String(p.id), sku: str(p.sku, 80).trim(), name: str(p.name, 200).trim(), cat: normalizeCategory(str(p.cat, 80)),
     description: typeof p.description === 'string' ? str(p.description, 1000).trim() : null,
     qty: int(p.qty), unit: str(p.unit, 30) || 'ชิ้น', min: int(p.min), loc: str(p.loc, 80),
     imgs: (Array.isArray(p.imgs) ? p.imgs : []).filter(k => ID_RE.test(String(k))).map(String).slice(0, 6),

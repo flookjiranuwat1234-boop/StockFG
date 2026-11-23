@@ -8,6 +8,25 @@ const pool = new Pool({
   ssl: local || process.env.DATABASE_SSL === 'false' ? false : { rejectUnauthorized: false },
   max: 10,
 });
+const FOOD_CATEGORY_ALIASES = [
+  ['Fresh produce', 'ผักและผลไม้'],
+  ['Produce', 'ผักและผลไม้'],
+  ['Meat', 'เนื้อสัตว์'],
+  ['Seafood', 'อาหารทะเล'],
+  ['Beverage', 'เครื่องดื่ม'],
+  ['Beverages', 'เครื่องดื่ม'],
+  ['Grocery', 'อาหารแห้ง'],
+  ['ขนมอบ', 'ผลิตภัณฑ์ขนมอบ'],
+  ['Bakery', 'ผลิตภัณฑ์ขนมอบ'],
+  ['ผลิตภัณฑ์จากนม', 'นมและผลิตภัณฑ์จากนม'],
+  ['Dairy', 'นมและผลิตภัณฑ์จากนม'],
+  ['Snacks', 'ขนมขบเคี้ยว'],
+];
+const foodCategoryAliasMap = new Map(FOOD_CATEGORY_ALIASES.map(([alias, canonical]) => [alias.toLowerCase(), canonical]));
+const normalizeCategory = value => {
+  const name = String(value ?? '').trim();
+  return foodCategoryAliasMap.get(name.toLowerCase()) || name;
+};
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
@@ -87,8 +106,8 @@ FROM (VALUES
   ('อาหารทะเล','Seafood'),
   ('เครื่องดื่ม','Beverages'),
   ('อาหารแห้ง','Grocery'),
-  ('ขนมอบ','Bakery'),
-  ('ผลิตภัณฑ์จากนม','Dairy'),
+  ('ผลิตภัณฑ์ขนมอบ','Bakery'),
+  ('นมและผลิตภัณฑ์จากนม','Dairy'),
   ('ขนมขบเคี้ยว','Snacks')
 ) AS food(name, english_name)
 WHERE NOT EXISTS (
@@ -157,5 +176,42 @@ const init = async () => {
     ],
   );
   if (rowCount) console.info(`แก้ไขข้อความสินค้า ${rowCount} รายการ`);
+
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const canonicalNames = [...new Set(FOOD_CATEGORY_ALIASES.map(([, canonical]) => canonical))];
+    await client.query(
+      'INSERT INTO categories (name) SELECT unnest($1::text[]) ON CONFLICT DO NOTHING',
+      [canonicalNames],
+    );
+
+    const mappingRows = FOOD_CATEGORY_ALIASES.map((_, index) =>
+      `($${index * 2 + 1}, $${index * 2 + 2})`).join(',');
+    const mappings = await client.query(
+      `WITH aliases(alias, canonical) AS (VALUES ${mappingRows})
+       UPDATE products AS p
+       SET cat=aliases.canonical, version=p.version+1, updated_at=now()
+       FROM aliases
+       WHERE lower(btrim(p.cat))=lower(aliases.alias)
+         AND p.cat IS DISTINCT FROM aliases.canonical`,
+      FOOD_CATEGORY_ALIASES.flat(),
+    );
+
+    const aliasRows = FOOD_CATEGORY_ALIASES.map((_, index) => `($${index + 1})`).join(',');
+    const removed = await client.query(
+      `WITH aliases(name) AS (VALUES ${aliasRows})
+       DELETE FROM categories AS c USING aliases
+       WHERE lower(btrim(c.name))=lower(aliases.name)`,
+      FOOD_CATEGORY_ALIASES.map(([alias]) => alias),
+    );
+    await client.query('COMMIT');
+    if (mappings.rowCount || removed.rowCount) {
+      console.info(`รวมหมวดอาหารแล้ว: ปรับสินค้า ${mappings.rowCount} รายการ, ลบชื่อหมวดซ้ำ ${removed.rowCount} รายการ`);
+    }
+  } catch (error) {
+    await client.query('ROLLBACK').catch(() => {});
+    throw error;
+  } finally { client.release(); }
 };
-module.exports = { pool, init };
+module.exports = { pool, init, normalizeCategory };
