@@ -452,7 +452,7 @@
       display: block;
       width: 100%;
       height: 230px;
-      object-fit: cover;
+      object-fit: contain;
       border-radius: 15px
     }
 
@@ -513,7 +513,7 @@
       display: block;
       width: 100%;
       aspect-ratio: 1.55;
-      object-fit: cover;
+      object-fit: contain;
       border-radius: 11px;
       background: #e9f5fc;
       margin-bottom: 5px
@@ -1119,6 +1119,37 @@
       object-fit: contain;
       border-radius: 14px;
       background: #edf4f8
+    }
+
+    .modalThumbs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 10px;
+      overflow-x: auto
+    }
+
+    .modalThumbs button {
+      width: 64px;
+      height: 64px;
+      flex: none;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #edf4f8;
+      cursor: pointer
+    }
+
+    .modalThumbs button[aria-current=true] {
+      border: 2px solid var(--blue);
+      background: var(--blue-soft)
+    }
+
+    .modalThumbs img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain
     }
 
     .modalDetailTitle {
@@ -2403,6 +2434,7 @@
   <dialog id="productDialog" aria-labelledby="modalTitle">
     <button class="modalClose" id="modalClose" aria-label="ปิด" data-i18n-aria-label="close">×</button>
     <img id="modalImage" class="modalPhoto" alt="" hidden>
+    <div id="modalThumbs" class="modalThumbs" hidden></div>
     <p id="modalCategory" class="tag"></p>
     <h2 id="modalTitle"></h2>
     <h3 class="modalDetailTitle" data-i18n="productDescriptionLabel">รายละเอียดสินค้า</h3>
@@ -2657,7 +2689,38 @@
       $('modalCategory').textContent = translatedCategory(product.cat);
       $('modalDescription').textContent = String(product.description || '').trim() || translate('noProductDescription');
       const image = $('modalImage'); image.hidden = true; image.removeAttribute('src');
-      if (product.image) try { image.src = await productImage(product.image); image.hidden = false } catch (e) { }
+      const thumbs = $('modalThumbs');
+      thumbs.replaceChildren();
+      thumbs.hidden = true;
+      const ids = Array.isArray(product.images) && product.images.length
+        ? product.images
+        : product.image ? [product.image] : [];
+      const sources = [];
+      for (const id of ids) {
+        try { sources.push(await productImage(id)) } catch (e) { }
+      }
+      const showImage = (src, index) => {
+        image.src = src;
+        image.hidden = false;
+        [...thumbs.children].forEach((button, buttonIndex) => {
+          button.setAttribute('aria-current', String(buttonIndex === index));
+        });
+      };
+      if (sources.length) {
+        showImage(sources[0], 0);
+        sources.forEach((src, index) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.setAttribute('aria-label', `${translate('productDetails')} ${index + 1}`);
+          const thumbnail = document.createElement('img');
+          thumbnail.src = src;
+          thumbnail.alt = '';
+          button.append(thumbnail);
+          button.onclick = () => showImage(src, index);
+          thumbs.append(button);
+        });
+        thumbs.hidden = sources.length < 2;
+      }
       $('productDialog').showModal();
     }
     function filteredProducts() {

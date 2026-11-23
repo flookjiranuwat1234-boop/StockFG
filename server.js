@@ -308,6 +308,7 @@ app.get('/api/storefront', h(async (req, res) => {
   const products = rows.map(({ imgs, ...product }) => ({
     ...product,
     image: Array.isArray(imgs) ? imgs[0] || null : null,
+    images: Array.isArray(imgs) ? imgs.filter(id => ID_RE.test(String(id))).map(String).slice(0, 6) : [],
   }));
   const categories = [...new Set(products.map(product => product.cat).filter(Boolean))]
     .sort((a, b) => a.localeCompare(b, 'th'));
