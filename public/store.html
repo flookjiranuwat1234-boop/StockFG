@@ -9,11 +9,14 @@
   <meta name="description" content="เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" as="style">
+  <link rel="preload"
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" as="style">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"></noscript>
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet">
+  </noscript>
   <style>
     :root {
       --ink: #203b38;
@@ -36,7 +39,12 @@
     }
 
     body {
-      margin: 0
+      margin: 0;
+      background:
+        radial-gradient(circle at 1px 1px, #203b3808 1px, transparent 1.3px) 0 0 / 32px 32px,
+        radial-gradient(ellipse at 8% 12%, #6fceb522, transparent 32rem),
+        radial-gradient(ellipse at 96% 46%, #0878be12, transparent 34rem),
+        var(--page)
     }
 
     a {
@@ -228,7 +236,8 @@
       background: var(--blue-deep);
       color: #fff;
       font-weight: 700;
-      cursor: pointer
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease
     }
 
     .navCta {
@@ -238,7 +247,9 @@
 
     .navCta:hover,
     .button:hover {
-      background: var(--blue)
+      background: var(--blue);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px #006da826
     }
 
     .hero {
@@ -258,6 +269,31 @@
       gap: 24px
     }
 
+    .heroBox::before,
+    .heroBox::after {
+      position: absolute;
+      content: "";
+      border-radius: 50%;
+      pointer-events: none
+    }
+
+    .heroBox::before {
+      top: -230px;
+      right: 16%;
+      width: 430px;
+      aspect-ratio: 1;
+      background: radial-gradient(circle, #ffffff8c, #ffffff00 70%)
+    }
+
+    .heroBox::after {
+      right: -112px;
+      bottom: -180px;
+      width: 320px;
+      aspect-ratio: 1;
+      border: 1px solid #0878be1a;
+      box-shadow: 0 0 0 24px #0878be08, 0 0 0 48px #0878be06
+    }
+
     .heroText {
       position: relative;
       z-index: 1;
@@ -266,6 +302,7 @@
 
     .heroVisual {
       position: relative;
+      z-index: 1;
       width: 100%;
       height: 310px
     }
@@ -276,7 +313,8 @@
       border: 6px solid #fff;
       border-radius: 24px;
       background: #dce7dc;
-      box-shadow: 0 18px 42px #203b3826
+      box-shadow: 0 18px 42px #203b3826;
+      animation: heroFloat 7s ease-in-out infinite
     }
 
     .heroPhoto img {
@@ -317,7 +355,8 @@
       left: 0;
       width: 38%;
       height: 43%;
-      transform: rotate(-5deg)
+      transform: rotate(-5deg);
+      animation-delay: -2.2s
     }
 
     .heroPhotoBottom {
@@ -325,7 +364,8 @@
       left: 4%;
       width: 43%;
       height: 44%;
-      transform: rotate(4deg)
+      transform: rotate(4deg);
+      animation-delay: -4.1s
     }
 
     .eyebrow {
@@ -425,7 +465,8 @@
       padding: 22px;
       border: 1px solid var(--line);
       border-radius: 22px;
-      background: #f1f2e9
+      background: linear-gradient(130deg, #f1f2e9, #eaf5ee);
+      box-shadow: 0 12px 32px #203b3808
     }
 
     .categoryOverview h3 {
@@ -706,6 +747,14 @@
     .product:hover {
       transform: translateY(-3px);
       box-shadow: 0 12px 28px #163c5612
+    }
+
+    .product .photo img {
+      transition: transform .35s ease
+    }
+
+    .product:hover .photo img {
+      transform: scale(1.045)
     }
 
     .photo {
@@ -1282,6 +1331,24 @@
     }
 
     @media(prefers-reduced-motion:reduce) {
+      .heroPhoto {
+        animation: none !important
+      }
+
+      .navCta:hover,
+      .button:hover,
+      .product:hover,
+      .categoryTag:hover {
+        transform: none
+      }
+
+      .product .photo img {
+        transition: none
+      }
+
+      .product:hover .photo img {
+        transform: none
+      }
 
       #mobileMenuBackdrop,
       .mobileDrawer,
@@ -1729,6 +1796,18 @@
 
       50% {
         translate: 0 -8px
+      }
+    }
+
+    @keyframes heroFloat {
+
+      0%,
+      100% {
+        translate: 0 0
+      }
+
+      50% {
+        translate: 0 -7px
       }
     }
 
