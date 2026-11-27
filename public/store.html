@@ -918,6 +918,19 @@
       display: block
     }
 
+    body.aboutPage main {
+      display: flex;
+      flex-direction: column
+    }
+
+    body.aboutPage main #about {
+      order: 1
+    }
+
+    body.aboutPage main #partners {
+      order: 2
+    }
+
     .aboutArt {
       position: relative;
       min-height: 230px;
@@ -2937,6 +2950,7 @@
     }
     function selectPage() {
       const requested = new URLSearchParams(location.search).get('page') || 'home';
+      document.body.classList.toggle('aboutPage', requested === 'about');
       const categoryKey = new URLSearchParams(location.search).get('category');
       const categoryName = $('category').value ? translatedCategory($('category').value) : categoryKey ? translatedCategory(categoryKey) : '';
       const pageNames = { products: translate('navProducts'), category: categoryName || translate('categoryPageTitle'), activities: translate('navActivities'), new: translate('navNew'), promotions: translate('navPromotions'), about: translate('navAbout'), contact: translate('navContact') };
