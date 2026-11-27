@@ -915,10 +915,7 @@
     }
 
     .about {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 42px;
-      align-items: center
+      display: block
     }
 
     .aboutArt {
@@ -941,6 +938,142 @@
     .about p {
       color: var(--muted);
       line-height: 1.95
+    }
+
+    .aboutIntro {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap: 42px;
+      align-items: center
+    }
+
+    .aboutLead {
+      max-width: 680px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.95
+    }
+
+    .aboutStats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 26px
+    }
+
+    .aboutStat {
+      min-height: 120px;
+      padding: 18px;
+      border: 1px solid #dfeaf0;
+      border-radius: 18px;
+      background: #fff
+    }
+
+    .aboutStat strong {
+      display: block;
+      color: var(--blue-deep);
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      line-height: 1
+    }
+
+    .aboutStat span {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: .82rem;
+      line-height: 1.55
+    }
+
+    .aboutPrinciples,
+    .aboutPurpose {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 32px
+    }
+
+    .aboutPurpose {
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .principleCard,
+    .purposeCard {
+      min-height: 190px;
+      padding: 22px;
+      border-radius: 20px;
+      background: #f7fbfd;
+      border: 1px solid #e1edf3
+    }
+
+    .purposeCard {
+      min-height: 160px;
+      background: var(--blue-deep);
+      color: #fff
+    }
+
+    .principleCard h3,
+    .purposeCard h3 {
+      margin: 0 0 10px;
+      font-size: 1.02rem
+    }
+
+    .principleCard p,
+    .purposeCard p {
+      margin: 0;
+      line-height: 1.75
+    }
+
+    .purposeCard p {
+      color: rgba(255,255,255,.82)
+    }
+
+    .principleNumber {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      margin-bottom: 18px;
+      border-radius: 50%;
+      background: var(--blue-deep);
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 800
+    }
+
+    .certification {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 32px
+    }
+
+    .certificationText,
+    .certificationSeal {
+      padding: 28px;
+      border-radius: 22px
+    }
+
+    .certificationText {
+      background: #edf6fa
+    }
+
+    .certificationText h3,
+    .certificationSeal h3 {
+      margin: 4px 0 10px
+    }
+
+    .certificationText p,
+    .certificationSeal p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8
+    }
+
+    .certificationSeal {
+      border: 1px solid #dfeaf0;
+      background: #fff
     }
 
     .about .sourceNote {
@@ -2117,6 +2250,23 @@
         gap: 16px
       }
 
+      .aboutIntro,
+      .certification {
+        grid-template-columns: 1fr;
+        gap: 20px
+      }
+
+      .aboutStats,
+      .aboutPrinciples,
+      .aboutPurpose {
+        grid-template-columns: 1fr
+      }
+
+      .aboutStats,
+      .aboutPrinciples {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
       .aboutArt {
         min-height: 150px
       }
@@ -2504,16 +2654,48 @@
 
     <section class="section" id="about">
       <div class="wrap about">
-        <div><span class="eyebrow" data-i18n="aboutEyebrow">About Food Gallery Limited</span>
-          <h2 data-i18n="aboutTitle">เกี่ยวกับเรา</h2>
-          <p data-i18n="aboutDescription">Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร
-            โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ขนมอบ
-            ผลิตภัณฑ์จากนม และขนมขบเคี้ยว</p>
-          <p data-i18n="aboutStorefront">หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก
-            โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง</p>
+        <div class="aboutIntro">
+          <div>
+            <span class="eyebrow" data-i18n="aboutEyebrow">About Food Gallery Limited</span>
+            <h2 data-i18n="aboutTitle">เกี่ยวกับเรา</h2>
+            <p class="aboutLead" data-i18n="aboutLead">Food Gallery Limited เป็นผู้นำเข้าและผู้จัดจำหน่ายสินค้าขนานแท้และอาหารพรีเมียมจากทั่วโลก เพื่อส่งมอบคุณภาพให้กับซูเปอร์มาร์เก็ต โรงแรม ร้านอาหาร และธุรกิจบริการด้านอาหารในประเทศไทย</p>
+            <p data-i18n="aboutDescription">เราคัดสรรแบรนด์และผลิตภัณฑ์จากแหล่งทั่วโลก พร้อมขยายเครือข่ายพันธมิตรผู้ส่งออกและผู้สนับสนุนที่เชื่อถือได้</p>
+          </div>
+          <div class="aboutArt" aria-hidden="true"><img src="images/about-food-gallery.jpg" alt="" width="900"
+              height="900" loading="lazy" decoding="async"></div>
         </div>
-        <div class="aboutArt" aria-hidden="true"><img src="images/about-food-gallery.jpg" alt="" width="900"
-            height="900" loading="lazy" decoding="async"></div>
+        <div class="aboutStats" aria-label="ข้อมูลบริษัท">
+          <div class="aboutStat"><strong>50+</strong><span data-i18n="aboutStatsBrands">แบรนด์สินค้าระหว่างประเทศ</span></div>
+          <div class="aboutStat"><strong>1,000+</strong><span data-i18n="aboutStatsSku">รายการสินค้า (SKU)</span></div>
+          <div class="aboutStat"><strong>7</strong><span data-i18n="aboutStatsCategories">หมวดหมู่หลัก</span></div>
+        </div>
+        <div class="certification">
+          <div class="certificationText">
+            <span class="eyebrow" data-i18n="certificationEyebrow">Our Certification</span>
+            <h3 data-i18n="certificationTitle">คุณภาพที่ได้รับการรับรอง</h3>
+            <p data-i18n="certificationDescription">เราได้รับการประเมินโดย BSI ตามมาตรฐานสากล เพื่อยืนยันความมุ่งมั่นด้านการบริหารคุณภาพและความเชื่อมั่นในการให้บริการ</p>
+          </div>
+          <div class="certificationSeal">
+            <h3>ISO 9001</h3>
+            <p data-i18n="certificationNumber">Quality Management · FS 673669 · Certified by BSI</p>
+          </div>
+        </div>
+        <div class="aboutPurpose">
+          <article class="purposeCard">
+            <h3 data-i18n="visionTitle">Our Vision</h3>
+            <p data-i18n="visionDescription">เป็นผู้นำเข้าและผู้จัดจำหน่ายอาหารและผลไม้พรีเมียมระดับโลกจากทั่วโลก</p>
+          </article>
+          <article class="purposeCard">
+            <h3 data-i18n="missionTitle">Our Mission</h3>
+            <p data-i18n="missionDescription">ตอบโจทย์ทุกฝ่ายที่เกี่ยวข้องและสร้างความสัมพันธ์ทางธุรกิจที่ยั่งยืนบนพื้นฐานคุณค่าของบริษัท</p>
+          </article>
+        </div>
+        <div class="aboutPrinciples">
+          <article class="principleCard"><span class="principleNumber">01</span><h3 data-i18n="worldClassTitle">World Class</h3><p data-i18n="worldClassDescription">นำเข้าและจัดจำหน่ายสินค้าอาหารคุณภาพจากทั่วโลก</p></article>
+          <article class="principleCard"><span class="principleNumber">02</span><h3 data-i18n="partnerTitle">Partner Satisfaction</h3><p data-i18n="partnerDescription">สร้างความพึงพอใจด้วยสินค้าคุณภาพและบริการที่ได้รับการดูแล</p></article>
+          <article class="principleCard"><span class="principleNumber">03</span><h3 data-i18n="brandTitle">Brand Building</h3><p data-i18n="brandDescription">ดูแลคุณภาพสินค้าและสร้างภาพลักษณ์แบรนด์ที่ดีอย่างต่อเนื่อง</p></article>
+          <article class="principleCard"><span class="principleNumber">04</span><h3 data-i18n="integrityTitle">Integrity</h3><p data-i18n="integrityDescription">ดำเนินธุรกิจด้วยความซื่อสัตย์ต่อผู้ส่งออก ลูกค้า พาร์ตเนอร์ และทีมงาน</p></article>
+        </div>
       </div>
     </section>
 
@@ -2613,7 +2795,9 @@
         produce: 'ผักและผลไม้', freshProduce: 'รวมผักสดและผลไม้สดหลากหลายชนิด สำหรับเลือกชมเป็นวัตถุดิบในเมนูต่าง ๆ', meat: 'เนื้อสัตว์', freshFrozenMeat: 'เนื้อสัตว์แช่เย็นและแช่แข็ง สำหรับเมนูอาหารหลากหลาย', seafood: 'อาหารทะเล', freshFrozenSeafood: 'อาหารทะเลสดและแช่แข็ง สำหรับเมนูคาวและเมนูพิเศษ', beverages: 'เครื่องดื่ม', beveragesDescription: 'เครื่องดื่มหลากหลายประเภท ตั้งแต่น้ำผลไม้ น้ำดื่ม นม ไปจนถึงชา', grocery: 'อาหารแห้ง', groceryDescription: 'อาหารแห้งและธัญพืช สำหรับจัดเก็บและใช้ประกอบอาหาร', bakery: 'ผลิตภัณฑ์ขนมอบ', bakeryDescription: 'ขนมอบหลากหลาย เช่น เค้ก ขนมปัง และขนมปังแช่แข็ง', dairy: 'นมและผลิตภัณฑ์จากนม', dairyDescription: 'ผลิตภัณฑ์จากนม เช่น ไอศกรีม เนย ชีส และครีม', snacks: 'ขนมขบเคี้ยว', snacksDescription: 'ขนมขบเคี้ยวและของหวาน เช่น ลูกอม ช็อกโกแลต และขนมกรุบกรอบ',
         activitiesTitle: 'กิจกรรม', activitiesDescription: 'ข่าวสารและกิจกรรมจาก Food Gallery', followActivities: 'ติดตามกิจกรรมของเรา', noActivities: 'ขณะนี้ยังไม่มีประกาศกิจกรรมใหม่ โปรดกลับมาติดตามข่าวสารในหน้านี้', seeYouSoon: 'พบกันในโอกาสต่อไป', activitiesAnnounced: 'รายละเอียดกิจกรรมจะประกาศเมื่อมีข้อมูลยืนยันอย่างเป็นทางการ',
         newTitle: 'สินค้าใหม่', newDescription: 'รายการล่าสุดที่เผยแพร่บนหน้าร้าน', promotionsTitle: 'โปรโมชั่น', promotionsDescription: 'ตรวจสอบข่าวโปรโมชั่นจากช่องทางของเรา', noPromotions: 'ยังไม่มีโปรโมชั่นที่ประกาศ', promotionsUpdated: 'เมื่อมีโปรโมชั่นใหม่ เราจะอัปเดตรายละเอียดที่หน้านี้',
-        aboutTitle: 'เกี่ยวกับเรา', aboutDescription: 'Food Gallery Limited ดำเนินธุรกิจด้านการนำเข้าและจัดจำหน่ายสินค้าอาหาร โดยมีสินค้าหลายกลุ่ม ตั้งแต่ผักและผลไม้ เนื้อสัตว์ และอาหารทะเล ไปจนถึงเครื่องดื่ม อาหารแห้ง ผลิตภัณฑ์ขนมอบ นมและผลิตภัณฑ์จากนม และขนมขบเคี้ยว', aboutStorefront: 'หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง',
+        aboutTitle: 'เกี่ยวกับเรา', aboutLead: 'Food Gallery Limited เป็นผู้นำเข้าและผู้จัดจำหน่ายสินค้าขนานแท้และอาหารพรีเมียมจากทั่วโลก เพื่อส่งมอบคุณภาพให้กับซูเปอร์มาร์เก็ต โรงแรม ร้านอาหาร และธุรกิจบริการด้านอาหารในประเทศไทย', aboutDescription: 'เราคัดสรรแบรนด์และผลิตภัณฑ์จากแหล่งทั่วโลก พร้อมขยายเครือข่ายพันธมิตรผู้ส่งออกและผู้สนับสนุนที่เชื่อถือได้', aboutStorefront: 'หน้าร้านนี้รวบรวมเฉพาะสินค้าที่ทีมงานเลือกเผยแพร่ เพื่อให้เลือกชมได้สะดวก โดยไม่แสดงจำนวนคงเหลือ จุดสั่งซื้อ หรือตำแหน่งจัดเก็บจากระบบคลัง', aboutStatsBrands: 'แบรนด์สินค้าระหว่างประเทศ', aboutStatsSku: 'รายการสินค้า (SKU)', aboutStatsCategories: 'หมวดหมู่หลัก',
+        certificationEyebrow: 'Our Certification', certificationTitle: 'คุณภาพที่ได้รับการรับรอง', certificationDescription: 'เราได้รับการประเมินโดย BSI ตามมาตรฐานสากล เพื่อยืนยันความมุ่งมั่นด้านการบริหารคุณภาพและความเชื่อมั่นในการให้บริการ', certificationNumber: 'การบริหารคุณภาพ · FS 673669 · รับรองโดย BSI',
+        visionTitle: 'วิสัยทัศน์', visionDescription: 'เป็นผู้นำเข้าและผู้จัดจำหน่ายอาหารและผลไม้พรีเมียมระดับโลกจากทั่วโลก', missionTitle: 'พันธกิจ', missionDescription: 'ตอบโจทย์ทุกฝ่ายที่เกี่ยวข้องและสร้างความสัมพันธ์ทางธุรกิจที่ยั่งยืนบนพื้นฐานคุณค่าของบริษัท', worldClassTitle: 'ระดับโลก', worldClassDescription: 'นำเข้าและจัดจำหน่ายสินค้าอาหารคุณภาพจากทั่วโลก', partnerTitle: 'ความพึงพอใจคู่ค้า', partnerDescription: 'สร้างความพึงพอใจด้วยสินค้าคุณภาพและบริการที่ได้รับการดูแล', brandTitle: 'สร้างแบรนด์', brandDescription: 'ดูแลคุณภาพสินค้าและสร้างภาพลักษณ์แบรนด์ที่ดีอย่างต่อเนื่อง', integrityTitle: 'ความซื่อสัตย์', integrityDescription: 'ดำเนินธุรกิจด้วยความซื่อสัตย์ต่อผู้ส่งออก ลูกค้า พาร์ตเนอร์ และทีมงาน',
         contactTitle: 'ติดต่อเรา', contactMessage: 'สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติมผ่านช่องทางติดต่อด้านล่าง', contactDetailsTitle: 'ช่องทางติดต่อ', contactMapTitle: 'แผนที่สำนักงาน Food Gallery Limited', contactFormTitle: 'ส่งข้อความถึงเรา', contactFormNote: 'เมื่อกดส่ง ระบบจะเปิดแอปอีเมลพร้อมร่างข้อความ คุณต้องยืนยันส่งในแอปอีเมลอีกครั้ง', contactFirstName: 'ชื่อ', contactLastName: 'นามสกุล', contactSubjectField: 'หัวข้อ', contactMessageField: 'ข้อความ', contactSend: 'ส่งข้อความทางอีเมล', contactMailSubject: 'ติดต่อจากเว็บไซต์', contactNameLabel: 'ชื่อ', notices: 'ประกาศสิทธิ์และใบอนุญาต', close: 'ปิด', modalContactPrompt: 'สอบถามรายละเอียดเพิ่มเติมได้ทาง',
         homeTitle: 'สินค้าและข่าวสาร | Food Gallery', loadingProducts: 'กำลังโหลดสินค้า…', showingCount: 'แสดง {start}–{end} จาก {total} รายการ', previousPage: 'ก่อนหน้า', nextPage: 'ถัดไป', goToPage: 'ไปหน้าที่ {page}', paginationLabel: 'เลือกหน้าแสดงสินค้า', noMatchingProducts: 'ยังไม่มีสินค้าที่ตรงกับการค้นหา', noCategoryProducts: 'ยังไม่มีสินค้าที่เผยแพร่ในหมวดนี้', noPublishedProducts: 'ยังไม่มีสินค้าที่เผยแพร่', noNewProducts: 'ยังไม่มีสินค้าใหม่ที่เผยแพร่', loadFailed: 'โหลดข้อมูลไม่สำเร็จ กรุณาลองใหม่ภายหลัง', unableProducts: 'ไม่สามารถเชื่อมต่อข้อมูลสินค้าได้', imageUnavailable: 'รูปภาพไม่พร้อมใช้งาน', product: 'สินค้า', productDetails: 'ดูรายละเอียด', productDescriptionLabel: 'รายละเอียดสินค้า', noProductDescription: 'ยังไม่มีรายละเอียดสินค้า', email: 'อีเมล', phone: 'โทร', metaDescription: 'เลือกชมสินค้าใหม่ กิจกรรม และโปรโมชั่นจาก Food Gallery'
       },
@@ -2627,7 +2811,9 @@
         produce: 'Produce', freshProduce: 'A selection of fresh vegetables and fruit for a range of dishes.', meat: 'Meat', freshFrozenMeat: 'Chilled and frozen meat for a variety of meals.', seafood: 'Seafood', freshFrozenSeafood: 'Fresh and frozen seafood for everyday dishes and special meals.', beverages: 'Beverage', beveragesDescription: 'Drinks including juice, water, milk and tea.', grocery: 'Grocery', groceryDescription: 'Pantry goods and grains for convenient storage and cooking.', bakery: 'Bakery', bakeryDescription: 'Baked goods including cakes, bread and frozen bakery.', dairy: 'Dairy', dairyDescription: 'Dairy products including ice cream, butter, cheese and cream.', snacks: 'Snacks', snacksDescription: 'Snacks and sweets including candy, chocolate and savory bites.',
         activitiesTitle: 'Activities', activitiesDescription: 'News and activities from Food Gallery', followActivities: 'Follow our activities', noActivities: 'There are no new activity announcements yet. Please check back for updates.', seeYouSoon: 'See you next time', activitiesAnnounced: 'Activity details will be announced once officially confirmed.',
         newTitle: 'New arrivals', newDescription: 'The latest products published in our store', promotionsTitle: 'Promotions', promotionsDescription: 'Check our channels for promotion announcements', noPromotions: 'No promotions have been announced yet', promotionsUpdated: 'We will update this page when new promotions are available.',
-        aboutTitle: 'About us', aboutDescription: 'Food Gallery Limited imports and distributes a wide range of food products, from fresh produce, meat and seafood to beverages, groceries, bakery products, dairy and snacks.', aboutStorefront: 'This storefront features products selected for publication by our team. Inventory quantities, reorder points and warehouse locations are not shown.',
+        aboutTitle: 'About us', aboutLead: 'Food Gallery Limited is an importer and distributor of premium fine foods and beverages from around the world, serving supermarkets, hotels, restaurants and food-service businesses in Thailand.', aboutDescription: 'We carefully source brands and products worldwide while expanding relationships with reliable exporters and suppliers.', aboutStorefront: 'This storefront features products selected for publication by our team. Inventory quantities, reorder points and warehouse locations are not shown.', aboutStatsBrands: 'International brands', aboutStatsSku: 'Product SKUs', aboutStatsCategories: 'Core categories',
+        certificationEyebrow: 'Our Certification', certificationTitle: 'Quality you can trust', certificationDescription: 'We have been independently assessed by BSI against internationally recognized standards, reflecting our commitment to quality management and reliable service.', certificationNumber: 'Quality Management · FS 673669 · Certified by BSI',
+        visionTitle: 'Our Vision', visionDescription: 'To be a world-class importer and distributor of premium food and fruit from around the world.', missionTitle: 'Our Mission', missionDescription: 'To satisfy stakeholders and build lasting customer and supplier relationships based on company values.', worldClassTitle: 'World Class', worldClassDescription: 'We import and distribute selected premium food products from around the world.', partnerTitle: 'Partner Satisfaction', partnerDescription: 'We satisfy our partners with quality products and attentive service.', brandTitle: 'Brand Building', brandDescription: 'We maintain product quality and build a strong, consistent market image.', integrityTitle: 'Integrity', integrityDescription: 'We act with integrity toward suppliers, customers, partners and staff.',
         contactTitle: 'Contact us', contactMessage: 'For product enquiries and more information, please use the contact details below.', contactDetailsTitle: 'Contact details', contactMapTitle: 'Food Gallery Limited office map', contactFormTitle: 'Send us a message', contactFormNote: 'Submitting opens a draft in your email app. You will need to confirm sending it there.', contactFirstName: 'First name', contactLastName: 'Last name', contactSubjectField: 'Subject', contactMessageField: 'Message', contactSend: 'Send by email', contactMailSubject: 'Website enquiry', contactNameLabel: 'Name', notices: 'Notices & licenses', close: 'Close', modalContactPrompt: 'For more information, contact us via',
         homeTitle: 'Products and News | Food Gallery', loadingProducts: 'Loading products…', showingCount: 'Showing {start}–{end} of {total} products', previousPage: 'Previous', nextPage: 'Next', goToPage: 'Go to page {page}', paginationLabel: 'Product pages', noMatchingProducts: 'No products match your search.', noCategoryProducts: 'No published products in this category yet.', noPublishedProducts: 'No products have been published.', noNewProducts: 'No new products have been published.', loadFailed: 'Could not load data. Please try again later.', unableProducts: 'Unable to connect to product data.', imageUnavailable: 'Image unavailable', product: 'Product', productDetails: 'View details', productDescriptionLabel: 'Product details', noProductDescription: 'No product details have been added yet.', email: 'Email', phone: 'Phone', metaDescription: 'Browse new products, activities and promotions from Food Gallery'
       }
@@ -2759,9 +2945,14 @@
       const categoryDetail = page === 'category' ? (categoryDetails[detailKey] || { description: 'categoryGenericDescription' }) : null;
       const sectionPage = page === 'category' ? 'products' : page;
       const homeSections = new Set(['home', 'products', 'partners', 'about', 'contact']);
+      const aboutSections = new Set(['about', 'partners']);
       document.querySelector('.hero').hidden = page !== 'home';
       document.querySelectorAll('main>section[id]').forEach(section => {
-        section.hidden = page === 'home' ? !homeSections.has(section.id) : section.id !== sectionPage
+        section.hidden = page === 'home'
+          ? !homeSections.has(section.id)
+          : page === 'about'
+            ? !aboutSections.has(section.id)
+            : section.id !== sectionPage
       });
       $('productTools').hidden = page === 'home';
       $('productsGrid').hidden = page === 'home';
